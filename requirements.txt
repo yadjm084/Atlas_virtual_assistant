@@ -1,2 +1,6 @@
 gradio 
 gtts 
+numpy
+librosa
+scikit-learn
+huggingface_hub

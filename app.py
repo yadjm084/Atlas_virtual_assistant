@@ -6,32 +6,59 @@ from pathlib import Path
 import numpy as np
 import librosa
 from sklearn.metrics.pairwise import cosine_similarity
+from huggingface_hub import snapshot_download
 
 
 # =========================================================
 # USER VERIFICATION CONFIGURATION
 # =========================================================
 
-# Folder containing the enrollment/test audio data.
-# This assumes that "user_verification" is located in the same folder as app.py.
 BASE_DIR = Path(__file__).resolve().parent
-USER_VERIFICATION_DIR = BASE_DIR / "user_verification"
-ENROLLMENT_DIR = USER_VERIFICATION_DIR / "enrollment"
+HF_DATASET_REPO = "yadjm084/atlas-voice-data"
 
-print("BASE_DIR =", BASE_DIR)
-print("USER_VERIFICATION_DIR exists =", USER_VERIFICATION_DIR.exists(), USER_VERIFICATION_DIR)
-print("ENROLLMENT_DIR exists =", ENROLLMENT_DIR.exists(), ENROLLMENT_DIR)
+def get_enrollment_dir():
+    """
+    Download the public Hugging Face dataset repo locally
+    and return the enrollment directory path.
+    Expected structure in dataset repo:
+        user_verification/
+            enrollment/
+                Adjmal/
+                Nair/
+                Sharma/
+    """
+    try:
+        local_repo_path = snapshot_download(
+            repo_id=HF_DATASET_REPO,
+            repo_type="dataset",
+            allow_patterns="user_verification/enrollment/*"
+        )
 
-if ENROLLMENT_DIR.exists():
-    print("Enrollment subfolders:")
-    for item in ENROLLMENT_DIR.iterdir():
-        print("-", item, "DIR" if item.is_dir() else "FILE")
+        local_repo_path = Path(local_repo_path)
+        enrollment_dir = local_repo_path / "user_verification" / "enrollment"
+
+        print("BASE_DIR =", BASE_DIR)
+        print("Downloaded dataset repo to:", local_repo_path)
+        print("ENROLLMENT_DIR exists =", enrollment_dir.exists(), enrollment_dir)
+
+        if enrollment_dir.exists():
+            print("Enrollment subfolders:")
+            for item in enrollment_dir.iterdir():
+                print("-", item, "DIR" if item.is_dir() else "FILE")
+
+        return enrollment_dir
+
+    except Exception as e:
+        print("Dataset download failed:", e)
+        return BASE_DIR / "missing_enrollment_dir"
+
 # Audio preprocessing parameters chosen from your notebook
 TARGET_SR = 16000
 TARGET_DURATION = 2.5
 TARGET_LENGTH = int(TARGET_SR * TARGET_DURATION)
 N_MFCC = 13
 
+ENROLLMENT_DIR = get_enrollment_dir()
 # Security-oriented threshold selected from your experiments
 CHOSEN_THRESHOLD = 0.92
 
