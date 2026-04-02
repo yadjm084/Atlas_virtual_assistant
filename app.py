@@ -31,11 +31,11 @@ def get_enrollment_dir():
         local_repo_path = snapshot_download(
             repo_id=HF_DATASET_REPO,
             repo_type="dataset",
-            allow_patterns="user_verification/enrollment/*"
+            allow_patterns="enrollment/*"
         )
 
         local_repo_path = Path(local_repo_path)
-        enrollment_dir = local_repo_path / "user_verification" / "enrollment"
+        enrollment_dir = local_repo_path / "enrollment"
 
         print("BASE_DIR =", BASE_DIR)
         print("Downloaded dataset repo to:", local_repo_path)
