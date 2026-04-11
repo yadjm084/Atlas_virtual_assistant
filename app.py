@@ -40,7 +40,7 @@ def get_enrollment_dir():
         )
 
         local_repo_path = Path(local_repo_path)
-        enrollment_dir = local_repo_path / "user_verification" / "enrollment"
+        enrollment_dir = local_repo_path / "enrollment"
 
         print("BASE_DIR =", BASE_DIR)
         print("Downloaded dataset repo to:", local_repo_path)
