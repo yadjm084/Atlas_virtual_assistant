@@ -7,11 +7,11 @@ import librosa
 import tensorflow as tf
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
-from huggingface_hub import snapshot_download, hf_hub_download
+from huggingface_hub import snapshot_download
 
 
 # =========================================================
-# USER VERIFICATION CONFIGURATION
+# USER VERIFICATION + DATASET CONFIGURATION
 # =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -27,12 +27,7 @@ CHOSEN_THRESHOLD = 0.5
 
 VALID_CODES = ["Adjmal", "Nair", "Sharma"]
 
-
-# =========================================================
-# WAKE WORD CONFIGURATION
-# =========================================================
-
-WAKE_MODEL_FILENAME = "wake_word_model.h5"
+# Wake word parameters
 WAKE_TARGET_SR = 16000
 WAKE_TARGET_DURATION = 2.0
 WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
@@ -40,10 +35,10 @@ WAKE_N_MFCC = 13
 WAKE_THRESHOLD = 0.4
 
 
-def get_enrollment_dir():
+def get_dataset_root():
     """
     Download the public Hugging Face dataset repo locally
-    and return the enrollment directory path.
+    and return the local dataset root path.
     """
     try:
         local_repo_path = snapshot_download(
@@ -52,47 +47,66 @@ def get_enrollment_dir():
         )
 
         local_repo_path = Path(local_repo_path)
-        enrollment_dir = local_repo_path / "enrollment"
 
         print("BASE_DIR =", BASE_DIR)
         print("Downloaded dataset repo to:", local_repo_path)
-        print("ENROLLMENT_DIR exists =", enrollment_dir.exists(), enrollment_dir)
 
-        if enrollment_dir.exists():
-            print("Enrollment subfolders:")
-            for item in enrollment_dir.iterdir():
-                print("-", item, "DIR" if item.is_dir() else "FILE")
-
-        return enrollment_dir
+        return local_repo_path
 
     except Exception as e:
         print("Dataset download failed:", e)
-        return BASE_DIR / "missing_enrollment_dir"
+        return BASE_DIR / "missing_dataset_dir"
 
 
-def get_wake_model_path():
+DATASET_ROOT = get_dataset_root()
+
+
+def get_enrollment_dir(dataset_root):
     """
-    Download the wake word model from the Hugging Face dataset repo.
-    The model should be stored in the dataset repo, not in the Space repo.
+    Support either:
+    - dataset_root/enrollment
+    - dataset_root/user_verification/enrollment
     """
-    try:
-        model_path = hf_hub_download(
-            repo_id=HF_DATASET_REPO,
-            repo_type="dataset",
-            filename=WAKE_MODEL_FILENAME
-        )
+    candidates = [
+        dataset_root / "enrollment",
+        dataset_root / "user_verification" / "enrollment",
+    ]
 
-        model_path = Path(model_path)
-        print("Wake word model downloaded to:", model_path)
-        return model_path
+    for path in candidates:
+        if path.exists():
+            print("ENROLLMENT_DIR exists =", path)
+            return path
 
-    except Exception as e:
-        print("Wake word model download failed:", e)
-        return BASE_DIR / "wake_word_model.h5"
+    return candidates[0]
 
 
-ENROLLMENT_DIR = get_enrollment_dir()
-WAKE_MODEL_PATH = get_wake_model_path()
+def get_wake_weights_path(dataset_root):
+    """
+    Search the dataset repo for wake-word weights.
+    Supports a few common names and falls back to recursive search.
+    """
+    candidates = [
+        dataset_root / "wake_word.weights.h5",
+        dataset_root / "models" / "wake_word.weights.h5",
+        dataset_root / "wake_word" / "wake_word.weights.h5",
+        dataset_root / "wake_word_model.weights.h5",
+    ]
+
+    for path in candidates:
+        if path.exists():
+            print("WAKE_WEIGHTS_PATH exists =", path)
+            return path
+
+    recursive_matches = list(dataset_root.rglob("wake_word.weights.h5"))
+    if recursive_matches:
+        print("WAKE_WEIGHTS_PATH found recursively =", recursive_matches[0])
+        return recursive_matches[0]
+
+    return candidates[0]
+
+
+ENROLLMENT_DIR = get_enrollment_dir(DATASET_ROOT)
+WAKE_WEIGHTS_PATH = get_wake_weights_path(DATASET_ROOT)
 
 
 # =========================================================
@@ -257,19 +271,35 @@ SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles
 # WAKE WORD MODEL LOADING + INFERENCE
 # =========================================================
 
-def load_wake_model(model_path):
+def build_wake_model():
+    model = tf.keras.Sequential([
+        tf.keras.layers.Input(shape=(13, 63, 1)),
+        tf.keras.layers.Conv2D(16, (3, 3), activation="relu", padding="same"),
+        tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(32, (3, 3), activation="relu", padding="same"),
+        tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(64, activation="relu"),
+        tf.keras.layers.Dropout(0.3),
+        tf.keras.layers.Dense(1, activation="sigmoid")
+    ])
+    return model
+
+
+def load_wake_model(weights_path):
     try:
-        if not model_path.exists():
-            return None, f"Wake word model not found: {model_path}"
+        if not weights_path.exists():
+            return None, f"Wake word weights not found: {weights_path}"
 
-        model = tf.keras.models.load_model(model_path)
-        return model, f"Wake word model loaded from {model_path.name}"
+        model = build_wake_model()
+        model.load_weights(weights_path)
 
+        return model, f"Wake word weights loaded from {weights_path.name}"
     except Exception as e:
         return None, f"Wake word model failed to load: {e}"
 
 
-WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_MODEL_PATH)
+WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_WEIGHTS_PATH)
 
 
 def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.4):
@@ -661,7 +691,7 @@ def reset_all():
 
 with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
     gr.Markdown("# Atlas - Virtual Assistant")
-    gr.Markdown("User verification uses normalized MFCC profiles. Wake word detection uses a trained CNN model.")
+    gr.Markdown("User verification uses normalized MFCC profiles. Wake word detection uses CNN weights from the HF dataset repo.")
 
     state = gr.State(init_state())
 
@@ -739,8 +769,8 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
                 label="Manual Slots (JSON)",
                 lines=6,
                 value="""{
-  "device": "lamp",
-  "action": "on"
+  \"device\": \"lamp\",
+  \"action\": \"on\"
 }"""
             )
 
@@ -759,8 +789,8 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
                 label="Manual API Result (JSON)",
                 lines=6,
                 value="""{
-  "status": "success",
-  "message": "lamp turned on"
+  \"status\": \"success\",
+  \"message\": \"lamp turned on\"
 }"""
             )
 
