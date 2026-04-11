@@ -7,7 +7,7 @@ import librosa
 import tensorflow as tf
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
-from huggingface_hub import snapshot_download
+from huggingface_hub import snapshot_download, hf_hub_download
 
 
 # =========================================================
@@ -32,7 +32,7 @@ VALID_CODES = ["Adjmal", "Nair", "Sharma"]
 # WAKE WORD CONFIGURATION
 # =========================================================
 
-WAKE_MODEL_PATH = BASE_DIR / "wake_word_model.keras"
+WAKE_MODEL_FILENAME = "wake_word_model.keras"
 WAKE_TARGET_SR = 16000
 WAKE_TARGET_DURATION = 2.0
 WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
@@ -70,7 +70,29 @@ def get_enrollment_dir():
         return BASE_DIR / "missing_enrollment_dir"
 
 
+def get_wake_model_path():
+    """
+    Download the wake word model from the Hugging Face dataset repo.
+    The model should be stored in the dataset repo, not in the Space repo.
+    """
+    try:
+        model_path = hf_hub_download(
+            repo_id=HF_DATASET_REPO,
+            repo_type="dataset",
+            filename=WAKE_MODEL_FILENAME
+        )
+
+        model_path = Path(model_path)
+        print("Wake word model downloaded to:", model_path)
+        return model_path
+
+    except Exception as e:
+        print("Wake word model download failed:", e)
+        return BASE_DIR / "missing_wake_word_model.keras"
+
+
 ENROLLMENT_DIR = get_enrollment_dir()
+WAKE_MODEL_PATH = get_wake_model_path()
 
 
 # =========================================================
@@ -239,8 +261,10 @@ def load_wake_model(model_path):
     try:
         if not model_path.exists():
             return None, f"Wake word model not found: {model_path}"
+
         model = tf.keras.models.load_model(model_path)
         return model, f"Wake word model loaded from {model_path.name}"
+
     except Exception as e:
         return None, f"Wake word model failed to load: {e}"
 
