@@ -1,6 +1,9 @@
-gradio 
-gtts 
+gradio
 numpy
 librosa
 scikit-learn
 huggingface_hub
+soundfile
+audioread
+
+
