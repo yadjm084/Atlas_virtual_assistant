@@ -1,12 +1,11 @@
 import gradio as gr
 import json
-import os
 from pathlib import Path
 
 import numpy as np
 import librosa
 from sklearn.metrics.pairwise import cosine_similarity
-from huggingface_hub import snapshot_download
+from sklearn.preprocessing import StandardScaler
 
 
 # =========================================================
@@ -14,75 +13,31 @@ from huggingface_hub import snapshot_download
 # =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent
-HF_DATASET_REPO = "yadjm084/atlas-voice-data"
+USER_VERIFICATION_DIR = BASE_DIR / "user_verification"
+ENROLLMENT_DIR = USER_VERIFICATION_DIR / "enrollment"
 
-def get_enrollment_dir():
-    """
-    Download the public Hugging Face dataset repo locally
-    and return the enrollment directory path.
-    Expected structure in dataset repo:
-        user_verification/
-            enrollment/
-                Adjmal/
-                Nair/
-                Sharma/
-    """
-    try:
-        local_repo_path = snapshot_download(
-            repo_id=HF_DATASET_REPO,
-            repo_type="dataset",
-            allow_patterns="enrollment/*"
-        )
-
-        local_repo_path = Path(local_repo_path)
-        enrollment_dir = local_repo_path / "enrollment"
-
-        print("BASE_DIR =", BASE_DIR)
-        print("Downloaded dataset repo to:", local_repo_path)
-        print("ENROLLMENT_DIR exists =", enrollment_dir.exists(), enrollment_dir)
-
-        if enrollment_dir.exists():
-            print("Enrollment subfolders:")
-            for item in enrollment_dir.iterdir():
-                print("-", item, "DIR" if item.is_dir() else "FILE")
-
-        return enrollment_dir
-
-    except Exception as e:
-        print("Dataset download failed:", e)
-        return BASE_DIR / "missing_enrollment_dir"
-
-# Audio preprocessing parameters chosen from your notebook
 TARGET_SR = 16000
 TARGET_DURATION = 2.5
 TARGET_LENGTH = int(TARGET_SR * TARGET_DURATION)
 N_MFCC = 13
 
-ENROLLMENT_DIR = get_enrollment_dir()
-# Security-oriented threshold selected from your experiments
-CHOSEN_THRESHOLD = 0.92
+# Final threshold selected after normalization experiments
+CHOSEN_THRESHOLD = 0.5
 
-# List of valid bypass codes / enrolled users
 VALID_CODES = ["Adjmal", "Nair", "Sharma"]
 
 
 # =========================================================
-# USER VERIFICATION HELPER FUNCTIONS
+# AUDIO + FEATURE FUNCTIONS
 # =========================================================
 
 def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
     """
     Load an audio file, resample it, and force it to a fixed length.
 
-    Steps:
-    1. Load the audio file with librosa
-    2. Resample to the target sampling rate
-    3. If the signal is longer than target_length, truncate it
-    4. If the signal is shorter than target_length, pad it with zeros
-
     Returns:
         signal (np.array): preprocessed fixed-length audio
-        sr (int): sampling rate used
+        sr (int): sampling rate
     """
     signal, sr = librosa.load(file_path, sr=target_sr)
 
@@ -97,10 +52,7 @@ def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
 
 def extract_mfcc(signal, sr, n_mfcc=13):
     """
-    Extract MFCC features from a preprocessed audio signal.
-
-    Returns:
-        mfcc (np.array): shape = (n_mfcc, time_frames)
+    Extract MFCC features from a signal.
     """
     mfcc = librosa.feature.mfcc(
         y=signal,
@@ -112,12 +64,9 @@ def extract_mfcc(signal, sr, n_mfcc=13):
 
 def mfcc_to_fixed_vector(mfcc):
     """
-    Convert an MFCC matrix into a fixed-size speaker vector using:
-    - mean of each coefficient over time
-    - standard deviation of each coefficient over time
-
-    Returns:
-        feature_vector (np.array): shape = (2 * n_mfcc,)
+    Convert MFCC matrix into a fixed-size vector using:
+    - mean over time
+    - standard deviation over time
     """
     mfcc_means = np.mean(mfcc, axis=1)
     mfcc_stds = np.std(mfcc, axis=1)
@@ -127,85 +76,123 @@ def mfcc_to_fixed_vector(mfcc):
 
 def extract_speaker_vector(file_path, target_sr=16000, target_length=40000, n_mfcc=13):
     """
-    Full pipeline:
-    1. Load and preprocess the audio
-    2. Extract MFCCs
-    3. Convert MFCCs to a fixed-size vector
+    Full pipeline for one audio file:
+    1. load + preprocess
+    2. extract MFCC
+    3. convert to fixed-size vector
     """
     signal, sr = load_and_preprocess_audio(
         file_path=file_path,
         target_sr=target_sr,
         target_length=target_length
     )
+
     mfcc = extract_mfcc(signal, sr, n_mfcc=n_mfcc)
     feature_vector = mfcc_to_fixed_vector(mfcc)
+
     return feature_vector
 
 
-def load_enrollment_profiles(enrollment_dir):
+# =========================================================
+# PROFILE LOADING + NORMALIZATION
+# =========================================================
+
+def find_audio_files(folder_path):
     """
-    Build one average voice profile per enrolled speaker.
+    Look for .wav first, then .m4a.
+    This makes the code more flexible on local machines.
+    """
+    wav_files = list(folder_path.glob("*.wav"))
+    m4a_files = list(folder_path.glob("*.m4a"))
+    return wav_files + m4a_files
+
+
+def load_enrollment_profiles_with_normalization(enrollment_dir):
+    """
+    Build enrollment profiles with feature normalization.
+
+    Steps:
+    1. Read all enrollment files for each speaker
+    2. Extract speaker vectors
+    3. Fit StandardScaler on all enrollment vectors only
+    4. Normalize enrollment vectors
+    5. Compute one mean profile per speaker
 
     Returns:
-        speaker_profiles (dict): {speaker_name: mean_profile_vector}
-        status_message (str): summary of loading result
+        speaker_profiles (dict)
+        scaler (StandardScaler or None)
+        status_message (str)
     """
-    speaker_profiles = {}
+    raw_rows = []
     messages = []
 
-    print("DEBUG - enrollment_dir:", enrollment_dir)
-    print("DEBUG - enrollment_dir exists:", enrollment_dir.exists())
-
     if not enrollment_dir.exists():
-        return {}, f"Enrollment directory not found: {enrollment_dir}"
+        return {}, None, f"Enrollment directory not found: {enrollment_dir}"
 
     for speaker_folder in enrollment_dir.iterdir():
         if not speaker_folder.is_dir():
             continue
 
         speaker = speaker_folder.name
-        audio_files = list(speaker_folder.glob("*.wav"))
-
-        print(f"DEBUG - speaker folder: {speaker_folder}")
-        print(f"DEBUG - found {len(audio_files)} .m4a files for {speaker}")
+        audio_files = find_audio_files(speaker_folder)
 
         if len(audio_files) == 0:
-            messages.append(f"{speaker}: no enrollment files found")
+            messages.append(f"{speaker}: no audio files found")
             continue
 
-        speaker_vectors = []
+        loaded_count = 0
 
         for audio_file in audio_files:
             try:
-                print(f"DEBUG - processing {audio_file}")
                 vector = extract_speaker_vector(
                     file_path=str(audio_file),
                     target_sr=TARGET_SR,
                     target_length=TARGET_LENGTH,
                     n_mfcc=N_MFCC
                 )
-                speaker_vectors.append(vector)
+
+                raw_rows.append({
+                    "speaker": speaker,
+                    "filename": audio_file.name,
+                    "vector": vector
+                })
+                loaded_count += 1
+
             except Exception as e:
-                print(f"DEBUG - failed on {audio_file}: {e}")
                 messages.append(f"{speaker}: failed on {audio_file.name} ({e})")
 
-        if len(speaker_vectors) > 0:
-            mean_profile = np.mean(np.vstack(speaker_vectors), axis=0)
-            speaker_profiles[speaker] = mean_profile
-            messages.append(f"{speaker}: loaded {len(speaker_vectors)} enrollment files")
+        messages.append(f"{speaker}: loaded {loaded_count} enrollment files")
 
-    if not speaker_profiles:
-        return {}, "No speaker profiles could be built. " + " | ".join(messages)
+    if len(raw_rows) == 0:
+        return {}, None, "No speaker profiles could be built."
 
-    return speaker_profiles, " | ".join(messages)
+    # Build matrix of enrollment vectors
+    enrollment_matrix = np.vstack([row["vector"] for row in raw_rows])
+
+    # Fit scaler ONLY on enrollment data
+    scaler = StandardScaler()
+    scaler.fit(enrollment_matrix)
+
+    # Normalize enrollment vectors
+    for row in raw_rows:
+        row["vector_scaled"] = scaler.transform(row["vector"].reshape(1, -1))[0]
+
+    # Compute average normalized profile per speaker
+    speaker_profiles = {}
+    speakers = sorted(list(set(row["speaker"] for row in raw_rows)))
+
+    for speaker in speakers:
+        speaker_vectors = [row["vector_scaled"] for row in raw_rows if row["speaker"] == speaker]
+        mean_profile = np.mean(np.vstack(speaker_vectors), axis=0)
+        speaker_profiles[speaker] = mean_profile
+
+    return speaker_profiles, scaler, " | ".join(messages)
+
 
 def compare_to_profiles(test_vector, speaker_profiles):
     """
-    Compare one test vector to all enrolled speaker profiles
+    Compare a normalized test vector to all normalized speaker profiles
     using cosine similarity.
-
-    Returns:
-        scores (dict): {speaker_name: cosine_similarity_score}
     """
     scores = {}
     test_vector_2d = test_vector.reshape(1, -1)
@@ -218,16 +205,13 @@ def compare_to_profiles(test_vector, speaker_profiles):
     return scores
 
 
-def verify_audio_file(audio_path, speaker_profiles, threshold=0.995):
+def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
     """
-    Verify a single input audio file against enrolled speaker profiles.
-
-    Returns:
-        result (dict) with:
-            - accepted (bool)
-            - predicted_user (str)
-            - best_score (float)
-            - all_scores (dict)
+    Verify an input audio file using:
+    - speaker vector extraction
+    - normalization with the enrollment-fitted scaler
+    - cosine similarity
+    - threshold decision
     """
     test_vector = extract_speaker_vector(
         file_path=audio_path,
@@ -236,7 +220,11 @@ def verify_audio_file(audio_path, speaker_profiles, threshold=0.995):
         n_mfcc=N_MFCC
     )
 
-    scores = compare_to_profiles(test_vector, speaker_profiles)
+    # Apply the same normalization learned from enrollment
+    test_vector_scaled = scaler.transform(test_vector.reshape(1, -1))[0]
+
+    scores = compare_to_profiles(test_vector_scaled, speaker_profiles)
+
     best_speaker = max(scores, key=scores.get)
     best_score = scores[best_speaker]
 
@@ -251,8 +239,8 @@ def verify_audio_file(audio_path, speaker_profiles, threshold=0.995):
     }
 
 
-# Load speaker profiles once at startup
-SPEAKER_PROFILES, PROFILE_LOAD_STATUS = load_enrollment_profiles(ENROLLMENT_DIR)
+# Load profiles once when app starts
+SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles_with_normalization(ENROLLMENT_DIR)
 
 
 # =========================================================
@@ -300,12 +288,12 @@ def get_status_text(state):
 
 def do_verify(audio, state):
     """
-    Run real speaker verification on the provided audio file.
+    Run the final user verification module.
     """
     if audio is None:
         return "Please record or upload an audio file first.", "{}", state, get_status_text(state)
 
-    if not SPEAKER_PROFILES:
+    if not SPEAKER_PROFILES or FEATURE_SCALER is None:
         return (
             f"Speaker profiles could not be loaded. {PROFILE_LOAD_STATUS}",
             "{}",
@@ -317,6 +305,7 @@ def do_verify(audio, state):
         result = verify_audio_file(
             audio_path=audio,
             speaker_profiles=SPEAKER_PROFILES,
+            scaler=FEATURE_SCALER,
             threshold=CHOSEN_THRESHOLD
         )
 
@@ -337,8 +326,8 @@ def do_verify(audio, state):
             state["verified_user"] = "None"
 
             message = (
-                f"Verification failed. No enrolled user passed the threshold "
-                f"(best match score={result['best_score']:.4f}, threshold={CHOSEN_THRESHOLD})."
+                f"Verification failed. Atlas remains locked "
+                f"(best score={result['best_score']:.4f}, threshold={CHOSEN_THRESHOLD})."
             )
 
         scores_json = json.dumps(result["all_scores"], indent=2)
@@ -351,7 +340,7 @@ def do_verify(audio, state):
 def verify_with_code(code_input, state):
     """
     Verification bypass using a code.
-    Here, the accepted codes are the enrolled user names.
+    Allowed codes are the enrolled user names.
     """
     code = code_input.strip()
 
@@ -367,13 +356,13 @@ def verify_with_code(code_input, state):
             state,
             get_status_text(state)
         )
-    else:
-        return (
-            "Invalid verification code. Use Adjmal, Nair, or Sharma.",
-            "{}",
-            state,
-            get_status_text(state)
-        )
+
+    return (
+        "Invalid verification code. Use Adjmal, Nair, or Sharma.",
+        "{}",
+        state,
+        get_status_text(state)
+    )
 
 
 def reset_verification(state):
@@ -565,7 +554,7 @@ def reset_all():
         get_status_text(state),  # assistant status
         "",   # verification output
         "",   # verification code input
-        "{}", # verification scores output
+        "{}", # verification scores
         "",   # wake word output
         "",   # transcript
         "",   # intent
@@ -586,7 +575,7 @@ def reset_all():
 
 with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
     gr.Markdown("# Atlas - Virtual Assistant")
-    gr.Markdown("User verification now uses real enrollment profiles and cosine-similarity matching.")
+    gr.Markdown("Final user verification version: normalized MFCC profiles + cosine similarity + threshold 0.5")
 
     state = gr.State(init_state())
 
@@ -605,6 +594,9 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             lines=8
         )
 
+    # =====================================================
+    # USER VERIFICATION SECTION
+    # =====================================================
     with gr.Group():
         gr.Markdown("## User Verification")
         gr.Markdown(f"Enrollment status: {PROFILE_LOAD_STATUS}")
@@ -635,6 +627,9 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             )
             btn_skip_verify = gr.Button("Skip Verification with Code")
 
+    # =====================================================
+    # WAKE WORD SECTION
+    # =====================================================
     with gr.Group():
         gr.Markdown("## Wake Word")
 
@@ -644,13 +639,20 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             btn_wake = gr.Button("Run Wake Word")
             btn_skip_wake = gr.Button("Skip Wake Word")
 
+    # =====================================================
+    # ASR SECTION
+    # =====================================================
     with gr.Group():
         gr.Markdown("## Speech Recognition")
+
         transcript_box = gr.Textbox(label="Transcript", lines=3)
 
         with gr.Row():
             btn_asr = gr.Button("Run ASR")
 
+    # =====================================================
+    # INTENT SECTION
+    # =====================================================
     with gr.Group():
         gr.Markdown("## Intent Detection")
 
@@ -672,6 +674,9 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         with gr.Row():
             btn_intent = gr.Button("Run Intent Detection")
 
+    # =====================================================
+    # FULFILLMENT SECTION
+    # =====================================================
     with gr.Group():
         gr.Markdown("## Fulfillment")
 
@@ -689,6 +694,9 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         with gr.Row():
             btn_fulfill = gr.Button("Run Fulfillment")
 
+    # =====================================================
+    # ANSWER + TTS SECTION
+    # =====================================================
     with gr.Group():
         gr.Markdown("## Answer Generation and TTS")
 
