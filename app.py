@@ -302,16 +302,11 @@ def get_status_text(state):
     verify_score_text = f"{state['verification_best_score']:.4f}" if state["verification_best_score"] is not None else "None"
     wake_score_text = f"{state['wake_probability']:.4f}" if state["wake_probability"] is not None else "None"
     return (
-        f"Verified: {state['verified']}
-"
-        f"Verified User: {state['verified_user']}
-"
-        f"Best Verification Score: {verify_score_text}
-"
-        f"Awake: {state['awake']}
-"
-        f"Wake Probability: {wake_score_text}
-"
+        f"Verified: {state['verified']}\n"
+        f"Verified User: {state['verified_user']}\n"
+        f"Best Verification Score: {verify_score_text}\n"
+        f"Awake: {state['awake']}\n"
+        f"Wake Probability: {wake_score_text}\n"
         f"Intent: {state['intent'] if state['intent'] else 'None'}"
     )
 
@@ -497,10 +492,8 @@ def do_fulfillment(state):
     if state["intent"] == "control_device":
         device = state["slots"].get("device", "lamp")
         action = state["slots"].get("action", "on")
-
         if device == "lamp":
             state["control_state"]["lamp"] = action
-
         api_result = {"status": "success", "message": f"{device} turned {action}"}
     else:
         api_result = {"status": "success", "message": "Placeholder fulfillment completed."}
@@ -526,7 +519,6 @@ def do_answer(state):
         answer = f"Assistant response: {state['api_result'].get('message', 'Done.')}"
     else:
         answer = "Assistant response: Placeholder answer generated."
-
     state["answer_text"] = answer
     return answer, state, get_status_text(state)
 
