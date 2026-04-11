@@ -6,6 +6,7 @@ import numpy as np
 import librosa
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
+from huggingface_hub import snapshot_download
 
 
 # =========================================================
@@ -13,8 +14,7 @@ from sklearn.preprocessing import StandardScaler
 # =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent
-USER_VERIFICATION_DIR = BASE_DIR / "user_verification"
-ENROLLMENT_DIR = USER_VERIFICATION_DIR / "enrollment"
+HF_DATASET_REPO = "yadjm084/atlas-voice-data"
 
 TARGET_SR = 16000
 TARGET_DURATION = 2.5
@@ -27,18 +27,45 @@ CHOSEN_THRESHOLD = 0.5
 VALID_CODES = ["Adjmal", "Nair", "Sharma"]
 
 
+def get_enrollment_dir():
+    """
+    Download the public Hugging Face dataset repo locally
+    and return the enrollment directory path.
+    """
+    try:
+        local_repo_path = snapshot_download(
+            repo_id=HF_DATASET_REPO,
+            repo_type="dataset",
+            allow_patterns="user_verification/enrollment/*"
+        )
+
+        local_repo_path = Path(local_repo_path)
+        enrollment_dir = local_repo_path / "user_verification" / "enrollment"
+
+        print("BASE_DIR =", BASE_DIR)
+        print("Downloaded dataset repo to:", local_repo_path)
+        print("ENROLLMENT_DIR exists =", enrollment_dir.exists(), enrollment_dir)
+
+        if enrollment_dir.exists():
+            print("Enrollment subfolders:")
+            for item in enrollment_dir.iterdir():
+                print("-", item, "DIR" if item.is_dir() else "FILE")
+
+        return enrollment_dir
+
+    except Exception as e:
+        print("Dataset download failed:", e)
+        return BASE_DIR / "missing_enrollment_dir"
+
+
+ENROLLMENT_DIR = get_enrollment_dir()
+
+
 # =========================================================
 # AUDIO + FEATURE FUNCTIONS
 # =========================================================
 
 def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
-    """
-    Load an audio file, resample it, and force it to a fixed length.
-
-    Returns:
-        signal (np.array): preprocessed fixed-length audio
-        sr (int): sampling rate
-    """
     signal, sr = librosa.load(file_path, sr=target_sr)
 
     if len(signal) > target_length:
@@ -51,9 +78,6 @@ def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
 
 
 def extract_mfcc(signal, sr, n_mfcc=13):
-    """
-    Extract MFCC features from a signal.
-    """
     mfcc = librosa.feature.mfcc(
         y=signal,
         sr=sr,
@@ -63,11 +87,6 @@ def extract_mfcc(signal, sr, n_mfcc=13):
 
 
 def mfcc_to_fixed_vector(mfcc):
-    """
-    Convert MFCC matrix into a fixed-size vector using:
-    - mean over time
-    - standard deviation over time
-    """
     mfcc_means = np.mean(mfcc, axis=1)
     mfcc_stds = np.std(mfcc, axis=1)
     feature_vector = np.concatenate([mfcc_means, mfcc_stds])
@@ -75,12 +94,6 @@ def mfcc_to_fixed_vector(mfcc):
 
 
 def extract_speaker_vector(file_path, target_sr=16000, target_length=40000, n_mfcc=13):
-    """
-    Full pipeline for one audio file:
-    1. load + preprocess
-    2. extract MFCC
-    3. convert to fixed-size vector
-    """
     signal, sr = load_and_preprocess_audio(
         file_path=file_path,
         target_sr=target_sr,
@@ -98,31 +111,12 @@ def extract_speaker_vector(file_path, target_sr=16000, target_length=40000, n_mf
 # =========================================================
 
 def find_audio_files(folder_path):
-    """
-    Look for .wav first, then .m4a.
-    This makes the code more flexible on local machines.
-    """
     wav_files = list(folder_path.glob("*.wav"))
     m4a_files = list(folder_path.glob("*.m4a"))
     return wav_files + m4a_files
 
 
 def load_enrollment_profiles_with_normalization(enrollment_dir):
-    """
-    Build enrollment profiles with feature normalization.
-
-    Steps:
-    1. Read all enrollment files for each speaker
-    2. Extract speaker vectors
-    3. Fit StandardScaler on all enrollment vectors only
-    4. Normalize enrollment vectors
-    5. Compute one mean profile per speaker
-
-    Returns:
-        speaker_profiles (dict)
-        scaler (StandardScaler or None)
-        status_message (str)
-    """
     raw_rows = []
     messages = []
 
@@ -166,18 +160,14 @@ def load_enrollment_profiles_with_normalization(enrollment_dir):
     if len(raw_rows) == 0:
         return {}, None, "No speaker profiles could be built."
 
-    # Build matrix of enrollment vectors
     enrollment_matrix = np.vstack([row["vector"] for row in raw_rows])
 
-    # Fit scaler ONLY on enrollment data
     scaler = StandardScaler()
     scaler.fit(enrollment_matrix)
 
-    # Normalize enrollment vectors
     for row in raw_rows:
         row["vector_scaled"] = scaler.transform(row["vector"].reshape(1, -1))[0]
 
-    # Compute average normalized profile per speaker
     speaker_profiles = {}
     speakers = sorted(list(set(row["speaker"] for row in raw_rows)))
 
@@ -190,10 +180,6 @@ def load_enrollment_profiles_with_normalization(enrollment_dir):
 
 
 def compare_to_profiles(test_vector, speaker_profiles):
-    """
-    Compare a normalized test vector to all normalized speaker profiles
-    using cosine similarity.
-    """
     scores = {}
     test_vector_2d = test_vector.reshape(1, -1)
 
@@ -206,13 +192,6 @@ def compare_to_profiles(test_vector, speaker_profiles):
 
 
 def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
-    """
-    Verify an input audio file using:
-    - speaker vector extraction
-    - normalization with the enrollment-fitted scaler
-    - cosine similarity
-    - threshold decision
-    """
     test_vector = extract_speaker_vector(
         file_path=audio_path,
         target_sr=TARGET_SR,
@@ -220,9 +199,7 @@ def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
         n_mfcc=N_MFCC
     )
 
-    # Apply the same normalization learned from enrollment
     test_vector_scaled = scaler.transform(test_vector.reshape(1, -1))[0]
-
     scores = compare_to_profiles(test_vector_scaled, speaker_profiles)
 
     best_speaker = max(scores, key=scores.get)
@@ -239,7 +216,6 @@ def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
     }
 
 
-# Load profiles once when app starts
 SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles_with_normalization(ENROLLMENT_DIR)
 
 
@@ -287,9 +263,6 @@ def get_status_text(state):
 # =========================================================
 
 def do_verify(audio, state):
-    """
-    Run the final user verification module.
-    """
     if audio is None:
         return "Please record or upload an audio file first.", "{}", state, get_status_text(state)
 
@@ -315,7 +288,6 @@ def do_verify(audio, state):
         if result["accepted"]:
             state["verified"] = True
             state["verified_user"] = result["predicted_user"]
-
             message = (
                 f"Verification successful. "
                 f"User identified as {result['predicted_user']} "
@@ -324,7 +296,6 @@ def do_verify(audio, state):
         else:
             state["verified"] = False
             state["verified_user"] = "None"
-
             message = (
                 f"Verification failed. Atlas remains locked "
                 f"(best score={result['best_score']:.4f}, threshold={CHOSEN_THRESHOLD})."
@@ -338,10 +309,6 @@ def do_verify(audio, state):
 
 
 def verify_with_code(code_input, state):
-    """
-    Verification bypass using a code.
-    Allowed codes are the enrolled user names.
-    """
     code = code_input.strip()
 
     if code in VALID_CODES:
@@ -366,9 +333,6 @@ def verify_with_code(code_input, state):
 
 
 def reset_verification(state):
-    """
-    Reset only verification-related values.
-    """
     state["verified"] = False
     state["verified_user"] = "None"
     state["verification_scores"] = {}
@@ -551,21 +515,21 @@ def reset_all():
 
     return (
         state,
-        get_status_text(state),  # assistant status
-        "",   # verification output
-        "",   # verification code input
-        "{}", # verification scores
-        "",   # wake word output
-        "",   # transcript
-        "",   # intent
-        "",   # slots
-        "",   # api result
-        json.dumps(state["control_state"], indent=2),  # control state
-        "",   # final answer
-        "",   # tts output
-        "control_device",  # manual intent
-        '{\n  "device": "lamp",\n  "action": "on"\n}',  # manual slots
-        '{\n  "status": "success",\n  "message": "lamp turned on"\n}'  # manual api result
+        get_status_text(state),
+        "",
+        "",
+        "{}",
+        "",
+        "",
+        "",
+        "",
+        "",
+        json.dumps(state["control_state"], indent=2),
+        "",
+        "",
+        "control_device",
+        '{\n  "device": "lamp",\n  "action": "on"\n}',
+        '{\n  "status": "success",\n  "message": "lamp turned on"\n}'
     )
 
 
@@ -594,18 +558,12 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             lines=8
         )
 
-    # =====================================================
-    # USER VERIFICATION SECTION
-    # =====================================================
     with gr.Group():
         gr.Markdown("## User Verification")
         gr.Markdown(f"Enrollment status: {PROFILE_LOAD_STATUS}")
         gr.Markdown(f"Threshold: {CHOSEN_THRESHOLD}")
 
-        verify_output = gr.Textbox(
-            label="Verification Output",
-            lines=3
-        )
+        verify_output = gr.Textbox(label="Verification Output", lines=3)
 
         verification_scores_output = gr.Textbox(
             label="Verification Scores",
@@ -627,9 +585,6 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             )
             btn_skip_verify = gr.Button("Skip Verification with Code")
 
-    # =====================================================
-    # WAKE WORD SECTION
-    # =====================================================
     with gr.Group():
         gr.Markdown("## Wake Word")
 
@@ -639,20 +594,13 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             btn_wake = gr.Button("Run Wake Word")
             btn_skip_wake = gr.Button("Skip Wake Word")
 
-    # =====================================================
-    # ASR SECTION
-    # =====================================================
     with gr.Group():
         gr.Markdown("## Speech Recognition")
-
         transcript_box = gr.Textbox(label="Transcript", lines=3)
 
         with gr.Row():
             btn_asr = gr.Button("Run ASR")
 
-    # =====================================================
-    # INTENT SECTION
-    # =====================================================
     with gr.Group():
         gr.Markdown("## Intent Detection")
 
@@ -666,7 +614,10 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             manual_slots = gr.Textbox(
                 label="Manual Slots (JSON)",
                 lines=6,
-                value='{\n  "device": "lamp",\n  "action": "on"\n}'
+                value='{
+  "device": "lamp",
+  "action": "on"
+}'
             )
 
             btn_manual_intent = gr.Button("Use Manual Intent / Slots")
@@ -674,9 +625,6 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         with gr.Row():
             btn_intent = gr.Button("Run Intent Detection")
 
-    # =====================================================
-    # FULFILLMENT SECTION
-    # =====================================================
     with gr.Group():
         gr.Markdown("## Fulfillment")
 
@@ -686,7 +634,10 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             manual_api_result = gr.Textbox(
                 label="Manual API Result (JSON)",
                 lines=6,
-                value='{\n  "status": "success",\n  "message": "lamp turned on"\n}'
+                value='{
+  "status": "success",
+  "message": "lamp turned on"
+}'
             )
 
             btn_manual_api = gr.Button("Use Manual API Result")
@@ -694,9 +645,6 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         with gr.Row():
             btn_fulfill = gr.Button("Run Fulfillment")
 
-    # =====================================================
-    # ANSWER + TTS SECTION
-    # =====================================================
     with gr.Group():
         gr.Markdown("## Answer Generation and TTS")
 
@@ -707,10 +655,6 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             btn_answer = gr.Button("Generate Answer")
             btn_tts = gr.Button("Run TTS")
             btn_reset = gr.Button("Reset All")
-
-    # =====================================================
-    # BUTTON CONNECTIONS
-    # =====================================================
 
     btn_verify.click(
         fn=do_verify,
