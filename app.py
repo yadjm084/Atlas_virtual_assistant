@@ -614,10 +614,10 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             manual_slots = gr.Textbox(
                 label="Manual Slots (JSON)",
                 lines=6,
-                value='{
-  "device": "lamp",
-  "action": "on"
-}'
+                value="""{
+  \"device\": \"lamp\",
+  \"action\": \"on\"
+}"""
             )
 
             btn_manual_intent = gr.Button("Use Manual Intent / Slots")
@@ -634,10 +634,10 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             manual_api_result = gr.Textbox(
                 label="Manual API Result (JSON)",
                 lines=6,
-                value='{
-  "status": "success",
-  "message": "lamp turned on"
-}'
+                value="""{
+  \"status\": \"success\",
+  \"message\": \"lamp turned on\"
+}"""
             )
 
             btn_manual_api = gr.Button("Use Manual API Result")
