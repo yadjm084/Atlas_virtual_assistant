@@ -4,6 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import librosa
+import tensorflow as tf
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
 from huggingface_hub import snapshot_download
@@ -25,6 +26,18 @@ N_MFCC = 13
 CHOSEN_THRESHOLD = 0.5
 
 VALID_CODES = ["Adjmal", "Nair", "Sharma"]
+
+
+# =========================================================
+# WAKE WORD CONFIGURATION
+# =========================================================
+
+WAKE_MODEL_PATH = BASE_DIR / "wake_word_model.keras"
+WAKE_TARGET_SR = 16000
+WAKE_TARGET_DURATION = 2.0
+WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
+WAKE_N_MFCC = 13
+WAKE_THRESHOLD = 0.4
 
 
 def get_enrollment_dir():
@@ -219,6 +232,44 @@ SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles
 
 
 # =========================================================
+# WAKE WORD MODEL LOADING + INFERENCE
+# =========================================================
+
+def load_wake_model(model_path):
+    try:
+        if not model_path.exists():
+            return None, f"Wake word model not found: {model_path}"
+        model = tf.keras.models.load_model(model_path)
+        return model, f"Wake word model loaded from {model_path.name}"
+    except Exception as e:
+        return None, f"Wake word model failed to load: {e}"
+
+
+WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_MODEL_PATH)
+
+
+def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.4):
+    signal, sr = load_and_preprocess_audio(
+        file_path=audio_path,
+        target_sr=target_sr,
+        target_length=target_length
+    )
+
+    mfcc = extract_mfcc(signal, sr, n_mfcc=n_mfcc)
+    x_input = np.expand_dims(mfcc, axis=(0, -1))  # (1, 13, time, 1)
+
+    prob = float(model.predict(x_input, verbose=0)[0][0])
+    pred = 1 if prob >= threshold else 0
+
+    return {
+        "probability_positive": prob,
+        "predicted_label": pred,
+        "predicted_name": "positive" if pred == 1 else "negative",
+        "wake_detected": pred == 1
+    }
+
+
+# =========================================================
 # STATE FUNCTIONS
 # =========================================================
 
@@ -234,6 +285,7 @@ def init_state():
         "answer_text": "",
         "verification_scores": {},
         "verification_best_score": None,
+        "wake_probability": None,
         "control_state": {
             "lamp": "off",
             "temperature": 20
@@ -242,17 +294,24 @@ def init_state():
 
 
 def get_status_text(state):
-    score_text = (
+    verify_score_text = (
         f"{state['verification_best_score']:.4f}"
         if state["verification_best_score"] is not None
+        else "None"
+    )
+
+    wake_score_text = (
+        f"{state['wake_probability']:.4f}"
+        if state["wake_probability"] is not None
         else "None"
     )
 
     return (
         f"Verified: {state['verified']}\n"
         f"Verified User: {state['verified_user']}\n"
-        f"Best Verification Score: {score_text}\n"
+        f"Best Verification Score: {verify_score_text}\n"
         f"Awake: {state['awake']}\n"
+        f"Wake Probability: {wake_score_text}\n"
         f"Intent: {state['intent'] if state['intent'] else 'None'}"
     )
 
@@ -287,6 +346,7 @@ def do_verify(audio, state):
         if result["accepted"]:
             state["verified"] = True
             state["verified_user"] = result["predicted_user"]
+
             message = (
                 f"Verification successful. "
                 f"User identified as {result['predicted_user']} "
@@ -295,6 +355,9 @@ def do_verify(audio, state):
         else:
             state["verified"] = False
             state["verified_user"] = "None"
+            state["awake"] = False
+            state["wake_probability"] = None
+
             message = (
                 f"Verification failed. Atlas remains locked "
                 f"(best score={result['best_score']:.4f}, threshold={CHOSEN_THRESHOLD})."
@@ -336,6 +399,8 @@ def reset_verification(state):
     state["verified_user"] = "None"
     state["verification_scores"] = {}
     state["verification_best_score"] = None
+    state["awake"] = False
+    state["wake_probability"] = None
 
     return "", "", "{}", state, get_status_text(state)
 
@@ -348,8 +413,41 @@ def do_wake(audio, state):
     if not state["verified"]:
         return "Please complete user verification first.", state, get_status_text(state)
 
-    state["awake"] = True
-    return "Wake word detected (placeholder).", state, get_status_text(state)
+    if audio is None:
+        return "Please record or upload an audio file first.", state, get_status_text(state)
+
+    if WAKE_MODEL is None:
+        return f"Wake word model unavailable. {WAKE_MODEL_STATUS}", state, get_status_text(state)
+
+    try:
+        result = predict_wake_word(
+            audio_path=audio,
+            model=WAKE_MODEL,
+            target_sr=WAKE_TARGET_SR,
+            target_length=WAKE_TARGET_LENGTH,
+            n_mfcc=WAKE_N_MFCC,
+            threshold=WAKE_THRESHOLD
+        )
+
+        state["wake_probability"] = result["probability_positive"]
+
+        if result["wake_detected"]:
+            state["awake"] = True
+            message = (
+                f"Wake word detected. Atlas is now awake "
+                f"(probability={result['probability_positive']:.4f}, threshold={WAKE_THRESHOLD})."
+            )
+        else:
+            state["awake"] = False
+            message = (
+                f"Wake word not detected "
+                f"(probability={result['probability_positive']:.4f}, threshold={WAKE_THRESHOLD})."
+            )
+
+        return message, state, get_status_text(state)
+
+    except Exception as e:
+        return f"Wake word error: {e}", state, get_status_text(state)
 
 
 def skip_wake(state):
@@ -357,6 +455,7 @@ def skip_wake(state):
         return "Please complete user verification first.", state, get_status_text(state)
 
     state["awake"] = True
+    state["wake_probability"] = None
     return "Wake word detection skipped.", state, get_status_text(state)
 
 
@@ -538,7 +637,7 @@ def reset_all():
 
 with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
     gr.Markdown("# Atlas - Virtual Assistant")
-    gr.Markdown("Final user verification version: normalized MFCC profiles + cosine similarity + threshold 0.5")
+    gr.Markdown("User verification uses normalized MFCC profiles. Wake word detection uses a trained CNN model.")
 
     state = gr.State(init_state())
 
@@ -548,7 +647,7 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         assistant_status = gr.Textbox(
             label="Assistant Status",
             value=get_status_text(init_state()),
-            lines=5
+            lines=6
         )
 
         control_box = gr.Textbox(
@@ -560,7 +659,7 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
     with gr.Group():
         gr.Markdown("## User Verification")
         gr.Markdown(f"Enrollment status: {PROFILE_LOAD_STATUS}")
-        gr.Markdown(f"Threshold: {CHOSEN_THRESHOLD}")
+        gr.Markdown(f"Verification threshold: {CHOSEN_THRESHOLD}")
 
         verify_output = gr.Textbox(label="Verification Output", lines=3)
 
@@ -586,6 +685,8 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
 
     with gr.Group():
         gr.Markdown("## Wake Word")
+        gr.Markdown(f"Wake word model status: {WAKE_MODEL_STATUS}")
+        gr.Markdown(f"Wake word threshold: {WAKE_THRESHOLD}")
 
         wake_output = gr.Textbox(label="Wake Word Output", lines=2)
 
