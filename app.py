@@ -35,8 +35,7 @@ def get_enrollment_dir():
     try:
         local_repo_path = snapshot_download(
             repo_id=HF_DATASET_REPO,
-            repo_type="dataset",
-            allow_patterns="user_verification/enrollment/*"
+            repo_type="dataset"
         )
 
         local_repo_path = Path(local_repo_path)
@@ -615,8 +614,8 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
                 label="Manual Slots (JSON)",
                 lines=6,
                 value="""{
-  \"device\": \"lamp\",
-  \"action\": \"on\"
+  "device": "lamp",
+  "action": "on"
 }"""
             )
 
@@ -635,8 +634,8 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
                 label="Manual API Result (JSON)",
                 lines=6,
                 value="""{
-  \"status\": \"success\",
-  \"message\": \"lamp turned on\"
+  "status": "success",
+  "message": "lamp turned on"
 }"""
             )
 
