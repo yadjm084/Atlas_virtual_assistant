@@ -1,10 +1,14 @@
-title: Atlas virtual assistant
-emoji: 🤖
+---
+title: Atlas Virtual Assistant
+emoji: 🎙️
 colorFrom: blue
-colorTo: indigo
+colorTo: purple
 sdk: gradio
-sdk_version: "5.22.0"
+python_version: "3.10"
 app_file: app.py
 pinned: false
+---
 
-# Atlas virtual assistant this is a test
+# Atlas Virtual Assistant
+
+A virtual assistant with user verification and wake word detection.
