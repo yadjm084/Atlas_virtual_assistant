@@ -52,98 +52,47 @@ def get_enrollment_dir():
         print("Dataset download failed:", e)
         return BASE_DIR / "missing_enrollment_dir"
 
+# Audio preprocessing parameters chosen from your notebook
 TARGET_SR = 16000
 TARGET_DURATION = 2.5
 TARGET_LENGTH = int(TARGET_SR * TARGET_DURATION)
 N_MFCC = 13
 
 ENROLLMENT_DIR = get_enrollment_dir()
+# Security-oriented threshold selected from your experiments
+CHOSEN_THRESHOLD = 0.92
 
-# Final threshold selected after normalization experiments
-CHOSEN_THRESHOLD = 0.5
-
+# List of valid bypass codes / enrolled users
 VALID_CODES = ["Adjmal", "Nair", "Sharma"]
+
 
 # =========================================================
 # USER VERIFICATION HELPER FUNCTIONS
 # =========================================================
 
-def load_enrollment_profiles_with_normalization(enrollment_dir):
+def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
     """
-    Build enrollment profiles with feature normalization.
+    Load an audio file, resample it, and force it to a fixed length.
 
     Steps:
-    1. Read all enrollment files for each speaker
-    2. Extract speaker vectors
-    3. Fit StandardScaler on all enrollment vectors only
-    4. Normalize enrollment vectors
-    5. Compute one mean profile per speaker
+    1. Load the audio file with librosa
+    2. Resample to the target sampling rate
+    3. If the signal is longer than target_length, truncate it
+    4. If the signal is shorter than target_length, pad it with zeros
 
     Returns:
-        speaker_profiles (dict)
-        scaler (StandardScaler or None)
-        status_message (str)
+        signal (np.array): preprocessed fixed-length audio
+        sr (int): sampling rate used
     """
-    raw_rows = []
-    messages = []
+    signal, sr = librosa.load(file_path, sr=target_sr)
 
-    if not enrollment_dir.exists():
-        return {}, None, f"Enrollment directory not found: {enrollment_dir}"
+    if len(signal) > target_length:
+        signal = signal[:target_length]
+    elif len(signal) < target_length:
+        pad_amount = target_length - len(signal)
+        signal = np.pad(signal, (0, pad_amount), mode="constant")
 
-    for speaker_folder in enrollment_dir.iterdir():
-        if not speaker_folder.is_dir():
-            continue
-
-        speaker = speaker_folder.name
-        audio_files = find_audio_files(speaker_folder)
-
-        if len(audio_files) == 0:
-            messages.append(f"{speaker}: no audio files found")
-            continue
-
-        loaded_count = 0
-
-        for audio_file in audio_files:
-            try:
-                vector = extract_speaker_vector(
-                    file_path=str(audio_file),
-                    target_sr=TARGET_SR,
-                    target_length=TARGET_LENGTH,
-                    n_mfcc=N_MFCC
-                )
-
-                raw_rows.append({
-                    "speaker": speaker,
-                    "filename": audio_file.name,
-                    "vector": vector
-                })
-                loaded_count += 1
-
-            except Exception as e:
-                messages.append(f"{speaker}: failed on {audio_file.name} ({e})")
-
-        messages.append(f"{speaker}: loaded {loaded_count} enrollment files")
-
-    if len(raw_rows) == 0:
-        return {}, None, "No speaker profiles could be built."
-
-    enrollment_matrix = np.vstack([row["vector"] for row in raw_rows])
-
-    scaler = StandardScaler()
-    scaler.fit(enrollment_matrix)
-
-    for row in raw_rows:
-        row["vector_scaled"] = scaler.transform(row["vector"].reshape(1, -1))[0]
-
-    speaker_profiles = {}
-    speakers = sorted(list(set(row["speaker"] for row in raw_rows)))
-
-    for speaker in speakers:
-        speaker_vectors = [row["vector_scaled"] for row in raw_rows if row["speaker"] == speaker]
-        mean_profile = np.mean(np.vstack(speaker_vectors), axis=0)
-        speaker_profiles[speaker] = mean_profile
-
-    return speaker_profiles, scaler, " | ".join(messages)
+    return signal, sr
 
 
 def extract_mfcc(signal, sr, n_mfcc=13):
@@ -269,13 +218,16 @@ def compare_to_profiles(test_vector, speaker_profiles):
     return scores
 
 
-def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
+def verify_audio_file(audio_path, speaker_profiles, threshold=0.995):
     """
-    Verify an input audio file using:
-    - speaker vector extraction
-    - normalization with the enrollment-fitted scaler
-    - cosine similarity
-    - threshold decision
+    Verify a single input audio file against enrolled speaker profiles.
+
+    Returns:
+        result (dict) with:
+            - accepted (bool)
+            - predicted_user (str)
+            - best_score (float)
+            - all_scores (dict)
     """
     test_vector = extract_speaker_vector(
         file_path=audio_path,
@@ -284,10 +236,7 @@ def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
         n_mfcc=N_MFCC
     )
 
-    test_vector_scaled = scaler.transform(test_vector.reshape(1, -1))[0]
-
-    scores = compare_to_profiles(test_vector_scaled, speaker_profiles)
-
+    scores = compare_to_profiles(test_vector, speaker_profiles)
     best_speaker = max(scores, key=scores.get)
     best_score = scores[best_speaker]
 
@@ -301,8 +250,9 @@ def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
         "all_scores": scores
     }
 
+
 # Load speaker profiles once at startup
-SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles_with_normalization(ENROLLMENT_DIR)
+SPEAKER_PROFILES, PROFILE_LOAD_STATUS = load_enrollment_profiles(ENROLLMENT_DIR)
 
 
 # =========================================================
@@ -355,20 +305,18 @@ def do_verify(audio, state):
     if audio is None:
         return "Please record or upload an audio file first.", "{}", state, get_status_text(state)
 
-    if not SPEAKER_PROFILES or FEATURE_SCALER is None:
-        
+    if not SPEAKER_PROFILES:
         return (
-
             f"Speaker profiles could not be loaded. {PROFILE_LOAD_STATUS}",
             "{}",
             state,
             get_status_text(state)
         )
+
     try:
         result = verify_audio_file(
             audio_path=audio,
             speaker_profiles=SPEAKER_PROFILES,
-            scaler=FEATURE_SCALER,
             threshold=CHOSEN_THRESHOLD
         )
 
