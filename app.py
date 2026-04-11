@@ -32,7 +32,7 @@ VALID_CODES = ["Adjmal", "Nair", "Sharma"]
 # WAKE WORD CONFIGURATION
 # =========================================================
 
-WAKE_MODEL_FILENAME = "wake_word_model.keras"
+WAKE_MODEL_FILENAME = "wake_word_model.h5"
 WAKE_TARGET_SR = 16000
 WAKE_TARGET_DURATION = 2.0
 WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
@@ -88,7 +88,7 @@ def get_wake_model_path():
 
     except Exception as e:
         print("Wake word model download failed:", e)
-        return BASE_DIR / "missing_wake_word_model.keras"
+        return BASE_DIR / "wake_word_model.h5"
 
 
 ENROLLMENT_DIR = get_enrollment_dir()
