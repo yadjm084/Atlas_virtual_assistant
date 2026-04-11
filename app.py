@@ -32,7 +32,7 @@ WAKE_TARGET_SR = 16000
 WAKE_TARGET_DURATION = 2.0
 WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
 WAKE_N_MFCC = 13
-WAKE_THRESHOLD = 0.4
+WAKE_THRESHOLD = 0.5
 
 
 def get_dataset_root():
@@ -302,7 +302,7 @@ def load_wake_model(weights_path):
 WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_WEIGHTS_PATH)
 
 
-def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.4):
+def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.5):
     signal, sr = load_and_preprocess_audio(
         file_path=audio_path,
         target_sr=target_sr,
