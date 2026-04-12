@@ -5,6 +5,7 @@ from pathlib import Path
 import numpy as np
 import librosa
 import tensorflow as tf
+import whisper
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
 from huggingface_hub import snapshot_download
@@ -33,6 +34,7 @@ WAKE_TARGET_DURATION = 2.0
 WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
 WAKE_N_MFCC = 13
 WAKE_THRESHOLD = 0.5
+WAKE_BYPASS_CODE = "Hey Atlas"
 
 
 def get_dataset_root():
@@ -302,6 +304,23 @@ def load_wake_model(weights_path):
 WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_WEIGHTS_PATH)
 
 
+def load_whisper_model():
+    try:
+        model = whisper.load_model("tiny")
+        return model, "Whisper tiny model loaded successfully"
+    except Exception as e:
+        return None, f"Whisper model failed to load: {e}"
+
+
+WHISPER_MODEL, WHISPER_MODEL_STATUS = load_whisper_model()
+
+
+def transcribe_with_whisper(audio_path, model):
+    audio, _ = librosa.load(audio_path, sr=16000)
+    result = model.transcribe(audio, fp16=False)
+    return result["text"].strip()
+
+
 def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.5):
     signal, sr = load_and_preprocess_audio(
         file_path=audio_path,
@@ -455,6 +474,7 @@ def reset_verification(state):
     state["verification_best_score"] = None
     state["awake"] = False
     state["wake_probability"] = None
+    state["transcript"] = ""
 
     return "", "", "{}", state, get_status_text(state)
 
@@ -511,6 +531,31 @@ def skip_wake(state):
     state["awake"] = True
     state["wake_probability"] = None
     return "Wake word detection skipped.", state, get_status_text(state)
+
+
+def skip_wake_with_code(code_input, state):
+    if not state["verified"]:
+        return "Please complete user verification first.", state, get_status_text(state)
+
+    code = code_input.strip()
+    if code.lower() == WAKE_BYPASS_CODE.lower():
+        state["awake"] = True
+        state["wake_probability"] = None
+        return "Wake word bypass successful. Atlas is now awake.", state, get_status_text(state)
+
+    return f"Invalid wake word code. Use: {WAKE_BYPASS_CODE}", state, get_status_text(state)
+
+
+def reset_wake_word(state):
+    state["awake"] = False
+    state["wake_probability"] = None
+    state["transcript"] = ""
+    state["intent"] = ""
+    state["slots"] = {}
+    state["api_result"] = {}
+    state["answer_text"] = ""
+
+    return "", "", "", "", "", state, get_status_text(state)
 
 
 # =========================================================
@@ -753,7 +798,7 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         transcript_box = gr.Textbox(label="Transcript", lines=3)
 
         with gr.Row():
-            btn_asr = gr.Button("Run ASR")
+            btn_asr = gr.Button("Run ASR on Wake / Command Audio")
 
     with gr.Group():
         gr.Markdown("## Intent Detection")
@@ -905,4 +950,4 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         ]
     )
 
-demo.launch()
+demo.launch(ssr_mode=False)
