@@ -6,3 +6,5 @@ huggingface_hub
 soundfile
 audioread
 tensorflow
+openai-whisper
+torch
