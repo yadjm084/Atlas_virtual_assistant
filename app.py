@@ -23,9 +23,7 @@ TARGET_DURATION = 2.5
 TARGET_LENGTH = int(TARGET_SR * TARGET_DURATION)
 N_MFCC = 13
 
-# Final threshold selected after normalization experiments
 CHOSEN_THRESHOLD = 0.5
-
 VALID_CODES = ["Adjmal", "Nair", "Sharma"]
 
 # Wake word parameters
@@ -34,27 +32,21 @@ WAKE_TARGET_DURATION = 2.0
 WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
 WAKE_N_MFCC = 13
 WAKE_THRESHOLD = 0.5
-WAKE_BYPASS_CODE = "Hey Atlas"
+
+# ASR parameters
+ASR_MODEL_NAME = "tiny"
 
 
 def get_dataset_root():
-    """
-    Download the public Hugging Face dataset repo locally
-    and return the local dataset root path.
-    """
     try:
         local_repo_path = snapshot_download(
             repo_id=HF_DATASET_REPO,
             repo_type="dataset"
         )
-
         local_repo_path = Path(local_repo_path)
-
         print("BASE_DIR =", BASE_DIR)
         print("Downloaded dataset repo to:", local_repo_path)
-
         return local_repo_path
-
     except Exception as e:
         print("Dataset download failed:", e)
         return BASE_DIR / "missing_dataset_dir"
@@ -64,36 +56,24 @@ DATASET_ROOT = get_dataset_root()
 
 
 def get_enrollment_dir(dataset_root):
-    """
-    Support either:
-    - dataset_root/enrollment
-    - dataset_root/user_verification/enrollment
-    """
     candidates = [
         dataset_root / "enrollment",
         dataset_root / "user_verification" / "enrollment",
     ]
-
     for path in candidates:
         if path.exists():
             print("ENROLLMENT_DIR exists =", path)
             return path
-
     return candidates[0]
 
 
 def get_wake_weights_path(dataset_root):
-    """
-    Search the dataset repo for wake-word weights.
-    Supports a few common names and falls back to recursive search.
-    """
     candidates = [
         dataset_root / "wake_word.weights.h5",
         dataset_root / "models" / "wake_word.weights.h5",
         dataset_root / "wake_word" / "wake_word.weights.h5",
         dataset_root / "wake_word_model.weights.h5",
     ]
-
     for path in candidates:
         if path.exists():
             print("WAKE_WEIGHTS_PATH exists =", path)
@@ -128,19 +108,13 @@ def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
 
 
 def extract_mfcc(signal, sr, n_mfcc=13):
-    mfcc = librosa.feature.mfcc(
-        y=signal,
-        sr=sr,
-        n_mfcc=n_mfcc
-    )
-    return mfcc
+    return librosa.feature.mfcc(y=signal, sr=sr, n_mfcc=n_mfcc)
 
 
 def mfcc_to_fixed_vector(mfcc):
     mfcc_means = np.mean(mfcc, axis=1)
     mfcc_stds = np.std(mfcc, axis=1)
-    feature_vector = np.concatenate([mfcc_means, mfcc_stds])
-    return feature_vector
+    return np.concatenate([mfcc_means, mfcc_stds])
 
 
 def extract_speaker_vector(file_path, target_sr=16000, target_length=40000, n_mfcc=13):
@@ -149,11 +123,8 @@ def extract_speaker_vector(file_path, target_sr=16000, target_length=40000, n_mf
         target_sr=target_sr,
         target_length=target_length
     )
-
     mfcc = extract_mfcc(signal, sr, n_mfcc=n_mfcc)
-    feature_vector = mfcc_to_fixed_vector(mfcc)
-
-    return feature_vector
+    return mfcc_to_fixed_vector(mfcc)
 
 
 # =========================================================
@@ -194,14 +165,12 @@ def load_enrollment_profiles_with_normalization(enrollment_dir):
                     target_length=TARGET_LENGTH,
                     n_mfcc=N_MFCC
                 )
-
                 raw_rows.append({
                     "speaker": speaker,
                     "filename": audio_file.name,
                     "vector": vector
                 })
                 loaded_count += 1
-
             except Exception as e:
                 messages.append(f"{speaker}: failed on {audio_file.name} ({e})")
 
@@ -211,7 +180,6 @@ def load_enrollment_profiles_with_normalization(enrollment_dir):
         return {}, None, "No speaker profiles could be built."
 
     enrollment_matrix = np.vstack([row["vector"] for row in raw_rows])
-
     scaler = StandardScaler()
     scaler.fit(enrollment_matrix)
 
@@ -248,13 +216,11 @@ def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
         target_length=TARGET_LENGTH,
         n_mfcc=N_MFCC
     )
-
     test_vector_scaled = scaler.transform(test_vector.reshape(1, -1))[0]
     scores = compare_to_profiles(test_vector_scaled, speaker_profiles)
 
     best_speaker = max(scores, key=scores.get)
     best_score = scores[best_speaker]
-
     accepted = best_score >= threshold
     predicted_user = best_speaker if accepted else "unknown"
 
@@ -274,7 +240,7 @@ SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles
 # =========================================================
 
 def build_wake_model():
-    model = tf.keras.Sequential([
+    return tf.keras.Sequential([
         tf.keras.layers.Input(shape=(13, 63, 1)),
         tf.keras.layers.Conv2D(16, (3, 3), activation="relu", padding="same"),
         tf.keras.layers.MaxPooling2D((2, 2)),
@@ -285,17 +251,14 @@ def build_wake_model():
         tf.keras.layers.Dropout(0.3),
         tf.keras.layers.Dense(1, activation="sigmoid")
     ])
-    return model
 
 
 def load_wake_model(weights_path):
     try:
         if not weights_path.exists():
             return None, f"Wake word weights not found: {weights_path}"
-
         model = build_wake_model()
         model.load_weights(weights_path)
-
         return model, f"Wake word weights loaded from {weights_path.name}"
     except Exception as e:
         return None, f"Wake word model failed to load: {e}"
@@ -304,32 +267,14 @@ def load_wake_model(weights_path):
 WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_WEIGHTS_PATH)
 
 
-def load_whisper_model():
-    try:
-        model = whisper.load_model("tiny")
-        return model, "Whisper tiny model loaded successfully"
-    except Exception as e:
-        return None, f"Whisper model failed to load: {e}"
-
-
-WHISPER_MODEL, WHISPER_MODEL_STATUS = load_whisper_model()
-
-
-def transcribe_with_whisper(audio_path, model):
-    audio, _ = librosa.load(audio_path, sr=16000)
-    result = model.transcribe(audio, fp16=False)
-    return result["text"].strip()
-
-
 def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.5):
     signal, sr = load_and_preprocess_audio(
         file_path=audio_path,
         target_sr=target_sr,
         target_length=target_length
     )
-
     mfcc = extract_mfcc(signal, sr, n_mfcc=n_mfcc)
-    x_input = np.expand_dims(mfcc, axis=(0, -1))  # (1, 13, time, 1)
+    x_input = np.expand_dims(mfcc, axis=(0, -1))
 
     prob = float(model.predict(x_input, verbose=0)[0][0])
     pred = 1 if prob >= threshold else 0
@@ -340,6 +285,26 @@ def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n
         "predicted_name": "positive" if pred == 1 else "negative",
         "wake_detected": pred == 1
     }
+
+
+# =========================================================
+# ASR MODEL LOADING + INFERENCE
+# =========================================================
+
+def load_asr_model(model_name="tiny"):
+    try:
+        model = whisper.load_model(model_name)
+        return model, f"ASR model loaded: {model_name}"
+    except Exception as e:
+        return None, f"ASR model failed to load: {e}"
+
+
+ASR_MODEL, ASR_MODEL_STATUS = load_asr_model(ASR_MODEL_NAME)
+
+
+def transcribe_with_whisper(audio_path, model):
+    result = model.transcribe(audio_path)
+    return result["text"].strip()
 
 
 # =========================================================
@@ -367,17 +332,8 @@ def init_state():
 
 
 def get_status_text(state):
-    verify_score_text = (
-        f"{state['verification_best_score']:.4f}"
-        if state["verification_best_score"] is not None
-        else "None"
-    )
-
-    wake_score_text = (
-        f"{state['wake_probability']:.4f}"
-        if state["wake_probability"] is not None
-        else "None"
-    )
+    verify_score_text = f"{state['verification_best_score']:.4f}" if state["verification_best_score"] is not None else "None"
+    wake_score_text = f"{state['wake_probability']:.4f}" if state["wake_probability"] is not None else "None"
 
     return (
         f"Verified: {state['verified']}\n"
@@ -398,12 +354,7 @@ def do_verify(audio, state):
         return "Please record or upload an audio file first.", "{}", state, get_status_text(state)
 
     if not SPEAKER_PROFILES or FEATURE_SCALER is None:
-        return (
-            f"Speaker profiles could not be loaded. {PROFILE_LOAD_STATUS}",
-            "{}",
-            state,
-            get_status_text(state)
-        )
+        return f"Speaker profiles could not be loaded. {PROFILE_LOAD_STATUS}", "{}", state, get_status_text(state)
 
     try:
         result = verify_audio_file(
@@ -419,7 +370,6 @@ def do_verify(audio, state):
         if result["accepted"]:
             state["verified"] = True
             state["verified_user"] = result["predicted_user"]
-
             message = (
                 f"Verification successful. "
                 f"User identified as {result['predicted_user']} "
@@ -430,14 +380,13 @@ def do_verify(audio, state):
             state["verified_user"] = "None"
             state["awake"] = False
             state["wake_probability"] = None
-
+            state["transcript"] = ""
             message = (
                 f"Verification failed. Atlas remains locked "
                 f"(best score={result['best_score']:.4f}, threshold={CHOSEN_THRESHOLD})."
             )
 
-        scores_json = json.dumps(result["all_scores"], indent=2)
-        return message, scores_json, state, get_status_text(state)
+        return message, json.dumps(result["all_scores"], indent=2), state, get_status_text(state)
 
     except Exception as e:
         return f"Verification error: {e}", "{}", state, get_status_text(state)
@@ -451,20 +400,9 @@ def verify_with_code(code_input, state):
         state["verified_user"] = code
         state["verification_best_score"] = None
         state["verification_scores"] = {}
+        return f"Verification bypass successful. User set to {code}.", "{}", state, get_status_text(state)
 
-        return (
-            f"Verification bypass successful. User set to {code}.",
-            "{}",
-            state,
-            get_status_text(state)
-        )
-
-    return (
-        "Invalid verification code. Use Adjmal, Nair, or Sharma.",
-        "{}",
-        state,
-        get_status_text(state)
-    )
+    return "Invalid verification code. Use Adjmal, Nair, or Sharma.", "{}", state, get_status_text(state)
 
 
 def reset_verification(state):
@@ -524,38 +462,26 @@ def do_wake(audio, state):
         return f"Wake word error: {e}", state, get_status_text(state)
 
 
-def skip_wake(state):
+def skip_wake_with_code(wake_code_input, state):
     if not state["verified"]:
         return "Please complete user verification first.", state, get_status_text(state)
 
-    state["awake"] = True
-    state["wake_probability"] = None
-    return "Wake word detection skipped.", state, get_status_text(state)
+    code = wake_code_input.strip()
 
-
-def skip_wake_with_code(code_input, state):
-    if not state["verified"]:
-        return "Please complete user verification first.", state, get_status_text(state)
-
-    code = code_input.strip()
-    if code.lower() == WAKE_BYPASS_CODE.lower():
+    if code == "Hey Atlas":
         state["awake"] = True
         state["wake_probability"] = None
         return "Wake word bypass successful. Atlas is now awake.", state, get_status_text(state)
 
-    return f"Invalid wake word code. Use: {WAKE_BYPASS_CODE}", state, get_status_text(state)
+    return "Invalid wake word bypass code. Use exactly: Hey Atlas", state, get_status_text(state)
 
 
 def reset_wake_word(state):
     state["awake"] = False
     state["wake_probability"] = None
     state["transcript"] = ""
-    state["intent"] = ""
-    state["slots"] = {}
-    state["api_result"] = {}
-    state["answer_text"] = ""
 
-    return "", "", "", "", "", state, get_status_text(state)
+    return "", "", state, get_status_text(state)
 
 
 # =========================================================
@@ -569,9 +495,19 @@ def do_asr(audio, state):
     if not state["awake"]:
         return "Please detect the wake word first.", state, get_status_text(state)
 
-    fake_text = "turn on the lamp"
-    state["transcript"] = fake_text
-    return fake_text, state, get_status_text(state)
+    if audio is None:
+        return "Please record or upload a command audio file first.", state, get_status_text(state)
+
+    if ASR_MODEL is None:
+        return f"ASR model unavailable. {ASR_MODEL_STATUS}", state, get_status_text(state)
+
+    try:
+        transcript = transcribe_with_whisper(audio, ASR_MODEL)
+        state["transcript"] = transcript
+        return transcript, state, get_status_text(state)
+
+    except Exception as e:
+        return f"ASR error: {e}", state, get_status_text(state)
 
 
 # =========================================================
@@ -589,20 +525,12 @@ def do_intent(transcript, state):
         return "No transcript available.", "{}", state, get_status_text(state)
 
     fake_intent = "control_device"
-    fake_slots = {
-        "device": "lamp",
-        "action": "on"
-    }
+    fake_slots = {"device": "lamp", "action": "on"}
 
     state["intent"] = fake_intent
     state["slots"] = fake_slots
 
-    return (
-        fake_intent,
-        json.dumps(fake_slots, indent=2),
-        state,
-        get_status_text(state)
-    )
+    return fake_intent, json.dumps(fake_slots, indent=2), state, get_status_text(state)
 
 
 def use_manual_intent(manual_intent, manual_slots, state):
@@ -610,20 +538,9 @@ def use_manual_intent(manual_intent, manual_slots, state):
 
     try:
         state["slots"] = json.loads(manual_slots) if manual_slots.strip() else {}
-
-        return (
-            state["intent"],
-            json.dumps(state["slots"], indent=2),
-            state,
-            get_status_text(state)
-        )
+        return state["intent"], json.dumps(state["slots"], indent=2), state, get_status_text(state)
     except json.JSONDecodeError:
-        return (
-            state["intent"],
-            "Invalid JSON format in manual slots.",
-            state,
-            get_status_text(state)
-        )
+        return state["intent"], "Invalid JSON format in manual slots.", state, get_status_text(state)
 
 
 # =========================================================
@@ -632,12 +549,7 @@ def use_manual_intent(manual_intent, manual_slots, state):
 
 def do_fulfillment(state):
     if not state["intent"]:
-        return (
-            "Please detect or enter an intent first.",
-            json.dumps(state["control_state"], indent=2),
-            state,
-            get_status_text(state)
-        )
+        return "Please detect or enter an intent first.", json.dumps(state["control_state"], indent=2), state, get_status_text(state)
 
     if state["intent"] == "control_device":
         device = state["slots"].get("device", "lamp")
@@ -646,43 +558,20 @@ def do_fulfillment(state):
         if device == "lamp":
             state["control_state"]["lamp"] = action
 
-        api_result = {
-            "status": "success",
-            "message": f"{device} turned {action}"
-        }
+        api_result = {"status": "success", "message": f"{device} turned {action}"}
     else:
-        api_result = {
-            "status": "success",
-            "message": "Placeholder fulfillment completed."
-        }
+        api_result = {"status": "success", "message": "Placeholder fulfillment completed."}
 
     state["api_result"] = api_result
-
-    return (
-        json.dumps(api_result, indent=2),
-        json.dumps(state["control_state"], indent=2),
-        state,
-        get_status_text(state)
-    )
+    return json.dumps(api_result, indent=2), json.dumps(state["control_state"], indent=2), state, get_status_text(state)
 
 
 def use_manual_api_result(manual_api_result, state):
     try:
         state["api_result"] = json.loads(manual_api_result) if manual_api_result.strip() else {}
-
-        return (
-            json.dumps(state["api_result"], indent=2),
-            json.dumps(state["control_state"], indent=2),
-            state,
-            get_status_text(state)
-        )
+        return json.dumps(state["api_result"], indent=2), json.dumps(state["control_state"], indent=2), state, get_status_text(state)
     except json.JSONDecodeError:
-        return (
-            "Invalid JSON format in manual API result.",
-            json.dumps(state["control_state"], indent=2),
-            state,
-            get_status_text(state)
-        )
+        return "Invalid JSON format in manual API result.", json.dumps(state["control_state"], indent=2), state, get_status_text(state)
 
 
 # =========================================================
@@ -711,22 +600,25 @@ def reset_all():
     state = init_state()
 
     return (
-        state,
-        get_status_text(state),
-        "",
-        "",
-        "{}",
-        "",
-        "",
-        "",
-        "",
-        "",
-        json.dumps(state["control_state"], indent=2),
-        "",
-        "",
-        "control_device",
-        '{\n  "device": "lamp",\n  "action": "on"\n}',
-        '{\n  "status": "success",\n  "message": "lamp turned on"\n}'
+        state,                               # state
+        None,                                # verification audio
+        None,                                # wake audio
+        get_status_text(state),              # assistant status
+        "",                                  # verification output
+        "{}",                                # verification scores
+        "",                                  # verification code
+        "",                                  # wake output
+        "",                                  # wake code input
+        "",                                  # transcript
+        "",                                  # intent
+        "",                                  # slots
+        "",                                  # api output
+        json.dumps(state["control_state"], indent=2),  # control state
+        "",                                  # final answer
+        "",                                  # tts output
+        "control_device",                    # manual intent
+        '{\\n  "device": "lamp",\\n  "action": "on"\\n}',  # manual slots
+        '{\\n  "status": "success",\\n  "message": "lamp turned on"\\n}'  # manual api result
     )
 
 
@@ -736,37 +628,20 @@ def reset_all():
 
 with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
     gr.Markdown("# Atlas - Virtual Assistant")
-    gr.Markdown("User verification uses normalized MFCC profiles. Wake word detection uses CNN weights from the HF dataset repo.")
+    gr.Markdown("Separate audio inputs for user verification and wake word/command. Whisper ASR reuses the same wake-word audio input.")
 
     state = gr.State(init_state())
-
-    with gr.Row():
-        audio_input = gr.Audio(type="filepath", label="Voice Input")
-
-        assistant_status = gr.Textbox(
-            label="Assistant Status",
-            value=get_status_text(init_state()),
-            lines=6
-        )
-
-        control_box = gr.Textbox(
-            label="Control System State",
-            value=json.dumps(init_state()["control_state"], indent=2),
-            lines=8
-        )
 
     with gr.Group():
         gr.Markdown("## User Verification")
         gr.Markdown(f"Enrollment status: {PROFILE_LOAD_STATUS}")
         gr.Markdown(f"Verification threshold: {CHOSEN_THRESHOLD}")
 
-        verify_output = gr.Textbox(label="Verification Output", lines=3)
+        with gr.Row():
+            verification_audio_input = gr.Audio(type="filepath", label="Verification Voice Input")
+            verify_output = gr.Textbox(label="Verification Output", lines=3)
 
-        verification_scores_output = gr.Textbox(
-            label="Verification Scores",
-            lines=8,
-            value="{}"
-        )
+        verification_scores_output = gr.Textbox(label="Verification Scores", lines=8, value="{}")
 
         with gr.Row():
             btn_verify = gr.Button("Run Verification", variant="primary")
@@ -787,18 +662,39 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         gr.Markdown(f"Wake word model status: {WAKE_MODEL_STATUS}")
         gr.Markdown(f"Wake word threshold: {WAKE_THRESHOLD}")
 
+        with gr.Row():
+            wake_audio_input = gr.Audio(type="filepath", label="Wake Word / Command Audio Input")
+            assistant_status = gr.Textbox(
+                label="Assistant Status",
+                value=get_status_text(init_state()),
+                lines=6
+            )
+
         wake_output = gr.Textbox(label="Wake Word Output", lines=2)
 
         with gr.Row():
             btn_wake = gr.Button("Run Wake Word")
-            btn_skip_wake = gr.Button("Skip Wake Word")
+            btn_reset_wake = gr.Button("Reset Wake Word")
+
+        gr.Markdown("### Bypass Wake Word with Code")
+        gr.Markdown("Allowed code: `Hey Atlas`")
+
+        with gr.Row():
+            wake_code_input = gr.Textbox(
+                label="Wake Word Code",
+                placeholder="Enter Hey Atlas"
+            )
+            btn_skip_wake = gr.Button("Skip Wake Word with Code")
 
     with gr.Group():
         gr.Markdown("## Speech Recognition")
+        gr.Markdown(f"ASR model status: {ASR_MODEL_STATUS}")
+        gr.Markdown("This reuses the same wake-word audio input for transcription.")
+
         transcript_box = gr.Textbox(label="Transcript", lines=3)
 
         with gr.Row():
-            btn_asr = gr.Button("Run ASR on Wake / Command Audio")
+            btn_asr = gr.Button("Run ASR")
 
     with gr.Group():
         gr.Markdown("## Intent Detection")
@@ -809,16 +705,14 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
 
         with gr.Accordion("Manual / Bypass Options for Intent", open=False):
             manual_intent = gr.Textbox(label="Manual Intent", value="control_device")
-
             manual_slots = gr.Textbox(
                 label="Manual Slots (JSON)",
                 lines=6,
-                value="""{
-  \"device\": \"lamp\",
-  \"action\": \"on\"
-}"""
+                value='''{
+  "device": "lamp",
+  "action": "on"
+}'''
             )
-
             btn_manual_intent = gr.Button("Use Manual Intent / Slots")
 
         with gr.Row():
@@ -826,19 +720,17 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
 
     with gr.Group():
         gr.Markdown("## Fulfillment")
-
         api_box = gr.Textbox(label="Fulfillment / API Output", lines=8)
 
         with gr.Accordion("Manual / Bypass Options for Fulfillment", open=False):
             manual_api_result = gr.Textbox(
                 label="Manual API Result (JSON)",
                 lines=6,
-                value="""{
-  \"status\": \"success\",
-  \"message\": \"lamp turned on\"
-}"""
+                value='''{
+  "status": "success",
+  "message": "lamp turned on"
+}'''
             )
-
             btn_manual_api = gr.Button("Use Manual API Result")
 
         with gr.Row():
@@ -846,7 +738,6 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
 
     with gr.Group():
         gr.Markdown("## Answer Generation and TTS")
-
         answer_box = gr.Textbox(label="Final Answer", lines=3)
         tts_output = gr.Textbox(label="TTS Output", lines=2)
 
@@ -855,9 +746,17 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             btn_tts = gr.Button("Run TTS")
             btn_reset = gr.Button("Reset All")
 
+    with gr.Group():
+        gr.Markdown("## Control System State")
+        control_box = gr.Textbox(
+            label="Control System State",
+            value=json.dumps(init_state()["control_state"], indent=2),
+            lines=8
+        )
+
     btn_verify.click(
         fn=do_verify,
-        inputs=[audio_input, state],
+        inputs=[verification_audio_input, state],
         outputs=[verify_output, verification_scores_output, state, assistant_status]
     )
 
@@ -875,19 +774,25 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
 
     btn_wake.click(
         fn=do_wake,
-        inputs=[audio_input, state],
+        inputs=[wake_audio_input, state],
         outputs=[wake_output, state, assistant_status]
     )
 
     btn_skip_wake.click(
-        fn=skip_wake,
-        inputs=[state],
+        fn=skip_wake_with_code,
+        inputs=[wake_code_input, state],
         outputs=[wake_output, state, assistant_status]
+    )
+
+    btn_reset_wake.click(
+        fn=reset_wake_word,
+        inputs=[state],
+        outputs=[wake_output, wake_code_input, state, assistant_status]
     )
 
     btn_asr.click(
         fn=do_asr,
-        inputs=[audio_input, state],
+        inputs=[wake_audio_input, state],
         outputs=[transcript_box, state, assistant_status]
     )
 
@@ -932,11 +837,14 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         inputs=[],
         outputs=[
             state,
+            verification_audio_input,
+            wake_audio_input,
             assistant_status,
             verify_output,
-            verification_code_input,
             verification_scores_output,
+            verification_code_input,
             wake_output,
+            wake_code_input,
             transcript_box,
             intent_box,
             slots_box,
