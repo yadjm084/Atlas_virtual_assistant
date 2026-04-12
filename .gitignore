@@ -1,4 +1,8 @@
 user_verification/
+__pycache__/
+*.py[cod]
+generated_audio/
+intent_data/model_artifacts/**/model_state.pt
 *.wav
 *.zip
 *.pdf

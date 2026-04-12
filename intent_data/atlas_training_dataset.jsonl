@@ -1,0 +1,432 @@
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hello atlas", "annotated": "hello atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hi atlas", "annotated": "hi atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "good morning atlas", "annotated": "good morning atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hey there atlas", "annotated": "hey there atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hello", "annotated": "hello"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hi", "annotated": "hi"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hey atlas", "annotated": "hey atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "good evening atlas", "annotated": "good evening atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "good afternoon atlas", "annotated": "good afternoon atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hello there", "annotated": "hello there"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hi there", "annotated": "hi there"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "atlas are you there", "annotated": "atlas are you there"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "wake up atlas hello", "annotated": "wake up atlas hello"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "greetings atlas", "annotated": "greetings atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "good day atlas", "annotated": "good day atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hey assistant", "annotated": "hey assistant"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hello assistant", "annotated": "hello assistant"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "nice to see you atlas", "annotated": "nice to see you atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "howdy atlas", "annotated": "howdy atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "good morning there", "annotated": "good morning there"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "yo atlas", "annotated": "yo atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hi again atlas", "annotated": "hi again atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hello again atlas", "annotated": "hello again atlas"}
+{"intent": "Greetings", "domain": "mandatory", "plain_text": "hey good morning", "annotated": "hey good morning"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "goodbye atlas", "annotated": "goodbye atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "bye atlas", "annotated": "bye atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "thanks goodbye", "annotated": "thanks goodbye"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "talk to you later atlas", "annotated": "talk to you later atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "goodbye", "annotated": "goodbye"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "bye", "annotated": "bye"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "see you later atlas", "annotated": "see you later atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "good night atlas", "annotated": "good night atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "bye for now", "annotated": "bye for now"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "see you atlas", "annotated": "see you atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "catch you later atlas", "annotated": "catch you later atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "farewell atlas", "annotated": "farewell atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "see you soon", "annotated": "see you soon"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "talk later", "annotated": "talk later"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "thanks atlas goodbye", "annotated": "thanks atlas goodbye"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "that is all goodbye", "annotated": "that is all goodbye"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "i am done goodbye", "annotated": "i am done goodbye"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "bye bye atlas", "annotated": "bye bye atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "good night see you later", "annotated": "good night see you later"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "catch you later", "annotated": "catch you later"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "thanks for the help goodbye", "annotated": "thanks for the help goodbye"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "later atlas", "annotated": "later atlas"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "i will come back later", "annotated": "i will come back later"}
+{"intent": "Goodbye", "domain": "mandatory", "plain_text": "signing off atlas", "annotated": "signing off atlas"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "book a flight to Toronto", "annotated": "book a flight to Toronto"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "write me a poem about the ocean", "annotated": "write me a poem about the ocean"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "translate hello into Japanese", "annotated": "translate hello into Japanese"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "do my grocery shopping", "annotated": "do my grocery shopping"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "solve this calculus problem", "annotated": "solve this calculus problem"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "open my email inbox", "annotated": "open my email inbox"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "send a text to my mom", "annotated": "send a text to my mom"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "make me a sandwich", "annotated": "make me a sandwich"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "what is the capital of Peru", "annotated": "what is the capital of Peru"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "call an uber for me", "annotated": "call an uber for me"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "summarize this PDF", "annotated": "summarize this PDF"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "generate a rap song", "annotated": "generate a rap song"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "create a budget spreadsheet", "annotated": "create a budget spreadsheet"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "play my spotify playlist", "annotated": "play my spotify playlist"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "order dinner for tonight", "annotated": "order dinner for tonight"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "open youtube", "annotated": "open youtube"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "read my unread messages", "annotated": "read my unread messages"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "help me with my taxes", "annotated": "help me with my taxes"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "book a dentist appointment", "annotated": "book a dentist appointment"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "find me cheap flights to Paris", "annotated": "find me cheap flights to Paris"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "show my calendar for tomorrow", "annotated": "show my calendar for tomorrow"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "compose an email to my professor", "annotated": "compose an email to my professor"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "write code for a binary tree", "annotated": "write code for a binary tree"}
+{"intent": "OOS", "domain": "mandatory", "plain_text": "tell me a bedtime story", "annotated": "tell me a bedtime story"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a timer for 10 minutes", "annotated": "set a timer for 10/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "start a study timer for 25 minutes", "annotated": "start a study/B-TIMER_NAME timer/I-TIMER_NAME for 25/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a pasta timer for 8 minutes", "annotated": "set a pasta/B-TIMER_NAME timer/I-TIMER_NAME for 8/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "start a timer for 45 seconds", "annotated": "start a timer for 45/B-DURATION seconds/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a timer for 5 minutes", "annotated": "set a timer for 5/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a timer for 15 minutes", "annotated": "set a timer for 15/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a timer for 25 minutes", "annotated": "set a timer for 25/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a timer for 45 seconds", "annotated": "set a timer for 45/B-DURATION seconds/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a timer for 2 hours", "annotated": "set a timer for 2/B-DURATION hours/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "start a timer for 5 minutes", "annotated": "start a timer for 5/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "start a timer for 10 minutes", "annotated": "start a timer for 10/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "start a timer for 15 minutes", "annotated": "start a timer for 15/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "start a timer for 25 minutes", "annotated": "start a timer for 25/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "start a timer for 2 hours", "annotated": "start a timer for 2/B-DURATION hours/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a study timer for 5 minutes", "annotated": "set a study/B-TIMER_NAME timer for 5/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a study timer for 10 minutes", "annotated": "set a study/B-TIMER_NAME timer for 10/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a study timer for 15 minutes", "annotated": "set a study/B-TIMER_NAME timer for 15/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a study timer for 25 minutes", "annotated": "set a study/B-TIMER_NAME timer for 25/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a study timer for 45 seconds", "annotated": "set a study/B-TIMER_NAME timer for 45/B-DURATION seconds/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a study timer for 2 hours", "annotated": "set a study/B-TIMER_NAME timer for 2/B-DURATION hours/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a pasta timer for 5 minutes", "annotated": "set a pasta/B-TIMER_NAME timer for 5/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a pasta timer for 10 minutes", "annotated": "set a pasta/B-TIMER_NAME timer for 10/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a pasta timer for 15 minutes", "annotated": "set a pasta/B-TIMER_NAME timer for 15/B-DURATION minutes/I-DURATION"}
+{"intent": "SetTimer", "domain": "mandatory", "plain_text": "set a pasta timer for 25 minutes", "annotated": "set a pasta/B-TIMER_NAME timer for 25/B-DURATION minutes/I-DURATION"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Ottawa today", "annotated": "what is the weather in Ottawa/B-CITY today/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "does it rain in Montreal tomorrow", "annotated": "does it rain in Montreal/B-CITY tomorrow/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "give me the weather for Toronto on Monday", "annotated": "give me the weather for Toronto/B-CITY on Monday/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "is it cold in New York tonight", "annotated": "is it cold in New/B-CITY York/I-CITY tonight/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Ottawa", "annotated": "what is the weather in Ottawa/B-CITY"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Montreal", "annotated": "what is the weather in Montreal/B-CITY"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Toronto", "annotated": "what is the weather in Toronto/B-CITY"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Paris", "annotated": "what is the weather in Paris/B-CITY"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in New York", "annotated": "what is the weather in New/B-CITY York/I-CITY"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Vancouver", "annotated": "what is the weather in Vancouver/B-CITY"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Ottawa tomorrow", "annotated": "what is the weather in Ottawa/B-CITY tomorrow/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Ottawa tonight", "annotated": "what is the weather in Ottawa/B-CITY tonight/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Ottawa next Monday", "annotated": "what is the weather in Ottawa/B-CITY next/B-DATE Monday/I-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Ottawa this evening", "annotated": "what is the weather in Ottawa/B-CITY this/B-DATE evening/I-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Ottawa on Friday", "annotated": "what is the weather in Ottawa/B-CITY on/B-DATE Friday/I-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Montreal today", "annotated": "what is the weather in Montreal/B-CITY today/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Montreal tomorrow", "annotated": "what is the weather in Montreal/B-CITY tomorrow/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Montreal tonight", "annotated": "what is the weather in Montreal/B-CITY tonight/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Montreal next Monday", "annotated": "what is the weather in Montreal/B-CITY next/B-DATE Monday/I-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Montreal this evening", "annotated": "what is the weather in Montreal/B-CITY this/B-DATE evening/I-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Montreal on Friday", "annotated": "what is the weather in Montreal/B-CITY on/B-DATE Friday/I-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Toronto today", "annotated": "what is the weather in Toronto/B-CITY today/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Toronto tomorrow", "annotated": "what is the weather in Toronto/B-CITY tomorrow/B-DATE"}
+{"intent": "GetWeather", "domain": "mandatory", "plain_text": "what is the weather in Toronto tonight", "annotated": "what is the weather in Toronto/B-CITY tonight/B-DATE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "give me an overview of Interstellar", "annotated": "give me an overview of Interstellar/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "what is Dune Part Two about", "annotated": "what is Dune/B-TITLE Part/I-TITLE Two/I-TITLE about"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "tell me the plot of The Matrix", "annotated": "tell me the plot of The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "what happens in Blade Runner 2049", "annotated": "what happens in Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "give me an overview of Dune Part Two", "annotated": "give me an overview of Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "give me an overview of The Matrix", "annotated": "give me an overview of The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "give me an overview of Arrival", "annotated": "give me an overview of Arrival/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "give me an overview of Blade Runner 2049", "annotated": "give me an overview of Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "give me an overview of Inception", "annotated": "give me an overview of Inception/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "what is Interstellar about", "annotated": "what is Interstellar/B-TITLE about"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "what is The Matrix about", "annotated": "what is The/B-TITLE Matrix/I-TITLE about"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "what is Arrival about", "annotated": "what is Arrival/B-TITLE about"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "what is Blade Runner 2049 about", "annotated": "what is Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE about"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "what is Inception about", "annotated": "what is Inception/B-TITLE about"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "tell me the plot of Interstellar", "annotated": "tell me the plot of Interstellar/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "tell me the plot of Dune Part Two", "annotated": "tell me the plot of Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "tell me the plot of Arrival", "annotated": "tell me the plot of Arrival/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "tell me the plot of Blade Runner 2049", "annotated": "tell me the plot of Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "tell me the plot of Inception", "annotated": "tell me the plot of Inception/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "summarize Interstellar", "annotated": "summarize Interstellar/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "summarize Dune Part Two", "annotated": "summarize Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "summarize The Matrix", "annotated": "summarize The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "summarize Arrival", "annotated": "summarize Arrival/B-TITLE"}
+{"intent": "MovieOverview", "domain": "movie", "plain_text": "summarize Blade Runner 2049", "annotated": "summarize Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what is the rating for Interstellar", "annotated": "what is the rating for Interstellar/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "how highly rated is The Dark Knight", "annotated": "how highly rated is The/B-TITLE Dark/I-TITLE Knight/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "show me the rating of Dune Part Two", "annotated": "show me the rating of Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what score does Arrival have", "annotated": "what score does Arrival/B-TITLE have"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what is the rating for Dune Part Two", "annotated": "what is the rating for Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what is the rating for The Matrix", "annotated": "what is the rating for The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what is the rating for Arrival", "annotated": "what is the rating for Arrival/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what is the rating for Blade Runner 2049", "annotated": "what is the rating for Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what is the rating for Inception", "annotated": "what is the rating for Inception/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "how highly rated is Interstellar", "annotated": "how highly rated is Interstellar/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "how highly rated is Dune Part Two", "annotated": "how highly rated is Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "how highly rated is The Matrix", "annotated": "how highly rated is The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "how highly rated is Arrival", "annotated": "how highly rated is Arrival/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "how highly rated is Blade Runner 2049", "annotated": "how highly rated is Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "how highly rated is Inception", "annotated": "how highly rated is Inception/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "show me the rating of Interstellar", "annotated": "show me the rating of Interstellar/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "show me the rating of The Matrix", "annotated": "show me the rating of The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "show me the rating of Arrival", "annotated": "show me the rating of Arrival/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "show me the rating of Blade Runner 2049", "annotated": "show me the rating of Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "show me the rating of Inception", "annotated": "show me the rating of Inception/B-TITLE"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what score does Interstellar have", "annotated": "what score does Interstellar/B-TITLE have"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what score does Dune Part Two have", "annotated": "what score does Dune/B-TITLE Part/I-TITLE Two/I-TITLE have"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what score does The Matrix have", "annotated": "what score does The/B-TITLE Matrix/I-TITLE have"}
+{"intent": "MovieRating", "domain": "movie", "plain_text": "what score does Blade Runner 2049 have", "annotated": "what score does Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE have"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who directed Interstellar", "annotated": "who directed Interstellar/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who is the director of Dune Part Two", "annotated": "who is the director of Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "tell me who directed The Matrix", "annotated": "tell me who directed The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who made Arrival", "annotated": "who made Arrival/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who directed Dune Part Two", "annotated": "who directed Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who directed The Matrix", "annotated": "who directed The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who directed Arrival", "annotated": "who directed Arrival/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who directed Blade Runner 2049", "annotated": "who directed Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who directed Inception", "annotated": "who directed Inception/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who is the director of Interstellar", "annotated": "who is the director of Interstellar/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who is the director of The Matrix", "annotated": "who is the director of The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who is the director of Arrival", "annotated": "who is the director of Arrival/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who is the director of Blade Runner 2049", "annotated": "who is the director of Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who is the director of Inception", "annotated": "who is the director of Inception/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "tell me who directed Interstellar", "annotated": "tell me who directed Interstellar/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "tell me who directed Dune Part Two", "annotated": "tell me who directed Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "tell me who directed Arrival", "annotated": "tell me who directed Arrival/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "tell me who directed Blade Runner 2049", "annotated": "tell me who directed Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "tell me who directed Inception", "annotated": "tell me who directed Inception/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who made Interstellar", "annotated": "who made Interstellar/B-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who made Dune Part Two", "annotated": "who made Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who made The Matrix", "annotated": "who made The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who made Blade Runner 2049", "annotated": "who made Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieDirector", "domain": "movie", "plain_text": "who made Inception", "annotated": "who made Inception/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who is in the cast of Interstellar", "annotated": "who is in the cast of Interstellar/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "show me the cast for Dune Part Two", "annotated": "show me the cast for Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who stars in The Matrix", "annotated": "who stars in The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who acted in Arrival", "annotated": "who acted in Arrival/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who is in the cast of Dune Part Two", "annotated": "who is in the cast of Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who is in the cast of The Matrix", "annotated": "who is in the cast of The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who is in the cast of Arrival", "annotated": "who is in the cast of Arrival/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who is in the cast of Blade Runner 2049", "annotated": "who is in the cast of Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who is in the cast of Inception", "annotated": "who is in the cast of Inception/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "show me the cast for Interstellar", "annotated": "show me the cast for Interstellar/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "show me the cast for The Matrix", "annotated": "show me the cast for The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "show me the cast for Arrival", "annotated": "show me the cast for Arrival/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "show me the cast for Blade Runner 2049", "annotated": "show me the cast for Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "show me the cast for Inception", "annotated": "show me the cast for Inception/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who stars in Interstellar", "annotated": "who stars in Interstellar/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who stars in Dune Part Two", "annotated": "who stars in Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who stars in Arrival", "annotated": "who stars in Arrival/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who stars in Blade Runner 2049", "annotated": "who stars in Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who stars in Inception", "annotated": "who stars in Inception/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who acted in Interstellar", "annotated": "who acted in Interstellar/B-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who acted in Dune Part Two", "annotated": "who acted in Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who acted in The Matrix", "annotated": "who acted in The/B-TITLE Matrix/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who acted in Blade Runner 2049", "annotated": "who acted in Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "MovieCast", "domain": "movie", "plain_text": "who acted in Inception", "annotated": "who acted in Inception/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "find movies like Interstellar", "annotated": "find movies like Interstellar/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "recommend movies similar to The Matrix", "annotated": "recommend movies similar to The/B-TITLE Matrix/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "what should I watch if I liked Arrival", "annotated": "what should I watch if I liked Arrival/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "show movies like Blade Runner 2049", "annotated": "show movies like Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "find movies like Dune Part Two", "annotated": "find movies like Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "find movies like The Matrix", "annotated": "find movies like The/B-TITLE Matrix/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "find movies like Arrival", "annotated": "find movies like Arrival/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "find movies like Blade Runner 2049", "annotated": "find movies like Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "find movies like Inception", "annotated": "find movies like Inception/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "recommend movies similar to Interstellar", "annotated": "recommend movies similar to Interstellar/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "recommend movies similar to Dune Part Two", "annotated": "recommend movies similar to Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "recommend movies similar to Arrival", "annotated": "recommend movies similar to Arrival/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "recommend movies similar to Blade Runner 2049", "annotated": "recommend movies similar to Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "recommend movies similar to Inception", "annotated": "recommend movies similar to Inception/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "what should i watch if i liked Interstellar", "annotated": "what should i watch if i liked Interstellar/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "what should i watch if i liked Dune Part Two", "annotated": "what should i watch if i liked Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "what should i watch if i liked The Matrix", "annotated": "what should i watch if i liked The/B-TITLE Matrix/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "what should i watch if i liked Arrival", "annotated": "what should i watch if i liked Arrival/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "what should i watch if i liked Blade Runner 2049", "annotated": "what should i watch if i liked Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "what should i watch if i liked Inception", "annotated": "what should i watch if i liked Inception/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "show movies like Interstellar", "annotated": "show movies like Interstellar/B-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "show movies like Dune Part Two", "annotated": "show movies like Dune/B-TITLE Part/I-TITLE Two/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "show movies like The Matrix", "annotated": "show movies like The/B-TITLE Matrix/I-TITLE"}
+{"intent": "SimilarMovies", "domain": "movie", "plain_text": "show movies like Arrival", "annotated": "show movies like Arrival/B-TITLE"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover science fiction movies from 2024", "annotated": "discover science/B-GENRE fiction/I-GENRE movies from 2024/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "find comedy movies", "annotated": "find comedy/B-GENRE movies"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "show me horror films from 2023", "annotated": "show me horror/B-GENRE films from 2023/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "recommend action movies released in 2022", "annotated": "recommend action/B-GENRE movies released in 2022/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover science fiction movies", "annotated": "discover science/B-GENRE fiction/I-GENRE movies"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover action movies", "annotated": "discover action/B-GENRE movies"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover comedy movies", "annotated": "discover comedy/B-GENRE movies"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover horror movies", "annotated": "discover horror/B-GENRE movies"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover drama movies", "annotated": "discover drama/B-GENRE movies"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover animation movies", "annotated": "discover animation/B-GENRE movies"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover science fiction movies from 2022", "annotated": "discover science/B-GENRE fiction/I-GENRE movies from 2022/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover science fiction movies from 2023", "annotated": "discover science/B-GENRE fiction/I-GENRE movies from 2023/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover action movies from 2022", "annotated": "discover action/B-GENRE movies from 2022/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover action movies from 2023", "annotated": "discover action/B-GENRE movies from 2023/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover action movies from 2024", "annotated": "discover action/B-GENRE movies from 2024/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover comedy movies from 2022", "annotated": "discover comedy/B-GENRE movies from 2022/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover comedy movies from 2023", "annotated": "discover comedy/B-GENRE movies from 2023/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover comedy movies from 2024", "annotated": "discover comedy/B-GENRE movies from 2024/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover horror movies from 2022", "annotated": "discover horror/B-GENRE movies from 2022/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover horror movies from 2023", "annotated": "discover horror/B-GENRE movies from 2023/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover horror movies from 2024", "annotated": "discover horror/B-GENRE movies from 2024/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover drama movies from 2022", "annotated": "discover drama/B-GENRE movies from 2022/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover drama movies from 2023", "annotated": "discover drama/B-GENRE movies from 2023/B-YEAR"}
+{"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover drama movies from 2024", "annotated": "discover drama/B-GENRE movies from 2024/B-YEAR"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the bedroom light", "annotated": "turn on the bedroom/B-ROOM light/I-ROOM"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the desk lamp", "annotated": "switch on the desk/B-ROOM lamp/I-ROOM"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the bedroom lights on", "annotated": "turn the bedroom/B-ROOM lights/I-ROOM on"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "lights on in the study area", "annotated": "lights on in the study/B-ROOM area/I-ROOM"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the bedroom light", "annotated": "turn on the bedroom/B-ROOM light"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the desk area light", "annotated": "turn on the desk/B-ROOM area/I-ROOM light"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the study area light", "annotated": "turn on the study/B-ROOM area/I-ROOM light"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the main room light", "annotated": "turn on the main/B-ROOM room/I-ROOM light"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the reading corner light", "annotated": "turn on the reading/B-ROOM corner/I-ROOM light"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the window side light", "annotated": "turn on the window/B-ROOM side/I-ROOM light"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the bedroom lamp", "annotated": "switch on the bedroom/B-ROOM lamp"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the desk area lamp", "annotated": "switch on the desk/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the study area lamp", "annotated": "switch on the study/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the main room lamp", "annotated": "switch on the main/B-ROOM room/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the reading corner lamp", "annotated": "switch on the reading/B-ROOM corner/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the window side lamp", "annotated": "switch on the window/B-ROOM side/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the bedroom lights on", "annotated": "turn the bedroom/B-ROOM lights on"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the desk area lights on", "annotated": "turn the desk/B-ROOM area/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the study area lights on", "annotated": "turn the study/B-ROOM area/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the main room lights on", "annotated": "turn the main/B-ROOM room/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the reading corner lights on", "annotated": "turn the reading/B-ROOM corner/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the window side lights on", "annotated": "turn the window/B-ROOM side/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "lights on in the bedroom", "annotated": "lights on in the bedroom/B-ROOM"}
+{"intent": "LightOn", "domain": "dorm", "plain_text": "lights on in the desk area", "annotated": "lights on in the desk/B-ROOM area/I-ROOM"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the bedroom light", "annotated": "turn off the bedroom/B-ROOM light/I-ROOM"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the desk lamp", "annotated": "switch off the desk/B-ROOM lamp/I-ROOM"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the bedroom lights off", "annotated": "turn the bedroom/B-ROOM lights/I-ROOM off"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "lights off in the study area", "annotated": "lights off in the study/B-ROOM area/I-ROOM"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the bedroom light", "annotated": "turn off the bedroom/B-ROOM light"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the desk area light", "annotated": "turn off the desk/B-ROOM area/I-ROOM light"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the study area light", "annotated": "turn off the study/B-ROOM area/I-ROOM light"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the main room light", "annotated": "turn off the main/B-ROOM room/I-ROOM light"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the reading corner light", "annotated": "turn off the reading/B-ROOM corner/I-ROOM light"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the window side light", "annotated": "turn off the window/B-ROOM side/I-ROOM light"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the bedroom lamp", "annotated": "switch off the bedroom/B-ROOM lamp"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the desk area lamp", "annotated": "switch off the desk/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the study area lamp", "annotated": "switch off the study/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the main room lamp", "annotated": "switch off the main/B-ROOM room/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the reading corner lamp", "annotated": "switch off the reading/B-ROOM corner/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the window side lamp", "annotated": "switch off the window/B-ROOM side/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the bedroom lights off", "annotated": "turn the bedroom/B-ROOM lights off"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the desk area lights off", "annotated": "turn the desk/B-ROOM area/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the study area lights off", "annotated": "turn the study/B-ROOM area/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the main room lights off", "annotated": "turn the main/B-ROOM room/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the reading corner lights off", "annotated": "turn the reading/B-ROOM corner/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the window side lights off", "annotated": "turn the window/B-ROOM side/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "lights off in the bedroom", "annotated": "lights off in the bedroom/B-ROOM"}
+{"intent": "LightOff", "domain": "dorm", "plain_text": "lights off in the desk area", "annotated": "lights off in the desk/B-ROOM area/I-ROOM"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 40 percent", "annotated": "set the bedroom/B-ROOM light/I-ROOM to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "make the desk lamp 75 percent bright", "annotated": "make the desk/B-ROOM lamp/I-ROOM 75/B-BRIGHTNESS percent/I-BRIGHTNESS bright/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set brightness in the bedroom to 20 percent", "annotated": "set brightness in the bedroom/B-ROOM to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "dim the study area lights to 30 percent", "annotated": "dim the study/B-ROOM area/I-ROOM lights/I-ROOM to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 20 percent", "annotated": "set the bedroom/B-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 30 percent", "annotated": "set the bedroom/B-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 40 percent", "annotated": "set the bedroom/B-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 60 percent", "annotated": "set the bedroom/B-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 75 percent", "annotated": "set the bedroom/B-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 90 percent", "annotated": "set the bedroom/B-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 20 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 30 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 40 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 60 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 75 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 90 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 20 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 30 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 40 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 60 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 75 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 90 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the main room light to 20 percent", "annotated": "set the main/B-ROOM room/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the main room light to 30 percent", "annotated": "set the main/B-ROOM room/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the bedroom blinds", "annotated": "open the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the bedroom blinds", "annotated": "raise the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the study area", "annotated": "open blinds in the study/B-ROOM area/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the bedroom blinds", "annotated": "let the light in by opening the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the bedroom blinds", "annotated": "open the bedroom/B-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the desk area blinds", "annotated": "open the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the study area blinds", "annotated": "open the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the main room blinds", "annotated": "open the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the reading corner blinds", "annotated": "open the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the window side blinds", "annotated": "open the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the bedroom blinds", "annotated": "raise the bedroom/B-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the desk area blinds", "annotated": "raise the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the study area blinds", "annotated": "raise the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the main room blinds", "annotated": "raise the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the reading corner blinds", "annotated": "raise the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the window side blinds", "annotated": "raise the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the bedroom", "annotated": "open blinds in the bedroom/B-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the desk area", "annotated": "open blinds in the desk/B-ROOM area/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the main room", "annotated": "open blinds in the main/B-ROOM room/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the reading corner", "annotated": "open blinds in the reading/B-ROOM corner/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the window side", "annotated": "open blinds in the window/B-ROOM side/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the bedroom blinds", "annotated": "let the light in by opening the bedroom/B-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the desk area blinds", "annotated": "let the light in by opening the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the study area blinds", "annotated": "let the light in by opening the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom blinds", "annotated": "close the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the bedroom blinds", "annotated": "lower the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the study area", "annotated": "shut the blinds in the study/B-ROOM area/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom window blinds", "annotated": "close the bedroom/B-ROOM window/I-ROOM blinds/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom blinds", "annotated": "close the bedroom/B-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the desk area blinds", "annotated": "close the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the study area blinds", "annotated": "close the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the main room blinds", "annotated": "close the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the reading corner blinds", "annotated": "close the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the window side blinds", "annotated": "close the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the bedroom blinds", "annotated": "lower the bedroom/B-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the desk area blinds", "annotated": "lower the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the study area blinds", "annotated": "lower the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the main room blinds", "annotated": "lower the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the reading corner blinds", "annotated": "lower the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the window side blinds", "annotated": "lower the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the bedroom", "annotated": "shut the blinds in the bedroom/B-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the desk area", "annotated": "shut the blinds in the desk/B-ROOM area/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the main room", "annotated": "shut the blinds in the main/B-ROOM room/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the reading corner", "annotated": "shut the blinds in the reading/B-ROOM corner/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the window side", "annotated": "shut the blinds in the window/B-ROOM side/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom window blinds", "annotated": "close the bedroom/B-ROOM window blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the desk area window blinds", "annotated": "close the desk/B-ROOM area/I-ROOM window blinds"}
+{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the study area window blinds", "annotated": "close the study/B-ROOM area/I-ROOM window blinds"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 21 degrees", "annotated": "set the temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 19 degrees", "annotated": "make the room 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 23 celsius", "annotated": "set dorm temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 20 degrees", "annotated": "change the temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 19 degrees", "annotated": "set the temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 20 degrees", "annotated": "set the temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 22 degrees", "annotated": "set the temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 23 celsius", "annotated": "set the temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 24 celsius", "annotated": "set the temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 20 degrees", "annotated": "make the room 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 21 degrees", "annotated": "make the room 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 22 degrees", "annotated": "make the room 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 23 celsius", "annotated": "make the room 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 24 celsius", "annotated": "make the room 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 19 degrees", "annotated": "set dorm temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 20 degrees", "annotated": "set dorm temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 21 degrees", "annotated": "set dorm temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 22 degrees", "annotated": "set dorm temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 24 celsius", "annotated": "set dorm temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 19 degrees", "annotated": "change the temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 21 degrees", "annotated": "change the temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 22 degrees", "annotated": "change the temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 23 celsius", "annotated": "change the temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 24 celsius", "annotated": "change the temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to study mode", "annotated": "switch to study/B-SCENE mode/I-SCENE"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to relax mode", "annotated": "set the room to relax/B-SCENE mode/I-SCENE"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "activate sleep scene", "annotated": "activate sleep/B-SCENE scene/I-SCENE"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on movie mode", "annotated": "turn on movie/B-SCENE mode/I-SCENE"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to study mode", "annotated": "switch to study/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to relax mode", "annotated": "switch to relax/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to sleep mode", "annotated": "switch to sleep/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to movie mode", "annotated": "switch to movie/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to study mode", "annotated": "set the room to study/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to relax mode", "annotated": "set the room to relax/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to sleep mode", "annotated": "set the room to sleep/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to movie mode", "annotated": "set the room to movie/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "activate study scene", "annotated": "activate study/B-SCENE scene"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "activate relax scene", "annotated": "activate relax/B-SCENE scene"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "activate sleep scene", "annotated": "activate sleep/B-SCENE scene"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "activate movie scene", "annotated": "activate movie/B-SCENE scene"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on study mode", "annotated": "turn on study/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on relax mode", "annotated": "turn on relax/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on sleep mode", "annotated": "turn on sleep/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on movie mode", "annotated": "turn on movie/B-SCENE mode"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the study scene", "annotated": "apply the study/B-SCENE scene"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the relax scene", "annotated": "apply the relax/B-SCENE scene"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the sleep scene", "annotated": "apply the sleep/B-SCENE scene"}
+{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the movie scene", "annotated": "apply the movie/B-SCENE scene"}

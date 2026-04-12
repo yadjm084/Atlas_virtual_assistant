@@ -1,0 +1,167 @@
+{
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 3.471584135835821,
+      "intent_accuracy": 0.6551724137931034,
+      "slot_token_accuracy": 0.8872651356993737
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.0448773618448863,
+      "intent_accuracy": 0.9655172413793104,
+      "slot_token_accuracy": 0.9770354906054279
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.2879677318375219,
+      "intent_accuracy": 0.9885057471264368,
+      "slot_token_accuracy": 0.9853862212943633
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.14714690729637037,
+      "intent_accuracy": 0.9885057471264368,
+      "slot_token_accuracy": 0.9832985386221295
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.09171421343291347,
+      "intent_accuracy": 0.9540229885057471,
+      "slot_token_accuracy": 0.9853862212943633
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.08033254340460355,
+      "intent_accuracy": 0.9770114942528736,
+      "slot_token_accuracy": 0.9832985386221295
+    }
+  ],
+  "final_intent_accuracy": 0.9770114942528736,
+  "final_intent_report": {
+    "CloseBlinds": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "DiscoverByGenre": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "GetWeather": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "Goodbye": {
+      "precision": 0.7142857142857143,
+      "recall": 1.0,
+      "f1-score": 0.8333333333333334,
+      "support": 5.0
+    },
+    "Greetings": {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1-score": 0.75,
+      "support": 5.0
+    },
+    "LightOff": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "LightOn": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "MovieCast": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "MovieDirector": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 4.0
+    },
+    "MovieOverview": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "MovieRating": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "OOS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "OpenBlinds": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "SetBrightness": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "SetScene": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "SetTemperature": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "SetTimer": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "SimilarMovies": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 5.0
+    },
+    "accuracy": 0.9770114942528736,
+    "macro avg": {
+      "precision": 0.9841269841269842,
+      "recall": 0.9777777777777779,
+      "f1-score": 0.976851851851852,
+      "support": 87.0
+    },
+    "weighted avg": {
+      "precision": 0.9835796387520526,
+      "recall": 0.9770114942528736,
+      "f1-score": 0.9760536398467433,
+      "support": 87.0
+    }
+  },
+  "final_slot_metrics": {
+    "token_accuracy": 0.9832985386221295
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "plain_text": "set the study area light to 60 percent",
+    "annotated": "set the study/B-ROOM area/I-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS",
+    "true_intent": "SetBrightness",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "who directed Dune Part Two",
+    "annotated": "who directed Dune/B-TITLE Part/I-TITLE Two/I-TITLE",
+    "true_intent": "MovieDirector",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "tell me who directed The Matrix",
+    "annotated": "tell me who directed The/B-TITLE Matrix/I-TITLE",
+    "true_intent": "MovieDirector",
+    "predicted_intent": "Greetings"
+  },
+  {
+    "plain_text": "show movies like Arrival",
+    "annotated": "show movies like Arrival/B-TITLE",
+    "true_intent": "SimilarMovies",
+    "predicted_intent": "Greetings"
+  },
+  {
+    "plain_text": "who stars in The Matrix",
+    "annotated": "who stars in The/B-TITLE Matrix/I-TITLE",
+    "true_intent": "MovieCast",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "open blinds in the reading corner",
+    "annotated": "open blinds in the reading/B-ROOM corner/I-ROOM",
+    "true_intent": "OpenBlinds",
+    "predicted_intent": "Greetings"
+  },
+  {
+    "plain_text": "who is the director of Dune Part Two",
+    "annotated": "who is the director of Dune/B-TITLE Part/I-TITLE Two/I-TITLE",
+    "true_intent": "MovieDirector",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "discover comedy movies",
+    "annotated": "discover comedy/B-GENRE movies",
+    "true_intent": "DiscoverByGenre",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "what score does The Matrix have",
+    "annotated": "what score does The/B-TITLE Matrix/I-TITLE have",
+    "true_intent": "MovieRating",
+    "predicted_intent": "MovieCast"
+  },
+  {
+    "plain_text": "let the light in by opening the study area blinds",
+    "annotated": "let the light in by opening the study/B-ROOM area/I-ROOM blinds",
+    "true_intent": "OpenBlinds",
+    "predicted_intent": "Greetings"
+  },
+  {
+    "plain_text": "signing off atlas",
+    "annotated": "signing off atlas",
+    "true_intent": "Goodbye",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "find me cheap flights to Paris",
+    "annotated": "find me cheap flights to Paris",
+    "true_intent": "OOS",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "switch to study mode",
+    "annotated": "switch to study/B-SCENE mode",
+    "true_intent": "SetScene",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "start a timer for 5 minutes",
+    "annotated": "start a timer for 5/B-DURATION minutes/I-DURATION",
+    "true_intent": "SetTimer",
+    "predicted_intent": "MovieCast"
+  },
+  {
+    "plain_text": "what happens in Blade Runner 2049",
+    "annotated": "what happens in Blade/B-TITLE Runner/I-TITLE 2049/I-TITLE",
+    "true_intent": "MovieOverview",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "is it cold in New York tonight",
+    "annotated": "is it cold in New/B-CITY York/I-CITY tonight/B-DATE",
+    "true_intent": "GetWeather",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "what is the weather in Ottawa tonight",
+    "annotated": "what is the weather in Ottawa/B-CITY tonight/B-DATE",
+    "true_intent": "GetWeather",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "activate movie scene",
+    "annotated": "activate movie/B-SCENE scene",
+    "true_intent": "SetScene",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "close the desk area blinds",
+    "annotated": "close the desk/B-ROOM area/I-ROOM blinds",
+    "true_intent": "CloseBlinds",
+    "predicted_intent": "GetWeather"
+  },
+  {
+    "plain_text": "read my unread messages",
+    "annotated": "read my unread messages",
+    "true_intent": "OOS",
+    "predicted_intent": "GetWeather"
+  }
+]

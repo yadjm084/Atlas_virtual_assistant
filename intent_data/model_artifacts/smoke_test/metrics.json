@@ -1,0 +1,137 @@
+{
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 5.885913382877003,
+      "intent_accuracy": 0.05747126436781609,
+      "slot_token_accuracy": 0.3924843423799583
+    }
+  ],
+  "final_intent_accuracy": 0.05747126436781609,
+  "final_intent_report": {
+    "CloseBlinds": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 4.0
+    },
+    "DiscoverByGenre": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 4.0
+    },
+    "GetWeather": {
+      "precision": 0.1,
+      "recall": 1.0,
+      "f1-score": 0.18181818181818182,
+      "support": 5.0
+    },
+    "Goodbye": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "Greetings": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "LightOff": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "LightOn": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "MovieCast": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "MovieDirector": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 4.0
+    },
+    "MovieOverview": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "MovieRating": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "OOS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "OpenBlinds": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "SetBrightness": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "SetScene": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "SetTemperature": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "SetTimer": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "SimilarMovies": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 5.0
+    },
+    "accuracy": 0.05747126436781609,
+    "macro avg": {
+      "precision": 0.005555555555555556,
+      "recall": 0.05555555555555555,
+      "f1-score": 0.010101010101010102,
+      "support": 87.0
+    },
+    "weighted avg": {
+      "precision": 0.005747126436781609,
+      "recall": 0.05747126436781609,
+      "f1-score": 0.01044932079414838,
+      "support": 87.0
+    }
+  },
+  "final_slot_metrics": {
+    "token_accuracy": 0.3924843423799583
+  }
+}
