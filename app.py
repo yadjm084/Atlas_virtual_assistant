@@ -511,6 +511,26 @@ def do_asr(audio, state):
 
 
 # =========================================================
+# MANUAL TRANSCRIPT / TYPED COMMAND FUNCTIONS
+# =========================================================
+
+def use_typed_transcript(typed_text, state):
+    if not state["verified"]:
+        return "Please complete user verification first.", state, get_status_text(state)
+
+    if not state["awake"]:
+        return "Please detect the wake word first.", state, get_status_text(state)
+
+    typed_text = typed_text.strip()
+
+    if not typed_text:
+        return "Please type a sentence first.", state, get_status_text(state)
+
+    state["transcript"] = typed_text
+    return typed_text, state, get_status_text(state)
+
+
+# =========================================================
 # INTENT FUNCTIONS
 # =========================================================
 
@@ -610,6 +630,7 @@ def reset_all():
         "",                                  # wake output
         "",                                  # wake code input
         "",                                  # transcript
+        "",                                  # typed transcript input
         "",                                  # intent
         "",                                  # slots
         "",                                  # api output
@@ -617,8 +638,14 @@ def reset_all():
         "",                                  # final answer
         "",                                  # tts output
         "control_device",                    # manual intent
-        '{\\n  "device": "lamp",\\n  "action": "on"\\n}',  # manual slots
-        '{\\n  "status": "success",\\n  "message": "lamp turned on"\\n}'  # manual api result
+        '''{
+  "device": "lamp",
+  "action": "on"
+}''',                                       # manual slots
+        '''{
+  "status": "success",
+  "message": "lamp turned on"
+}'''                                        # manual api result
     )
 
 
@@ -690,11 +717,19 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         gr.Markdown("## Speech Recognition")
         gr.Markdown(f"ASR model status: {ASR_MODEL_STATUS}")
         gr.Markdown("This reuses the same wake-word audio input for transcription.")
+        gr.Markdown("User types sentence to bypass the speech recognition phase.")
 
         transcript_box = gr.Textbox(label="Transcript", lines=3)
 
+        typed_transcript_input = gr.Textbox(
+            label="Typed Sentence",
+            placeholder="Type a sentence here to bypass speech recognition",
+            lines=2
+        )
+
         with gr.Row():
             btn_asr = gr.Button("Run ASR")
+            btn_use_typed_transcript = gr.Button("Use Typed Sentence")
 
     with gr.Group():
         gr.Markdown("## Intent Detection")
@@ -796,6 +831,12 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         outputs=[transcript_box, state, assistant_status]
     )
 
+    btn_use_typed_transcript.click(
+        fn=use_typed_transcript,
+        inputs=[typed_transcript_input, state],
+        outputs=[transcript_box, state, assistant_status]
+    )
+
     btn_intent.click(
         fn=do_intent,
         inputs=[transcript_box, state],
@@ -846,6 +887,7 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             wake_output,
             wake_code_input,
             transcript_box,
+            typed_transcript_input,
             intent_box,
             slots_box,
             api_box,
