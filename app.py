@@ -1,5 +1,7 @@
 import gradio as gr
 import json
+import time
+import math
 from pathlib import Path
 
 import numpy as np
@@ -36,8 +38,12 @@ WAKE_THRESHOLD = 0.5
 # ASR parameters
 ASR_MODEL_NAME = "tiny"
 
+# READY window parameters
+READY_WINDOW_SECONDS = 20
+
 
 def get_dataset_root():
+    """Download the HF dataset repo locally."""
     try:
         local_repo_path = snapshot_download(
             repo_id=HF_DATASET_REPO,
@@ -55,7 +61,8 @@ def get_dataset_root():
 DATASET_ROOT = get_dataset_root()
 
 
-def get_enrollment_dir(dataset_root):
+def get_enrollment_dir(dataset_root: Path) -> Path:
+    """Support a couple of enrollment locations in the dataset repo."""
     candidates = [
         dataset_root / "enrollment",
         dataset_root / "user_verification" / "enrollment",
@@ -67,13 +74,15 @@ def get_enrollment_dir(dataset_root):
     return candidates[0]
 
 
-def get_wake_weights_path(dataset_root):
+def get_wake_weights_path(dataset_root: Path) -> Path:
+    """Find wake-word weights in the dataset repo."""
     candidates = [
         dataset_root / "wake_word.weights.h5",
         dataset_root / "models" / "wake_word.weights.h5",
         dataset_root / "wake_word" / "wake_word.weights.h5",
         dataset_root / "wake_word_model.weights.h5",
     ]
+
     for path in candidates:
         if path.exists():
             print("WAKE_WEIGHTS_PATH exists =", path)
@@ -96,6 +105,7 @@ WAKE_WEIGHTS_PATH = get_wake_weights_path(DATASET_ROOT)
 # =========================================================
 
 def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
+    """Load audio, resample, and pad/crop to fixed length."""
     signal, sr = librosa.load(file_path, sr=target_sr)
 
     if len(signal) > target_length:
@@ -108,16 +118,19 @@ def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
 
 
 def extract_mfcc(signal, sr, n_mfcc=13):
+    """Extract MFCCs."""
     return librosa.feature.mfcc(y=signal, sr=sr, n_mfcc=n_mfcc)
 
 
 def mfcc_to_fixed_vector(mfcc):
+    """Convert MFCC matrix into fixed-length vector using mean + std."""
     mfcc_means = np.mean(mfcc, axis=1)
     mfcc_stds = np.std(mfcc, axis=1)
     return np.concatenate([mfcc_means, mfcc_stds])
 
 
 def extract_speaker_vector(file_path, target_sr=16000, target_length=40000, n_mfcc=13):
+    """Full speaker-vector pipeline."""
     signal, sr = load_and_preprocess_audio(
         file_path=file_path,
         target_sr=target_sr,
@@ -131,13 +144,15 @@ def extract_speaker_vector(file_path, target_sr=16000, target_length=40000, n_mf
 # PROFILE LOADING + NORMALIZATION
 # =========================================================
 
-def find_audio_files(folder_path):
+def find_audio_files(folder_path: Path):
+    """Find supported audio files."""
     wav_files = list(folder_path.glob("*.wav"))
     m4a_files = list(folder_path.glob("*.m4a"))
     return wav_files + m4a_files
 
 
-def load_enrollment_profiles_with_normalization(enrollment_dir):
+def load_enrollment_profiles_with_normalization(enrollment_dir: Path):
+    """Load enrollment files, extract vectors, normalize, build speaker profiles."""
     raw_rows = []
     messages = []
 
@@ -165,12 +180,14 @@ def load_enrollment_profiles_with_normalization(enrollment_dir):
                     target_length=TARGET_LENGTH,
                     n_mfcc=N_MFCC
                 )
+
                 raw_rows.append({
                     "speaker": speaker,
                     "filename": audio_file.name,
                     "vector": vector
                 })
                 loaded_count += 1
+
             except Exception as e:
                 messages.append(f"{speaker}: failed on {audio_file.name} ({e})")
 
@@ -180,6 +197,7 @@ def load_enrollment_profiles_with_normalization(enrollment_dir):
         return {}, None, "No speaker profiles could be built."
 
     enrollment_matrix = np.vstack([row["vector"] for row in raw_rows])
+
     scaler = StandardScaler()
     scaler.fit(enrollment_matrix)
 
@@ -198,6 +216,7 @@ def load_enrollment_profiles_with_normalization(enrollment_dir):
 
 
 def compare_to_profiles(test_vector, speaker_profiles):
+    """Compare one normalized test vector to all speaker profiles."""
     scores = {}
     test_vector_2d = test_vector.reshape(1, -1)
 
@@ -210,12 +229,14 @@ def compare_to_profiles(test_vector, speaker_profiles):
 
 
 def verify_audio_file(audio_path, speaker_profiles, scaler, threshold=0.5):
+    """Run user verification on one audio file."""
     test_vector = extract_speaker_vector(
         file_path=audio_path,
         target_sr=TARGET_SR,
         target_length=TARGET_LENGTH,
         n_mfcc=N_MFCC
     )
+
     test_vector_scaled = scaler.transform(test_vector.reshape(1, -1))[0]
     scores = compare_to_profiles(test_vector_scaled, speaker_profiles)
 
@@ -240,6 +261,7 @@ SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles
 # =========================================================
 
 def build_wake_model():
+    """Rebuild wake-word CNN architecture, then load weights."""
     return tf.keras.Sequential([
         tf.keras.layers.Input(shape=(13, 63, 1)),
         tf.keras.layers.Conv2D(16, (3, 3), activation="relu", padding="same"),
@@ -253,7 +275,8 @@ def build_wake_model():
     ])
 
 
-def load_wake_model(weights_path):
+def load_wake_model(weights_path: Path):
+    """Load wake-word model weights."""
     try:
         if not weights_path.exists():
             return None, f"Wake word weights not found: {weights_path}"
@@ -268,6 +291,7 @@ WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_WEIGHTS_PATH)
 
 
 def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.5):
+    """Predict whether wake word is present."""
     signal, sr = load_and_preprocess_audio(
         file_path=audio_path,
         target_sr=target_sr,
@@ -292,6 +316,7 @@ def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n
 # =========================================================
 
 def load_asr_model(model_name="tiny"):
+    """Load Whisper ASR model."""
     try:
         model = whisper.load_model(model_name)
         return model, f"ASR model loaded: {model_name}"
@@ -303,8 +328,52 @@ ASR_MODEL, ASR_MODEL_STATUS = load_asr_model(ASR_MODEL_NAME)
 
 
 def transcribe_with_whisper(audio_path, model):
+    """Transcribe command audio."""
     result = model.transcribe(audio_path)
     return result["text"].strip()
+
+
+# =========================================================
+# READY WINDOW HELPERS
+# =========================================================
+
+def set_ready_window(state):
+    """Start or refresh the READY window."""
+    state["ready_until"] = time.time() + READY_WINDOW_SECONDS
+
+
+def ensure_ready_state(state):
+    """Put Atlas back to sleep if the READY window has expired."""
+    if state["awake"] and state["ready_until"] is not None:
+        if time.time() >= state["ready_until"]:
+            state["awake"] = False
+            state["ready_until"] = None
+
+
+def get_ready_time_left(state):
+    """Return remaining READY time in seconds."""
+    ensure_ready_state(state)
+
+    if not state["awake"] or state["ready_until"] is None:
+        return 0
+
+    remaining = state["ready_until"] - time.time()
+    return max(0, math.ceil(remaining))
+
+
+def get_ready_countdown_text(state):
+    """Human-readable READY timer text."""
+    seconds_left = get_ready_time_left(state)
+
+    if state["awake"] and seconds_left > 0:
+        return f"{seconds_left} s before sleep"
+    return "Sleeping"
+
+
+def tick_ready_timer(state):
+    """Called every second by Gradio Timer to refresh status + countdown."""
+    ensure_ready_state(state)
+    return state, get_status_text(state), get_ready_countdown_text(state)
 
 
 # =========================================================
@@ -316,6 +385,7 @@ def init_state():
         "verified": False,
         "verified_user": "None",
         "awake": False,
+        "ready_until": None,
         "transcript": "",
         "intent": "",
         "slots": {},
@@ -332,8 +402,11 @@ def init_state():
 
 
 def get_status_text(state):
+    ensure_ready_state(state)
+
     verify_score_text = f"{state['verification_best_score']:.4f}" if state["verification_best_score"] is not None else "None"
     wake_score_text = f"{state['wake_probability']:.4f}" if state["wake_probability"] is not None else "None"
+    ready_left = get_ready_time_left(state)
 
     return (
         f"Verified: {state['verified']}\n"
@@ -341,6 +414,7 @@ def get_status_text(state):
         f"Best Verification Score: {verify_score_text}\n"
         f"Awake: {state['awake']}\n"
         f"Wake Probability: {wake_score_text}\n"
+        f"Ready Time Left: {ready_left} s\n"
         f"Intent: {state['intent'] if state['intent'] else 'None'}"
     )
 
@@ -379,6 +453,7 @@ def do_verify(audio, state):
             state["verified"] = False
             state["verified_user"] = "None"
             state["awake"] = False
+            state["ready_until"] = None
             state["wake_probability"] = None
             state["transcript"] = ""
             message = (
@@ -411,6 +486,7 @@ def reset_verification(state):
     state["verification_scores"] = {}
     state["verification_best_score"] = None
     state["awake"] = False
+    state["ready_until"] = None
     state["wake_probability"] = None
     state["transcript"] = ""
 
@@ -445,12 +521,15 @@ def do_wake(audio, state):
 
         if result["wake_detected"]:
             state["awake"] = True
+            set_ready_window(state)
             message = (
                 f"Wake word detected. Atlas is now awake "
-                f"(probability={result['probability_positive']:.4f}, threshold={WAKE_THRESHOLD})."
+                f"(probability={result['probability_positive']:.4f}, threshold={WAKE_THRESHOLD}, "
+                f"ready_window={READY_WINDOW_SECONDS}s)."
             )
         else:
             state["awake"] = False
+            state["ready_until"] = None
             message = (
                 f"Wake word not detected "
                 f"(probability={result['probability_positive']:.4f}, threshold={WAKE_THRESHOLD})."
@@ -471,13 +550,19 @@ def skip_wake_with_code(wake_code_input, state):
     if code == "Hey Atlas":
         state["awake"] = True
         state["wake_probability"] = None
-        return "Wake word bypass successful. Atlas is now awake.", state, get_status_text(state)
+        set_ready_window(state)
+        return (
+            f"Wake word bypass successful. Atlas is now awake for {READY_WINDOW_SECONDS} seconds.",
+            state,
+            get_status_text(state)
+        )
 
     return "Invalid wake word bypass code. Use exactly: Hey Atlas", state, get_status_text(state)
 
 
 def reset_wake_word(state):
     state["awake"] = False
+    state["ready_until"] = None
     state["wake_probability"] = None
     state["transcript"] = ""
 
@@ -489,6 +574,8 @@ def reset_wake_word(state):
 # =========================================================
 
 def do_asr(audio, state):
+    ensure_ready_state(state)
+
     if not state["verified"]:
         return "Please complete user verification first.", state, get_status_text(state)
 
@@ -504,6 +591,7 @@ def do_asr(audio, state):
     try:
         transcript = transcribe_with_whisper(audio, ASR_MODEL)
         state["transcript"] = transcript
+        set_ready_window(state)
         return transcript, state, get_status_text(state)
 
     except Exception as e:
@@ -515,6 +603,8 @@ def do_asr(audio, state):
 # =========================================================
 
 def use_typed_transcript(typed_text, state):
+    ensure_ready_state(state)
+
     if not state["verified"]:
         return "Please complete user verification first.", state, get_status_text(state)
 
@@ -527,6 +617,7 @@ def use_typed_transcript(typed_text, state):
         return "Please type a sentence first.", state, get_status_text(state)
 
     state["transcript"] = typed_text
+    set_ready_window(state)
     return typed_text, state, get_status_text(state)
 
 
@@ -535,6 +626,8 @@ def use_typed_transcript(typed_text, state):
 # =========================================================
 
 def do_intent(transcript, state):
+    ensure_ready_state(state)
+
     if not state["verified"]:
         return "Verification required.", "{}", state, get_status_text(state)
 
@@ -549,6 +642,7 @@ def do_intent(transcript, state):
 
     state["intent"] = fake_intent
     state["slots"] = fake_slots
+    set_ready_window(state)
 
     return fake_intent, json.dumps(fake_slots, indent=2), state, get_status_text(state)
 
@@ -568,8 +662,13 @@ def use_manual_intent(manual_intent, manual_slots, state):
 # =========================================================
 
 def do_fulfillment(state):
+    ensure_ready_state(state)
+
     if not state["intent"]:
         return "Please detect or enter an intent first.", json.dumps(state["control_state"], indent=2), state, get_status_text(state)
+
+    if not state["awake"]:
+        return "Atlas went to sleep. Please say the wake word again.", json.dumps(state["control_state"], indent=2), state, get_status_text(state)
 
     if state["intent"] == "control_device":
         device = state["slots"].get("device", "lamp")
@@ -583,6 +682,7 @@ def do_fulfillment(state):
         api_result = {"status": "success", "message": "Placeholder fulfillment completed."}
 
     state["api_result"] = api_result
+    set_ready_window(state)
     return json.dumps(api_result, indent=2), json.dumps(state["control_state"], indent=2), state, get_status_text(state)
 
 
@@ -599,6 +699,8 @@ def use_manual_api_result(manual_api_result, state):
 # =========================================================
 
 def do_answer(state):
+    ensure_ready_state(state)
+
     if state["api_result"]:
         answer = f"Assistant response: {state['api_result'].get('message', 'Done.')}"
     else:
@@ -623,7 +725,9 @@ def reset_all():
         state,                               # state
         None,                                # verification audio
         None,                                # wake audio
+        None,                                # command audio
         get_status_text(state),              # assistant status
+        "Sleeping",                          # ready countdown
         "",                                  # verification output
         "{}",                                # verification scores
         "",                                  # verification code
@@ -641,11 +745,11 @@ def reset_all():
         '''{
   "device": "lamp",
   "action": "on"
-}''',                                       # manual slots
+}''',
         '''{
   "status": "success",
   "message": "lamp turned on"
-}'''                                        # manual api result
+}'''
     )
 
 
@@ -655,7 +759,7 @@ def reset_all():
 
 with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
     gr.Markdown("# Atlas - Virtual Assistant")
-    gr.Markdown("Separate audio inputs for user verification and wake word/command. Whisper ASR reuses the same wake-word audio input.")
+    gr.Markdown("Separate audio inputs for user verification, wake word, and command audio. Whisper ASR uses the command audio input.")
 
     state = gr.State(init_state())
 
@@ -665,7 +769,7 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         gr.Markdown(f"Verification threshold: {CHOSEN_THRESHOLD}")
 
         with gr.Row():
-            verification_audio_input = gr.Audio(type="filepath", label="Verification Voice Input")
+            verification_audio_input = gr.Audio(type="filepath", label="Verification Audio Input")
             verify_output = gr.Textbox(label="Verification Output", lines=3)
 
         verification_scores_output = gr.Textbox(label="Verification Scores", lines=8, value="{}")
@@ -690,12 +794,18 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
         gr.Markdown(f"Wake word threshold: {WAKE_THRESHOLD}")
 
         with gr.Row():
-            wake_audio_input = gr.Audio(type="filepath", label="Wake Word / Command Audio Input")
+            wake_audio_input = gr.Audio(type="filepath", label="Wake Word Audio Input")
             assistant_status = gr.Textbox(
                 label="Assistant Status",
                 value=get_status_text(init_state()),
-                lines=6
+                lines=7
             )
+
+        ready_countdown_box = gr.Textbox(
+            label="Ready Countdown",
+            value="Sleeping",
+            lines=1
+        )
 
         wake_output = gr.Textbox(label="Wake Word Output", lines=2)
 
@@ -716,10 +826,11 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
     with gr.Group():
         gr.Markdown("## Speech Recognition")
         gr.Markdown(f"ASR model status: {ASR_MODEL_STATUS}")
-        gr.Markdown("This reuses the same wake-word audio input for transcription.")
-        gr.Markdown("User types sentence to bypass the speech recognition phase.")
+        gr.Markdown("Once Atlas is awake, record your command here.")
 
-        transcript_box = gr.Textbox(label="Transcript", lines=3)
+        with gr.Row():
+            command_audio_input = gr.Audio(type="filepath", label="Command Audio Input")
+            transcript_box = gr.Textbox(label="Transcript", lines=3)
 
         typed_transcript_input = gr.Textbox(
             label="Typed Sentence",
@@ -789,6 +900,8 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             lines=8
         )
 
+    ready_timer = gr.Timer(1.0)
+
     btn_verify.click(
         fn=do_verify,
         inputs=[verification_audio_input, state],
@@ -827,7 +940,7 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
 
     btn_asr.click(
         fn=do_asr,
-        inputs=[wake_audio_input, state],
+        inputs=[command_audio_input, state],
         outputs=[transcript_box, state, assistant_status]
     )
 
@@ -880,7 +993,9 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             state,
             verification_audio_input,
             wake_audio_input,
+            command_audio_input,
             assistant_status,
+            ready_countdown_box,
             verify_output,
             verification_scores_output,
             verification_code_input,
@@ -898,6 +1013,12 @@ with gr.Blocks(title="Atlas - Virtual Assistant") as demo:
             manual_slots,
             manual_api_result
         ]
+    )
+
+    ready_timer.tick(
+        fn=tick_ready_timer,
+        inputs=[state],
+        outputs=[state, assistant_status, ready_countdown_box]
     )
 
 demo.launch(ssr_mode=False)
