@@ -137,15 +137,14 @@ class AtlasActions:
                 state["wake_probability"] = None
                 state["transcript"] = ""
                 clear_from_transcript(state)
-                scores_text = ", ".join(
-                    f"{user}={score:.4f}" for user, score in sorted(result["all_scores"].items())
+                scores_text = "\n".join(
+                    f"{user}: {score:.4f}" for user, score in sorted(result["all_scores"].items())
                 )
 
                 message = (
-                    
                     f"Verification failed. Atlas remains locked "
-                    f"(best score={result['best_score']:.4f}, threshold={self.runtime.chosen_threshold}). "
-                    f"Scores: {scores_text}"
+                    f"(best score={result['best_score']:.4f}, threshold={self.runtime.chosen_threshold}).\n"
+                    f"Scores:\n{scores_text}"
                 )
 
             return message, json.dumps(result["all_scores"], indent=2), state, self.get_status_text(state)
