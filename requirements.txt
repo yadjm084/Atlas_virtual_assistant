@@ -8,3 +8,8 @@ audioread
 tensorflow
 openai-whisper
 torch
+transformers
+seqeval
+requests
+edge-tts
+pydub
