@@ -81,36 +81,36 @@ def load_model_from_artifacts(output_dir: Path, device: str | torch.device = "cp
     if hf_model_path.exists() and hf_labels_path.exists():
         print("Loading model using HF dataset format...")
 
-        # Load labels
-        metadata = json.loads(hf_labels_path.read_text(encoding="utf-8"))
+        labels_data = json.loads(hf_labels_path.read_text(encoding="utf-8"))
 
-        intent2id = {v: int(k) for k, v in metadata["id2intent"].items()}
-        slot2id = {v: int(k) for k, v in metadata["id2slot"].items()}
-
-        model = JointIntentSlotModel(
-            num_intents=len(intent2id),
-            num_slots=len(slot2id),
-            model_name=DEFAULT_MODEL_NAME,
-        )
-
-        state_dict = torch.load(hf_model_path, map_location=device)
-        model.load_state_dict(state_dict)
-        model.to(device)
-        model.eval()
-
-        # rebuild metadata in expected format
         metadata = {
-            "intent2id": intent2id,
-            "slot2id": slot2id,
-            "id2intent": metadata["id2intent"],
-            "id2slot": metadata["id2slot"],
+            "intent2id": labels_data["intent2id"],
+            "slot2id": labels_data["slot2id"],
+            "id2intent": labels_data["id2intent"],
+            "id2slot": labels_data["id2slot"],
             "model_name": DEFAULT_MODEL_NAME,
             "max_length": DEFAULT_MAX_LENGTH,
         }
 
+        model = JointIntentSlotModel(
+            num_intents=len(metadata["intent2id"]),
+            num_slots=len(metadata["slot2id"]),
+            model_name=metadata["model_name"],
+        )
+
+        state_dict = torch.load(hf_model_path, map_location=device)
+
+        missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
+
+        print("Missing keys:", missing_keys)
+        print("Unexpected keys:", unexpected_keys)
+
+        model.to(device)
+        model.eval()
+
         return model, metadata
 
-    # -------- OLD FORMAT (keep compatibility) --------
+    # -------- OLD FORMAT --------
     print("Loading model using legacy artifacts format...")
 
     metadata = load_metadata(output_dir)
@@ -122,7 +122,12 @@ def load_model_from_artifacts(output_dir: Path, device: str | torch.device = "cp
     )
 
     state_dict = torch.load(output_dir / "model_state.pt", map_location=device)
-    model.load_state_dict(state_dict)
+
+    missing_keys, unexpected_keys = model.load_state_dict(state_dict, strict=False)
+
+    print("Missing keys:", missing_keys)
+    print("Unexpected keys:", unexpected_keys)
+
     model.to(device)
     model.eval()
 
