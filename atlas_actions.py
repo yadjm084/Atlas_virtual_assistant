@@ -75,9 +75,20 @@ class AtlasActions:
         return max(0, math.ceil(remaining))
 
     def get_ready_countdown_text(self, state):
+        self.ensure_ready_state(state)
+
+        if not state["awake"]:
+            return "Sleeping"
+
+        if state["ready_until"] is None:
+            if state["transcript"]:
+                return "Processing current command"
+            return f"{self.runtime.ready_window_seconds} s to provide a command"
+
         seconds_left = self.get_ready_time_left(state)
-        if state["awake"] and seconds_left > 0:
+        if seconds_left > 0:
             return f"{seconds_left} s before sleep"
+
         return "Sleeping"
 
     def get_status_text(self, state):
@@ -137,14 +148,9 @@ class AtlasActions:
                 state["wake_probability"] = None
                 state["transcript"] = ""
                 clear_from_transcript(state)
-                scores_text = "\n".join(
-                    f"{user}: {score:.4f}" for user, score in sorted(result["all_scores"].items())
-                )
-
                 message = (
                     f"Verification failed. Atlas remains locked "
-                    f"(best score={result['best_score']:.4f}, threshold={self.runtime.chosen_threshold}).\n"
-                    f"Scores:\n{scores_text}"
+                    f"(best score={result['best_score']:.4f}, threshold={self.runtime.chosen_threshold})."
                 )
 
             return message, json.dumps(result["all_scores"], indent=2), state, self.get_status_text(state)
@@ -188,20 +194,23 @@ class AtlasActions:
                 threshold=self.runtime.wake_threshold,
             )
             state["wake_probability"] = result["probability_positive"]
+
             if result["wake_detected"]:
                 state["awake"] = True
                 state["wake_completed"] = True
                 self.set_ready_window(state)
                 message = (
                     f"Wake word detected. Atlas is now awake "
-                    f"(probability={result['probability_positive']:.4f}, threshold={self.runtime.wake_threshold}, "
+                    f"(probability={result['probability_positive']:.4f}, "
+                    f"threshold={self.runtime.wake_threshold}, "
                     f"ready_window={self.runtime.ready_window_seconds}s)."
                 )
             else:
                 self.clear_command_context(state)
                 message = (
                     f"Wake word not detected "
-                    f"(probability={result['probability_positive']:.4f}, threshold={self.runtime.wake_threshold})."
+                    f"(probability={result['probability_positive']:.4f}, "
+                    f"threshold={self.runtime.wake_threshold})."
                 )
             return message, state, self.get_status_text(state)
         except Exception as e:
@@ -243,7 +252,7 @@ class AtlasActions:
             transcript = self.runtime.transcribe_with_whisper(audio, self.runtime.asr_model)
             clear_from_transcript(state)
             state["transcript"] = transcript
-            self.set_ready_window(state)
+            state["ready_until"] = None
             return transcript, state, self.get_status_text(state)
         except Exception as e:
             return f"ASR error: {e}", state, self.get_status_text(state)
@@ -259,7 +268,7 @@ class AtlasActions:
             return "Please type a sentence first.", state, self.get_status_text(state)
         clear_from_transcript(state)
         state["transcript"] = typed_text
-        self.set_ready_window(state)
+        state["ready_until"] = None
         return typed_text, state, self.get_status_text(state)
 
     def do_intent(self, transcript, state):
@@ -282,7 +291,6 @@ class AtlasActions:
         state["intent"] = prediction.intent
         state["intent_confidence"] = prediction.intent_confidence
         state["slots"] = prediction.slots
-        self.set_ready_window(state)
         return state["intent"], json.dumps(state["slots"], indent=2), state, self.get_status_text(state)
 
     def use_manual_intent(self, manual_intent, manual_slots, state):
@@ -316,6 +324,7 @@ class AtlasActions:
         state["answer_text"] = ""
         state["last_tts_path"] = None
         self.set_ready_window(state)
+
         return json.dumps(api_result, indent=2), json.dumps(state["control_state"], indent=2), state, self.get_status_text(state)
 
     def use_manual_api_result(self, manual_api_result, state):
