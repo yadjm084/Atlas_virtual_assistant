@@ -73,6 +73,46 @@ def load_metadata(output_dir: Path) -> dict:
 
 def load_model_from_artifacts(output_dir: Path, device: str | torch.device = "cpu"):
     output_dir = Path(output_dir)
+
+    # -------- NEW: support HF dataset format --------
+    hf_model_path = output_dir / "intent_model.pt"
+    hf_labels_path = output_dir / "intent_labels.json"
+
+    if hf_model_path.exists() and hf_labels_path.exists():
+        print("Loading model using HF dataset format...")
+
+        # Load labels
+        metadata = json.loads(hf_labels_path.read_text(encoding="utf-8"))
+
+        intent2id = {v: int(k) for k, v in metadata["id2intent"].items()}
+        slot2id = {v: int(k) for k, v in metadata["id2slot"].items()}
+
+        model = JointIntentSlotModel(
+            num_intents=len(intent2id),
+            num_slots=len(slot2id),
+            model_name=DEFAULT_MODEL_NAME,
+        )
+
+        state_dict = torch.load(hf_model_path, map_location=device)
+        model.load_state_dict(state_dict)
+        model.to(device)
+        model.eval()
+
+        # rebuild metadata in expected format
+        metadata = {
+            "intent2id": intent2id,
+            "slot2id": slot2id,
+            "id2intent": metadata["id2intent"],
+            "id2slot": metadata["id2slot"],
+            "model_name": DEFAULT_MODEL_NAME,
+            "max_length": DEFAULT_MAX_LENGTH,
+        }
+
+        return model, metadata
+
+    # -------- OLD FORMAT (keep compatibility) --------
+    print("Loading model using legacy artifacts format...")
+
     metadata = load_metadata(output_dir)
 
     model = JointIntentSlotModel(

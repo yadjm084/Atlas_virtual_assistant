@@ -21,13 +21,39 @@ class IntentPrediction:
 
 
 def find_intent_artifacts_dir(base_dir: Path) -> Path | None:
+    """
+    Backward-compatible helper.
+
+    Supports:
+    1. Old local structure:
+       intent_data/model_artifacts/atlas_joint_intent_slot/
+         - model_state.pt
+         - metadata.json
+
+    2. HF dataset root structure:
+         - intent_model.pt
+         - intent_labels.json
+         - intent_tokenizer/
+
+    Returns the directory that should be passed to load_intent_predictor().
+    """
     candidates = [
         base_dir / "intent_data" / "model_artifacts" / "atlas_joint_intent_slot",
         base_dir / "intent_data" / "model_artifacts" / "smoke_test",
+        base_dir,
     ]
 
     for path in candidates:
+        # Old structure
         if (path / "model_state.pt").exists() and (path / "metadata.json").exists():
+            return path
+
+        # New HF dataset structure
+        if (
+            (path / "intent_model.pt").exists()
+            and (path / "intent_labels.json").exists()
+            and (path / "intent_tokenizer").exists()
+        ):
             return path
 
     return None
@@ -61,6 +87,10 @@ def _bio_to_slots(words: list[str], labels: list[str]) -> dict:
             flush_current()
             continue
 
+        if "-" not in label:
+            flush_current()
+            continue
+
         prefix, slot_name = label.split("-", 1)
 
         if prefix == "B":
@@ -78,12 +108,76 @@ def _bio_to_slots(words: list[str], labels: list[str]) -> dict:
     return slots
 
 
+def map_intent(intent: str) -> str:
+    mapping = {
+        "Weather": "GetWeather",
+        "Timer": "SetTimer",
+        "SearchMovie": "MovieOverview",
+    }
+    return mapping.get(intent, intent)
+
+
+def map_slots(slots: dict) -> dict:
+    slot_mapping = {
+        "location": "CITY",
+        "duration": "DURATION",
+        "date": "DATE",
+        "title": "TITLE",
+        "genre": "GENRE",
+        "year": "YEAR",
+        "room": "ROOM",
+        "mode": "SCENE",
+    }
+
+    mapped = {}
+
+    for key, value in slots.items():
+        new_key = slot_mapping.get(key, key)
+
+        # Context-dependent mapping for ambiguous value fields
+        if key == "level":
+            new_key = "BRIGHTNESS"
+        elif key == "value":
+            new_key = "VALUE"
+
+        mapped[new_key] = value
+
+    return mapped
+
+
 class IntentPredictor:
     def __init__(self, artifacts_dir: Path):
         self.artifacts_dir = Path(artifacts_dir)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model, metadata = load_model_from_artifacts(self.artifacts_dir, device=self.device)
-        self.tokenizer = AutoTokenizer.from_pretrained(self.artifacts_dir)
+
+        # Legacy structure
+        legacy_model = self.artifacts_dir / "model_state.pt"
+        legacy_metadata = self.artifacts_dir / "metadata.json"
+
+        # New HF dataset structure
+        hf_model = self.artifacts_dir / "intent_model.pt"
+        hf_labels = self.artifacts_dir / "intent_labels.json"
+        hf_tokenizer_dir = self.artifacts_dir / "intent_tokenizer"
+
+        if legacy_model.exists() and legacy_metadata.exists():
+            model_dir_for_loader = self.artifacts_dir
+            tokenizer_dir = self.artifacts_dir
+
+        elif hf_model.exists() and hf_labels.exists() and hf_tokenizer_dir.exists():
+            model_dir_for_loader = self.artifacts_dir
+            tokenizer_dir = hf_tokenizer_dir
+
+        else:
+            raise FileNotFoundError(
+                f"Intent artifacts not found in expected format under: {self.artifacts_dir}"
+            )
+
+        self.model, metadata = load_model_from_artifacts(
+            model_dir_for_loader,
+            device=self.device,
+        )
+
+        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_dir)
         self.max_length = metadata["max_length"]
         self.intent_id2label = {int(k): v for k, v in metadata["id2intent"].items()}
         self.slot_id2label = {int(k): v for k, v in metadata["id2slot"].items()}
@@ -112,7 +206,7 @@ class IntentPredictor:
             slot_probs = torch.softmax(outputs["slot_logits"], dim=-1)[0]
 
         intent_id = int(torch.argmax(intent_probs).item())
-        intent = self.intent_id2label[intent_id]
+        raw_intent = self.intent_id2label[intent_id]
         intent_confidence = float(intent_probs[intent_id].item())
 
         slot_pred_ids = torch.argmax(slot_probs, dim=-1).tolist()
@@ -128,16 +222,18 @@ class IntentPredictor:
             word_slot_labels.append(label)
             previous_word_id = word_id
 
-        # Pad defensively if tokenization edge cases produce fewer labels than words.
         while len(word_slot_labels) < len(words):
             word_slot_labels.append("O")
 
-        slots = _bio_to_slots(words, word_slot_labels[: len(words)])
+        raw_slots = _bio_to_slots(words, word_slot_labels[: len(words)])
+
+        mapped_intent = map_intent(raw_intent)
+        mapped_slots = map_slots(raw_slots)
 
         return IntentPrediction(
-            intent=intent,
+            intent=mapped_intent,
             intent_confidence=intent_confidence,
-            slots=slots,
+            slots=mapped_slots,
             words=words,
             word_slot_labels=word_slot_labels[: len(words)],
         )

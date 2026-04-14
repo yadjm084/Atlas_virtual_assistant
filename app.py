@@ -17,7 +17,7 @@ from atlas_voice import (
     transcribe_with_whisper,
     verify_audio_file,
 )
-from intent_data.intent_inference import find_intent_artifacts_dir, load_intent_predictor
+from intent_data.intent_inference import load_intent_predictor
 
 
 # =========================================================
@@ -26,6 +26,7 @@ from intent_data.intent_inference import find_intent_artifacts_dir, load_intent_
 
 BASE_DIR = Path(__file__).resolve().parent
 HF_DATASET_REPO = "yadjm084/atlas-voice-data"
+HF_INTENT_REPO = "yadjm084/atlas-intent-data"
 
 TARGET_SR = 16000
 TARGET_DURATION = 2.5
@@ -44,7 +45,6 @@ WAKE_THRESHOLD = 0.5
 ASR_MODEL_NAME = "tiny"
 READY_WINDOW_SECONDS = 20
 
-INTENT_ARTIFACTS_DIR = find_intent_artifacts_dir(BASE_DIR)
 TTS_OUTPUT_DIR = BASE_DIR / "generated_audio"
 
 
@@ -52,9 +52,14 @@ TTS_OUTPUT_DIR = BASE_DIR / "generated_audio"
 # MODEL / DATASET BOOTSTRAP
 # =========================================================
 
+# Voice dataset
 DATASET_ROOT = get_dataset_root(BASE_DIR, HF_DATASET_REPO)
 ENROLLMENT_DIR = get_enrollment_dir(DATASET_ROOT)
 WAKE_WEIGHTS_PATH = get_wake_weights_path(DATASET_ROOT)
+
+# Intent dataset
+INTENT_DATASET_ROOT = get_dataset_root(BASE_DIR, HF_INTENT_REPO)
+INTENT_ARTIFACTS_DIR = INTENT_DATASET_ROOT
 
 SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles_with_normalization(
     ENROLLMENT_DIR,
