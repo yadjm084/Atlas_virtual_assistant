@@ -11,7 +11,7 @@ pinned: false
 
 # Atlas Virtual Assistant
 
-Atlas is a course project voice assistant for movie information and smart dorm control. The live implementation follows the required project pipeline:
+Atlas is a course project voice assistant for movie information and home theater control. The live implementation follows the required project pipeline:
 
 1. User verification / identification
 2. Wake word detection
@@ -40,7 +40,7 @@ Core live modules:
 - [atlas_voice.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_voice.py:1): dataset loading, user verification, wake-word, and Whisper ASR helpers
 - [atlas_actions.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_actions.py:1): pipeline logic and UI callbacks
 - [atlas_state.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_state.py:1): state and stage helpers
-- [atlas_fulfillment.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_fulfillment.py:1): weather, movie, timer, and smart dorm fulfillment
+- [atlas_fulfillment.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_fulfillment.py:1): weather, movie, timer, and home theater fulfillment
 - [atlas_answer_generation.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_answer_generation.py:1): template-based answer generation
 - [atlas_tts.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_tts.py:1): speech synthesis
 - [atlas_ui.py](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas_ui.py:1): Gradio UI
@@ -82,7 +82,9 @@ python app.py
 
 The app will:
 
-- download the Hugging Face dataset `yadjm084/atlas-voice-data`
+- prefer the local WAV dataset at `atlas-voice-data-wav`
+- fall back to the local legacy dataset `atlas-voice-data` if the WAV dataset is missing
+- fall back again to the Hugging Face dataset `yadjm084/atlas-voice-data` if no local dataset is available
 - load enrollment audio for user verification
 - load wake-word weights
 - load the Whisper `tiny` ASR model
@@ -107,5 +109,6 @@ python demo_smoke_test.py --skip-tts --audio-gates
 Use the step-by-step operator guide here:
 
 - [docs/ATLAS_UI_DEMO_GUIDE.md](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/docs/ATLAS_UI_DEMO_GUIDE.md:1)
+- [docs/ATLAS_PROJECT_ARCHITECTURE.md](/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/docs/ATLAS_PROJECT_ARCHITECTURE.md:1)
 
-That guide explains what becomes visible at each step, what the user clicks, what Atlas should do, and how to use the bypass paths during a live demo.
+These guides explain what becomes visible at each step, what the user clicks, what Atlas does, and how the full project architecture fits together.

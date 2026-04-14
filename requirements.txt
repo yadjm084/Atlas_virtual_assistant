@@ -13,3 +13,4 @@ seqeval
 requests
 edge-tts
 pydub
+imageio-ffmpeg

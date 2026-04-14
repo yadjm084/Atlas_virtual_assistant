@@ -1,0 +1,37 @@
+{
+  "model_kind": "sklearn_mfcc_stats_extra_trees",
+  "feature_type": "mfcc_mean_std",
+  "target_sr": 16000,
+  "target_length": 32000,
+  "n_mfcc": 13,
+  "threshold": 0.434,
+  "cv_folds": 4,
+  "random_state": 42,
+  "n_estimators": 500,
+  "metrics": {
+    "accuracy": 0.7916666666666666,
+    "precision": 0.75,
+    "recall": 0.875,
+    "cross_validated_auc": 0.8012152777777778
+  },
+  "summary_by_label": {
+    "positive": {
+      "count": 24,
+      "min_probability": 0.258,
+      "max_probability": 0.72,
+      "avg_probability": 0.5494166666666667
+    },
+    "near": {
+      "count": 12,
+      "min_probability": 0.196,
+      "max_probability": 0.612,
+      "avg_probability": 0.42383333333333334
+    },
+    "other": {
+      "count": 12,
+      "min_probability": 0.25,
+      "max_probability": 0.716,
+      "avg_probability": 0.38066666666666665
+    }
+  }
+}

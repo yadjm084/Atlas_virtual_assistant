@@ -262,171 +262,171 @@
 {"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover drama movies from 2022", "annotated": "discover drama/B-GENRE movies from 2022/B-YEAR"}
 {"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover drama movies from 2023", "annotated": "discover drama/B-GENRE movies from 2023/B-YEAR"}
 {"intent": "DiscoverByGenre", "domain": "movie", "plain_text": "discover drama movies from 2024", "annotated": "discover drama/B-GENRE movies from 2024/B-YEAR"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the bedroom light", "annotated": "turn on the bedroom/B-ROOM light/I-ROOM"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the desk lamp", "annotated": "switch on the desk/B-ROOM lamp/I-ROOM"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the bedroom lights on", "annotated": "turn the bedroom/B-ROOM lights/I-ROOM on"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "lights on in the study area", "annotated": "lights on in the study/B-ROOM area/I-ROOM"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the bedroom light", "annotated": "turn on the bedroom/B-ROOM light"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the desk area light", "annotated": "turn on the desk/B-ROOM area/I-ROOM light"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the study area light", "annotated": "turn on the study/B-ROOM area/I-ROOM light"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the main room light", "annotated": "turn on the main/B-ROOM room/I-ROOM light"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the reading corner light", "annotated": "turn on the reading/B-ROOM corner/I-ROOM light"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn on the window side light", "annotated": "turn on the window/B-ROOM side/I-ROOM light"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the bedroom lamp", "annotated": "switch on the bedroom/B-ROOM lamp"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the desk area lamp", "annotated": "switch on the desk/B-ROOM area/I-ROOM lamp"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the study area lamp", "annotated": "switch on the study/B-ROOM area/I-ROOM lamp"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the main room lamp", "annotated": "switch on the main/B-ROOM room/I-ROOM lamp"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the reading corner lamp", "annotated": "switch on the reading/B-ROOM corner/I-ROOM lamp"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "switch on the window side lamp", "annotated": "switch on the window/B-ROOM side/I-ROOM lamp"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the bedroom lights on", "annotated": "turn the bedroom/B-ROOM lights on"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the desk area lights on", "annotated": "turn the desk/B-ROOM area/I-ROOM lights on"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the study area lights on", "annotated": "turn the study/B-ROOM area/I-ROOM lights on"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the main room lights on", "annotated": "turn the main/B-ROOM room/I-ROOM lights on"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the reading corner lights on", "annotated": "turn the reading/B-ROOM corner/I-ROOM lights on"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "turn the window side lights on", "annotated": "turn the window/B-ROOM side/I-ROOM lights on"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "lights on in the bedroom", "annotated": "lights on in the bedroom/B-ROOM"}
-{"intent": "LightOn", "domain": "dorm", "plain_text": "lights on in the desk area", "annotated": "lights on in the desk/B-ROOM area/I-ROOM"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the bedroom light", "annotated": "turn off the bedroom/B-ROOM light/I-ROOM"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the desk lamp", "annotated": "switch off the desk/B-ROOM lamp/I-ROOM"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the bedroom lights off", "annotated": "turn the bedroom/B-ROOM lights/I-ROOM off"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "lights off in the study area", "annotated": "lights off in the study/B-ROOM area/I-ROOM"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the bedroom light", "annotated": "turn off the bedroom/B-ROOM light"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the desk area light", "annotated": "turn off the desk/B-ROOM area/I-ROOM light"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the study area light", "annotated": "turn off the study/B-ROOM area/I-ROOM light"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the main room light", "annotated": "turn off the main/B-ROOM room/I-ROOM light"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the reading corner light", "annotated": "turn off the reading/B-ROOM corner/I-ROOM light"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn off the window side light", "annotated": "turn off the window/B-ROOM side/I-ROOM light"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the bedroom lamp", "annotated": "switch off the bedroom/B-ROOM lamp"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the desk area lamp", "annotated": "switch off the desk/B-ROOM area/I-ROOM lamp"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the study area lamp", "annotated": "switch off the study/B-ROOM area/I-ROOM lamp"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the main room lamp", "annotated": "switch off the main/B-ROOM room/I-ROOM lamp"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the reading corner lamp", "annotated": "switch off the reading/B-ROOM corner/I-ROOM lamp"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "switch off the window side lamp", "annotated": "switch off the window/B-ROOM side/I-ROOM lamp"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the bedroom lights off", "annotated": "turn the bedroom/B-ROOM lights off"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the desk area lights off", "annotated": "turn the desk/B-ROOM area/I-ROOM lights off"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the study area lights off", "annotated": "turn the study/B-ROOM area/I-ROOM lights off"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the main room lights off", "annotated": "turn the main/B-ROOM room/I-ROOM lights off"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the reading corner lights off", "annotated": "turn the reading/B-ROOM corner/I-ROOM lights off"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "turn the window side lights off", "annotated": "turn the window/B-ROOM side/I-ROOM lights off"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "lights off in the bedroom", "annotated": "lights off in the bedroom/B-ROOM"}
-{"intent": "LightOff", "domain": "dorm", "plain_text": "lights off in the desk area", "annotated": "lights off in the desk/B-ROOM area/I-ROOM"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 40 percent", "annotated": "set the bedroom/B-ROOM light/I-ROOM to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "make the desk lamp 75 percent bright", "annotated": "make the desk/B-ROOM lamp/I-ROOM 75/B-BRIGHTNESS percent/I-BRIGHTNESS bright/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set brightness in the bedroom to 20 percent", "annotated": "set brightness in the bedroom/B-ROOM to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "dim the study area lights to 30 percent", "annotated": "dim the study/B-ROOM area/I-ROOM lights/I-ROOM to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 20 percent", "annotated": "set the bedroom/B-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 30 percent", "annotated": "set the bedroom/B-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 40 percent", "annotated": "set the bedroom/B-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 60 percent", "annotated": "set the bedroom/B-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 75 percent", "annotated": "set the bedroom/B-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the bedroom light to 90 percent", "annotated": "set the bedroom/B-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 20 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 30 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 40 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 60 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 75 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the desk area light to 90 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 20 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 30 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 40 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 60 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 75 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the study area light to 90 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the main room light to 20 percent", "annotated": "set the main/B-ROOM room/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "SetBrightness", "domain": "dorm", "plain_text": "set the main room light to 30 percent", "annotated": "set the main/B-ROOM room/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the bedroom blinds", "annotated": "open the bedroom/B-ROOM blinds/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the bedroom blinds", "annotated": "raise the bedroom/B-ROOM blinds/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the study area", "annotated": "open blinds in the study/B-ROOM area/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the bedroom blinds", "annotated": "let the light in by opening the bedroom/B-ROOM blinds/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the bedroom blinds", "annotated": "open the bedroom/B-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the desk area blinds", "annotated": "open the desk/B-ROOM area/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the study area blinds", "annotated": "open the study/B-ROOM area/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the main room blinds", "annotated": "open the main/B-ROOM room/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the reading corner blinds", "annotated": "open the reading/B-ROOM corner/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open the window side blinds", "annotated": "open the window/B-ROOM side/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the bedroom blinds", "annotated": "raise the bedroom/B-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the desk area blinds", "annotated": "raise the desk/B-ROOM area/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the study area blinds", "annotated": "raise the study/B-ROOM area/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the main room blinds", "annotated": "raise the main/B-ROOM room/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the reading corner blinds", "annotated": "raise the reading/B-ROOM corner/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "raise the window side blinds", "annotated": "raise the window/B-ROOM side/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the bedroom", "annotated": "open blinds in the bedroom/B-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the desk area", "annotated": "open blinds in the desk/B-ROOM area/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the main room", "annotated": "open blinds in the main/B-ROOM room/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the reading corner", "annotated": "open blinds in the reading/B-ROOM corner/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "open blinds in the window side", "annotated": "open blinds in the window/B-ROOM side/I-ROOM"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the bedroom blinds", "annotated": "let the light in by opening the bedroom/B-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the desk area blinds", "annotated": "let the light in by opening the desk/B-ROOM area/I-ROOM blinds"}
-{"intent": "OpenBlinds", "domain": "dorm", "plain_text": "let the light in by opening the study area blinds", "annotated": "let the light in by opening the study/B-ROOM area/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom blinds", "annotated": "close the bedroom/B-ROOM blinds/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the bedroom blinds", "annotated": "lower the bedroom/B-ROOM blinds/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the study area", "annotated": "shut the blinds in the study/B-ROOM area/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom window blinds", "annotated": "close the bedroom/B-ROOM window/I-ROOM blinds/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom blinds", "annotated": "close the bedroom/B-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the desk area blinds", "annotated": "close the desk/B-ROOM area/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the study area blinds", "annotated": "close the study/B-ROOM area/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the main room blinds", "annotated": "close the main/B-ROOM room/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the reading corner blinds", "annotated": "close the reading/B-ROOM corner/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the window side blinds", "annotated": "close the window/B-ROOM side/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the bedroom blinds", "annotated": "lower the bedroom/B-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the desk area blinds", "annotated": "lower the desk/B-ROOM area/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the study area blinds", "annotated": "lower the study/B-ROOM area/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the main room blinds", "annotated": "lower the main/B-ROOM room/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the reading corner blinds", "annotated": "lower the reading/B-ROOM corner/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "lower the window side blinds", "annotated": "lower the window/B-ROOM side/I-ROOM blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the bedroom", "annotated": "shut the blinds in the bedroom/B-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the desk area", "annotated": "shut the blinds in the desk/B-ROOM area/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the main room", "annotated": "shut the blinds in the main/B-ROOM room/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the reading corner", "annotated": "shut the blinds in the reading/B-ROOM corner/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "shut the blinds in the window side", "annotated": "shut the blinds in the window/B-ROOM side/I-ROOM"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the bedroom window blinds", "annotated": "close the bedroom/B-ROOM window blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the desk area window blinds", "annotated": "close the desk/B-ROOM area/I-ROOM window blinds"}
-{"intent": "CloseBlinds", "domain": "dorm", "plain_text": "close the study area window blinds", "annotated": "close the study/B-ROOM area/I-ROOM window blinds"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 21 degrees", "annotated": "set the temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 19 degrees", "annotated": "make the room 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 23 celsius", "annotated": "set dorm temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 20 degrees", "annotated": "change the temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 19 degrees", "annotated": "set the temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 20 degrees", "annotated": "set the temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 22 degrees", "annotated": "set the temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 23 celsius", "annotated": "set the temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set the temperature to 24 celsius", "annotated": "set the temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 20 degrees", "annotated": "make the room 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 21 degrees", "annotated": "make the room 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 22 degrees", "annotated": "make the room 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 23 celsius", "annotated": "make the room 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "make the room 24 celsius", "annotated": "make the room 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 19 degrees", "annotated": "set dorm temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 20 degrees", "annotated": "set dorm temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 21 degrees", "annotated": "set dorm temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 22 degrees", "annotated": "set dorm temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "set dorm temperature to 24 celsius", "annotated": "set dorm temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 19 degrees", "annotated": "change the temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 21 degrees", "annotated": "change the temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 22 degrees", "annotated": "change the temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 23 celsius", "annotated": "change the temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetTemperature", "domain": "dorm", "plain_text": "change the temperature to 24 celsius", "annotated": "change the temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to study mode", "annotated": "switch to study/B-SCENE mode/I-SCENE"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to relax mode", "annotated": "set the room to relax/B-SCENE mode/I-SCENE"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "activate sleep scene", "annotated": "activate sleep/B-SCENE scene/I-SCENE"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on movie mode", "annotated": "turn on movie/B-SCENE mode/I-SCENE"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to study mode", "annotated": "switch to study/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to relax mode", "annotated": "switch to relax/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to sleep mode", "annotated": "switch to sleep/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "switch to movie mode", "annotated": "switch to movie/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to study mode", "annotated": "set the room to study/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to relax mode", "annotated": "set the room to relax/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to sleep mode", "annotated": "set the room to sleep/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "set the room to movie mode", "annotated": "set the room to movie/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "activate study scene", "annotated": "activate study/B-SCENE scene"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "activate relax scene", "annotated": "activate relax/B-SCENE scene"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "activate sleep scene", "annotated": "activate sleep/B-SCENE scene"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "activate movie scene", "annotated": "activate movie/B-SCENE scene"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on study mode", "annotated": "turn on study/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on relax mode", "annotated": "turn on relax/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on sleep mode", "annotated": "turn on sleep/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "turn on movie mode", "annotated": "turn on movie/B-SCENE mode"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the study scene", "annotated": "apply the study/B-SCENE scene"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the relax scene", "annotated": "apply the relax/B-SCENE scene"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the sleep scene", "annotated": "apply the sleep/B-SCENE scene"}
-{"intent": "SetScene", "domain": "dorm", "plain_text": "apply the movie scene", "annotated": "apply the movie/B-SCENE scene"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn on the bedroom light", "annotated": "turn on the bedroom/B-ROOM light/I-ROOM"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "switch on the desk lamp", "annotated": "switch on the desk/B-ROOM lamp/I-ROOM"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn the bedroom lights on", "annotated": "turn the bedroom/B-ROOM lights/I-ROOM on"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "lights on in the study area", "annotated": "lights on in the study/B-ROOM area/I-ROOM"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn on the bedroom light", "annotated": "turn on the bedroom/B-ROOM light"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn on the desk area light", "annotated": "turn on the desk/B-ROOM area/I-ROOM light"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn on the study area light", "annotated": "turn on the study/B-ROOM area/I-ROOM light"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn on the main room light", "annotated": "turn on the main/B-ROOM room/I-ROOM light"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn on the reading corner light", "annotated": "turn on the reading/B-ROOM corner/I-ROOM light"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn on the window side light", "annotated": "turn on the window/B-ROOM side/I-ROOM light"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "switch on the bedroom lamp", "annotated": "switch on the bedroom/B-ROOM lamp"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "switch on the desk area lamp", "annotated": "switch on the desk/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "switch on the study area lamp", "annotated": "switch on the study/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "switch on the main room lamp", "annotated": "switch on the main/B-ROOM room/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "switch on the reading corner lamp", "annotated": "switch on the reading/B-ROOM corner/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "switch on the window side lamp", "annotated": "switch on the window/B-ROOM side/I-ROOM lamp"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn the bedroom lights on", "annotated": "turn the bedroom/B-ROOM lights on"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn the desk area lights on", "annotated": "turn the desk/B-ROOM area/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn the study area lights on", "annotated": "turn the study/B-ROOM area/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn the main room lights on", "annotated": "turn the main/B-ROOM room/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn the reading corner lights on", "annotated": "turn the reading/B-ROOM corner/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "turn the window side lights on", "annotated": "turn the window/B-ROOM side/I-ROOM lights on"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "lights on in the bedroom", "annotated": "lights on in the bedroom/B-ROOM"}
+{"intent": "LightOn", "domain": "home_theater", "plain_text": "lights on in the desk area", "annotated": "lights on in the desk/B-ROOM area/I-ROOM"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn off the bedroom light", "annotated": "turn off the bedroom/B-ROOM light/I-ROOM"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "switch off the desk lamp", "annotated": "switch off the desk/B-ROOM lamp/I-ROOM"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn the bedroom lights off", "annotated": "turn the bedroom/B-ROOM lights/I-ROOM off"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "lights off in the study area", "annotated": "lights off in the study/B-ROOM area/I-ROOM"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn off the bedroom light", "annotated": "turn off the bedroom/B-ROOM light"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn off the desk area light", "annotated": "turn off the desk/B-ROOM area/I-ROOM light"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn off the study area light", "annotated": "turn off the study/B-ROOM area/I-ROOM light"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn off the main room light", "annotated": "turn off the main/B-ROOM room/I-ROOM light"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn off the reading corner light", "annotated": "turn off the reading/B-ROOM corner/I-ROOM light"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn off the window side light", "annotated": "turn off the window/B-ROOM side/I-ROOM light"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "switch off the bedroom lamp", "annotated": "switch off the bedroom/B-ROOM lamp"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "switch off the desk area lamp", "annotated": "switch off the desk/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "switch off the study area lamp", "annotated": "switch off the study/B-ROOM area/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "switch off the main room lamp", "annotated": "switch off the main/B-ROOM room/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "switch off the reading corner lamp", "annotated": "switch off the reading/B-ROOM corner/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "switch off the window side lamp", "annotated": "switch off the window/B-ROOM side/I-ROOM lamp"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn the bedroom lights off", "annotated": "turn the bedroom/B-ROOM lights off"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn the desk area lights off", "annotated": "turn the desk/B-ROOM area/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn the study area lights off", "annotated": "turn the study/B-ROOM area/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn the main room lights off", "annotated": "turn the main/B-ROOM room/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn the reading corner lights off", "annotated": "turn the reading/B-ROOM corner/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "turn the window side lights off", "annotated": "turn the window/B-ROOM side/I-ROOM lights off"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "lights off in the bedroom", "annotated": "lights off in the bedroom/B-ROOM"}
+{"intent": "LightOff", "domain": "home_theater", "plain_text": "lights off in the desk area", "annotated": "lights off in the desk/B-ROOM area/I-ROOM"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the bedroom light to 40 percent", "annotated": "set the bedroom/B-ROOM light/I-ROOM to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "make the desk lamp 75 percent bright", "annotated": "make the desk/B-ROOM lamp/I-ROOM 75/B-BRIGHTNESS percent/I-BRIGHTNESS bright/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set brightness in the bedroom to 20 percent", "annotated": "set brightness in the bedroom/B-ROOM to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "dim the study area lights to 30 percent", "annotated": "dim the study/B-ROOM area/I-ROOM lights/I-ROOM to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the bedroom light to 20 percent", "annotated": "set the bedroom/B-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the bedroom light to 30 percent", "annotated": "set the bedroom/B-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the bedroom light to 40 percent", "annotated": "set the bedroom/B-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the bedroom light to 60 percent", "annotated": "set the bedroom/B-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the bedroom light to 75 percent", "annotated": "set the bedroom/B-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the bedroom light to 90 percent", "annotated": "set the bedroom/B-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the desk area light to 20 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the desk area light to 30 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the desk area light to 40 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the desk area light to 60 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the desk area light to 75 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the desk area light to 90 percent", "annotated": "set the desk/B-ROOM area/I-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the study area light to 20 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the study area light to 30 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the study area light to 40 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 40/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the study area light to 60 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 60/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the study area light to 75 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 75/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the study area light to 90 percent", "annotated": "set the study/B-ROOM area/I-ROOM light to 90/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the main room light to 20 percent", "annotated": "set the main/B-ROOM room/I-ROOM light to 20/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "SetBrightness", "domain": "home_theater", "plain_text": "set the main room light to 30 percent", "annotated": "set the main/B-ROOM room/I-ROOM light to 30/B-BRIGHTNESS percent/I-BRIGHTNESS"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open the bedroom blinds", "annotated": "open the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "raise the bedroom blinds", "annotated": "raise the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open blinds in the study area", "annotated": "open blinds in the study/B-ROOM area/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "let the light in by opening the bedroom blinds", "annotated": "let the light in by opening the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open the bedroom blinds", "annotated": "open the bedroom/B-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open the desk area blinds", "annotated": "open the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open the study area blinds", "annotated": "open the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open the main room blinds", "annotated": "open the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open the reading corner blinds", "annotated": "open the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open the window side blinds", "annotated": "open the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "raise the bedroom blinds", "annotated": "raise the bedroom/B-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "raise the desk area blinds", "annotated": "raise the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "raise the study area blinds", "annotated": "raise the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "raise the main room blinds", "annotated": "raise the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "raise the reading corner blinds", "annotated": "raise the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "raise the window side blinds", "annotated": "raise the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open blinds in the bedroom", "annotated": "open blinds in the bedroom/B-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open blinds in the desk area", "annotated": "open blinds in the desk/B-ROOM area/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open blinds in the main room", "annotated": "open blinds in the main/B-ROOM room/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open blinds in the reading corner", "annotated": "open blinds in the reading/B-ROOM corner/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "open blinds in the window side", "annotated": "open blinds in the window/B-ROOM side/I-ROOM"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "let the light in by opening the bedroom blinds", "annotated": "let the light in by opening the bedroom/B-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "let the light in by opening the desk area blinds", "annotated": "let the light in by opening the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "OpenBlinds", "domain": "home_theater", "plain_text": "let the light in by opening the study area blinds", "annotated": "let the light in by opening the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the bedroom blinds", "annotated": "close the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "lower the bedroom blinds", "annotated": "lower the bedroom/B-ROOM blinds/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "shut the blinds in the study area", "annotated": "shut the blinds in the study/B-ROOM area/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the bedroom window blinds", "annotated": "close the bedroom/B-ROOM window/I-ROOM blinds/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the bedroom blinds", "annotated": "close the bedroom/B-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the desk area blinds", "annotated": "close the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the study area blinds", "annotated": "close the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the main room blinds", "annotated": "close the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the reading corner blinds", "annotated": "close the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the window side blinds", "annotated": "close the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "lower the bedroom blinds", "annotated": "lower the bedroom/B-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "lower the desk area blinds", "annotated": "lower the desk/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "lower the study area blinds", "annotated": "lower the study/B-ROOM area/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "lower the main room blinds", "annotated": "lower the main/B-ROOM room/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "lower the reading corner blinds", "annotated": "lower the reading/B-ROOM corner/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "lower the window side blinds", "annotated": "lower the window/B-ROOM side/I-ROOM blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "shut the blinds in the bedroom", "annotated": "shut the blinds in the bedroom/B-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "shut the blinds in the desk area", "annotated": "shut the blinds in the desk/B-ROOM area/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "shut the blinds in the main room", "annotated": "shut the blinds in the main/B-ROOM room/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "shut the blinds in the reading corner", "annotated": "shut the blinds in the reading/B-ROOM corner/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "shut the blinds in the window side", "annotated": "shut the blinds in the window/B-ROOM side/I-ROOM"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the bedroom window blinds", "annotated": "close the bedroom/B-ROOM window blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the desk area window blinds", "annotated": "close the desk/B-ROOM area/I-ROOM window blinds"}
+{"intent": "CloseBlinds", "domain": "home_theater", "plain_text": "close the study area window blinds", "annotated": "close the study/B-ROOM area/I-ROOM window blinds"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set the temperature to 21 degrees", "annotated": "set the temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "make the room 19 degrees", "annotated": "make the room 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set home theater temperature to 23 celsius", "annotated": "set home theater temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "change the temperature to 20 degrees", "annotated": "change the temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set the temperature to 19 degrees", "annotated": "set the temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set the temperature to 20 degrees", "annotated": "set the temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set the temperature to 22 degrees", "annotated": "set the temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set the temperature to 23 celsius", "annotated": "set the temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set the temperature to 24 celsius", "annotated": "set the temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "make the room 20 degrees", "annotated": "make the room 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "make the room 21 degrees", "annotated": "make the room 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "make the room 22 degrees", "annotated": "make the room 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "make the room 23 celsius", "annotated": "make the room 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "make the room 24 celsius", "annotated": "make the room 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set home theater temperature to 19 degrees", "annotated": "set home theater temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set home theater temperature to 20 degrees", "annotated": "set home theater temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set home theater temperature to 21 degrees", "annotated": "set home theater temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set home theater temperature to 22 degrees", "annotated": "set home theater temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "set home theater temperature to 24 celsius", "annotated": "set home theater temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "change the temperature to 19 degrees", "annotated": "change the temperature to 19/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "change the temperature to 21 degrees", "annotated": "change the temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "change the temperature to 22 degrees", "annotated": "change the temperature to 22/B-TEMPERATURE degrees/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "change the temperature to 23 celsius", "annotated": "change the temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetTemperature", "domain": "home_theater", "plain_text": "change the temperature to 24 celsius", "annotated": "change the temperature to 24/B-TEMPERATURE celsius/I-TEMPERATURE"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "switch to study mode", "annotated": "switch to study/B-SCENE mode/I-SCENE"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "set the room to relax mode", "annotated": "set the room to relax/B-SCENE mode/I-SCENE"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "activate sleep scene", "annotated": "activate sleep/B-SCENE scene/I-SCENE"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "turn on movie mode", "annotated": "turn on movie/B-SCENE mode/I-SCENE"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "switch to study mode", "annotated": "switch to study/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "switch to relax mode", "annotated": "switch to relax/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "switch to sleep mode", "annotated": "switch to sleep/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "switch to movie mode", "annotated": "switch to movie/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "set the room to study mode", "annotated": "set the room to study/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "set the room to relax mode", "annotated": "set the room to relax/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "set the room to sleep mode", "annotated": "set the room to sleep/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "set the room to movie mode", "annotated": "set the room to movie/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "activate study scene", "annotated": "activate study/B-SCENE scene"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "activate relax scene", "annotated": "activate relax/B-SCENE scene"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "activate sleep scene", "annotated": "activate sleep/B-SCENE scene"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "activate movie scene", "annotated": "activate movie/B-SCENE scene"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "turn on study mode", "annotated": "turn on study/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "turn on relax mode", "annotated": "turn on relax/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "turn on sleep mode", "annotated": "turn on sleep/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "turn on movie mode", "annotated": "turn on movie/B-SCENE mode"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "apply the study scene", "annotated": "apply the study/B-SCENE scene"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "apply the relax scene", "annotated": "apply the relax/B-SCENE scene"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "apply the sleep scene", "annotated": "apply the sleep/B-SCENE scene"}
+{"intent": "SetScene", "domain": "home_theater", "plain_text": "apply the movie scene", "annotated": "apply the movie/B-SCENE scene"}

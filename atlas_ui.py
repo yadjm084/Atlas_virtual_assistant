@@ -7,7 +7,7 @@ import json
 import gradio as gr
 
 from atlas_state import (
-    build_dorm_state_html,
+    build_home_theater_state_html,
     build_pipeline_timeline_html,
     build_stage_hint_html,
     build_status_overview_html,
@@ -428,7 +428,7 @@ body, .gradio-container {
 
 .atlas-status-summary,
 .atlas-hint-card,
-.atlas-dorm-grid,
+.atlas-home-theater-grid,
 .atlas-flow-card,
 .atlas-progress-card {
   background: linear-gradient(180deg, var(--atlas-soft) 0%, var(--atlas-soft-2) 100%);
@@ -598,6 +598,31 @@ body, .gradio-container {
   font-weight: 700;
 }
 
+.atlas-hint-card.atlas-hint-success {
+  background: linear-gradient(135deg, #e8f7ea 0%, #f4fbf4 100%);
+  border: 1px solid #9bd1a0;
+  box-shadow: 0 20px 40px rgba(41, 104, 56, 0.10);
+}
+
+.atlas-hint-kicker-success {
+  color: #1d6b33;
+  background: rgba(42, 122, 61, 0.10);
+  border-color: rgba(42, 122, 61, 0.18);
+}
+
+.atlas-hint-stepno-success {
+  color: #1d6b33;
+}
+
+.atlas-hint-prompt-success {
+  background: #ffffff;
+  border-color: #b7ddbb;
+}
+
+.atlas-hint-next-success {
+  color: #2f6f3d;
+}
+
 .atlas-stage-shell {
   display: flex;
   flex-direction: column;
@@ -622,12 +647,7 @@ body, .gradio-container {
 }
 
 .atlas-stage-panel-primary::before {
-  content: "";
-  display: block;
-  height: 4px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #0f6fff 0%, #0c9ec6 100%);
-  margin: -4px 0 14px 0;
+  display: none;
 }
 
 .atlas-section-title {
@@ -681,28 +701,28 @@ body, .gradio-container {
   line-height: 1.45;
 }
 
-.atlas-dorm-grid {
+.atlas-home-theater-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.atlas-dorm-card {
+.atlas-home-theater-card {
   background: white;
   border: 1px solid var(--atlas-border);
   border-radius: 14px;
   padding: 14px;
 }
 
-.atlas-dorm-hero {
+.atlas-home-theater-hero {
   background: linear-gradient(135deg, #f3f8ff 0%, #eef7ff 100%);
 }
 
-.atlas-dorm-wide {
+.atlas-home-theater-wide {
   grid-column: span 2;
 }
 
-.atlas-dorm-label {
+.atlas-home-theater-label {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -710,14 +730,14 @@ body, .gradio-container {
   margin-bottom: 8px;
 }
 
-.atlas-dorm-value {
+.atlas-home-theater-value {
   font-size: 22px;
   font-weight: 800;
   color: var(--atlas-text);
   letter-spacing: -0.02em;
 }
 
-.atlas-dorm-subvalue {
+.atlas-home-theater-subvalue {
   margin-top: 8px;
   font-size: 12px;
   color: var(--atlas-muted);
@@ -754,13 +774,13 @@ body, .gradio-container {
   }
 
   .atlas-status-grid,
-  .atlas-dorm-grid,
+  .atlas-home-theater-grid,
   .atlas-examples-grid,
   .atlas-step-meta {
     grid-template-columns: 1fr;
   }
 
-  .atlas-dorm-wide {
+  .atlas-home-theater-wide {
     grid-column: span 1;
   }
 }
@@ -779,16 +799,14 @@ def build_demo(actions: AtlasActions):
               
               <h1>Atlas Virtual Assistant</h1>
               <p>
-                A voice assistant for movie information and smart dorm control. The demo pipeline covers
-                user verification, wake word detection, Whisper ASR, joint intent and slot prediction,
-                fulfillment, answer generation, and text to speech.
+                A voice assistant for movie information and home theater control.
               </p>
               <div class="atlas-pill-row">
                 <span class="atlas-pill">Voice Verification</span>
                 <span class="atlas-pill">Wake Word</span>
                 <span class="atlas-pill">Whisper ASR</span>
                 <span class="atlas-pill">Joint Intent + Slots</span>
-                <span class="atlas-pill">Weather + Movies + Dorm Control</span>
+                <span class="atlas-pill">Weather + Movies + Home Theater</span>
                 <span class="atlas-pill">TTS Audio Output</span>
               </div>
             </section>
@@ -801,10 +819,6 @@ def build_demo(actions: AtlasActions):
             with gr.Column(elem_classes=["atlas-sidebar"]):
                 with gr.Group(elem_classes=["atlas-card", "atlas-progress-card"]):
                     gr.Markdown("## Demo Progress")
-                    gr.Markdown(
-                        "The live architecture follows the same sequence as the course pipeline.",
-                        elem_classes=["atlas-section-copy"],
-                    )
                     pipeline_timeline = gr.HTML(build_pipeline_timeline_html(initial_state))
 
                 with gr.Group(elem_classes=["atlas-card", "atlas-status-card"]):
@@ -830,14 +844,14 @@ def build_demo(actions: AtlasActions):
                             elem_classes=["atlas-status"],
                         )
 
-                with gr.Column(visible=False) as dorm_panel:
+                with gr.Column(visible=False) as home_theater_panel:
                     with gr.Group(elem_classes=["atlas-card"]):
-                        gr.Markdown("## Dorm State")
+                        gr.Markdown("## Home Theater State")
                         gr.Markdown(
-                            "The smart dorm status updates after Atlas fulfills a control intent.",
+                            "The home theater status updates after Atlas fulfills a control intent.",
                             elem_classes=["atlas-section-copy"],
                         )
-                        dorm_visual = gr.HTML(build_dorm_state_html(initial_state))
+                        home_theater_visual = gr.HTML(build_home_theater_state_html(initial_state))
                         with gr.Accordion("Raw Control State", open=False):
                             control_box = gr.Textbox(
                                 label="Control System State",
@@ -977,7 +991,7 @@ def build_demo(actions: AtlasActions):
                             with gr.Row(elem_classes=["atlas-examples-grid"]):
                                 example_weather = gr.Button("Weather Example")
                                 example_movie = gr.Button("Movie Example")
-                                example_dorm = gr.Button("Dorm Example")
+                                example_home_theater = gr.Button("Home Theater Example")
                                 example_oos = gr.Button("Out-of-Scope Example")
                             gr.Markdown(
                                 "Use the example buttons to fill the typed command box quickly during the demo.",
@@ -1005,6 +1019,14 @@ def build_demo(actions: AtlasActions):
                                 </section>
                                 """
                             )
+                            gr.Markdown("Transcript used for intent detection", elem_classes=["atlas-section-title"])
+                            intent_transcript_box = gr.Textbox(
+                                label="Transcript For Intent",
+                                lines=3,
+                                elem_classes=["atlas-field", "atlas-response"],
+                                show_label=False,
+                                interactive=False,
+                            )
                             gr.Markdown("Predicted intent", elem_classes=["atlas-section-title"])
                             intent_box = gr.Textbox(label="Detected Intent", show_label=False, elem_classes=["atlas-field"])
                             gr.Markdown("Extracted slots", elem_classes=["atlas-section-title"])
@@ -1017,7 +1039,7 @@ def build_demo(actions: AtlasActions):
                                     label="Manual Slots (JSON)",
                                     lines=6,
                                     value='''{
-  "ROOM": "bedroom"
+  "ROOM": "theater"
 }''',
                                     elem_classes=["atlas-code"],
                                 )
@@ -1027,7 +1049,7 @@ def build_demo(actions: AtlasActions):
                         with gr.Group(elem_classes=["atlas-stage-panel", "atlas-stage-panel-primary"]):
                             gr.Markdown("## Step 5. Action / Fulfillment")
                             gr.Markdown(
-                                "Fulfillment turns the intent into an API response, local timer action, or simulated dorm-state update.",
+                                "Fulfillment turns the intent into an API response, local timer action, or simulated home-theater state update.",
                                 elem_classes=["atlas-section-copy"],
                             )
                             gr.Markdown("Action result", elem_classes=["atlas-section-title"])
@@ -1040,7 +1062,7 @@ def build_demo(actions: AtlasActions):
                                     lines=6,
                                     value='''{
   "status": "success",
-  "message": "bedroom light turned on"
+  "message": "theater light turned on"
 }''',
                                     elem_classes=["atlas-code"],
                                 )
@@ -1068,7 +1090,7 @@ def build_demo(actions: AtlasActions):
                                 manual_answer = gr.Textbox(
                                     label="Manual Answer",
                                     lines=3,
-                                    value="The bedroom light is now on.",
+                                    value="The theater light is now on.",
                                     elem_classes=["atlas-field", "atlas-response"],
                                 )
                                 btn_manual_answer = gr.Button("Use Manual Answer")
@@ -1077,83 +1099,96 @@ def build_demo(actions: AtlasActions):
 
         example_weather.click(lambda: "does it rain in Ottawa today", outputs=typed_transcript_input)
         example_movie.click(lambda: "who directed Dune Part Two", outputs=typed_transcript_input)
-        example_dorm.click(lambda: "turn on the bedroom light", outputs=typed_transcript_input)
+        example_home_theater.click(lambda: "turn on the theater light", outputs=typed_transcript_input)
         example_oos.click(lambda: "book a flight to Toronto", outputs=typed_transcript_input)
 
         btn_verify.click(
             fn=actions.do_verify_ui,
             inputs=[verification_audio_input, state],
-            outputs=[verify_output, verification_scores_output, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[verify_output, verification_scores_output, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_skip_verify.click(
             fn=actions.verify_with_code_ui,
             inputs=[verification_code_input, state],
-            outputs=[verify_output, verification_scores_output, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[verify_output, verification_scores_output, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_reset_verification.click(
             fn=actions.reset_verification_ui,
             inputs=[state],
-            outputs=[verify_output, verification_code_input, verification_scores_output, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[verify_output, verification_code_input, verification_scores_output, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
         )
         btn_wake.click(
             fn=actions.do_wake_ui,
             inputs=[wake_audio_input, state],
-            outputs=[wake_output, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[wake_output, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_skip_wake.click(
             fn=actions.skip_wake_with_code_ui,
             inputs=[wake_code_input, state],
-            outputs=[wake_output, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[wake_output, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_reset_wake.click(
             fn=actions.reset_wake_word_ui,
             inputs=[state],
-            outputs=[wake_output, wake_code_input, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[wake_output, wake_code_input, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
         )
         btn_asr.click(
             fn=actions.do_asr_ui,
             inputs=[command_audio_input, state],
-            outputs=[transcript_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[transcript_box, intent_transcript_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_use_typed_transcript.click(
             fn=actions.use_typed_transcript_ui,
             inputs=[typed_transcript_input, state],
-            outputs=[transcript_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[transcript_box, intent_transcript_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_intent.click(
             fn=actions.do_intent_ui,
             inputs=[transcript_box, state],
-            outputs=[intent_box, slots_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[intent_box, slots_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_manual_intent.click(
             fn=actions.use_manual_intent_ui,
             inputs=[manual_intent, manual_slots, state],
-            outputs=[intent_box, slots_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[intent_box, slots_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_fulfill.click(
             fn=actions.do_fulfillment_ui,
             inputs=[state],
-            outputs=[api_box, control_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[api_box, control_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_manual_api.click(
             fn=actions.use_manual_api_result_ui,
             inputs=[manual_api_result, state],
-            outputs=[api_box, control_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[api_box, control_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_answer.click(
             fn=actions.do_answer_ui,
             inputs=[state],
-            outputs=[answer_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[answer_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_manual_answer.click(
             fn=actions.use_manual_answer_ui,
             inputs=[manual_answer, state],
-            outputs=[answer_box, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[answer_box, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_tts.click(
             fn=actions.do_tts_ui,
             inputs=[state],
-            outputs=[tts_status_box, tts_audio_output, state, assistant_status, assistant_status_raw, pipeline_timeline, dorm_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, dorm_panel],
+            outputs=[tts_status_box, tts_audio_output, state, assistant_status, assistant_status_raw, pipeline_timeline, home_theater_visual, stage_hint_html, verify_panel, wake_panel, asr_panel, intent_panel, fulfillment_panel, response_panel, home_theater_panel],
+            show_progress="full",
         )
         btn_reset.click(
             fn=actions.reset_all_ui,
@@ -1172,6 +1207,7 @@ def build_demo(actions: AtlasActions):
                 wake_output,
                 wake_code_input,
                 transcript_box,
+                intent_transcript_box,
                 typed_transcript_input,
                 intent_box,
                 slots_box,
@@ -1185,7 +1221,7 @@ def build_demo(actions: AtlasActions):
                 manual_slots,
                 manual_api_result,
                 pipeline_timeline,
-                dorm_visual,
+                home_theater_visual,
                 stage_hint_html,
                 verify_panel,
                 wake_panel,
@@ -1193,7 +1229,7 @@ def build_demo(actions: AtlasActions):
                 intent_panel,
                 fulfillment_panel,
                 response_panel,
-                dorm_panel,
+                home_theater_panel,
             ],
         )
         ready_timer.tick(
@@ -1205,7 +1241,7 @@ def build_demo(actions: AtlasActions):
                 assistant_status_raw,
                 ready_countdown_box,
                 pipeline_timeline,
-                dorm_visual,
+                home_theater_visual,
                 stage_hint_html,
                 verify_panel,
                 wake_panel,
@@ -1213,8 +1249,9 @@ def build_demo(actions: AtlasActions):
                 intent_panel,
                 fulfillment_panel,
                 response_panel,
-                dorm_panel,
+                home_theater_panel,
             ],
         )
 
+    demo.queue(default_concurrency_limit=1)
     return demo

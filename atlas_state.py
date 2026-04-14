@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import time
 import gradio as gr
 
 
@@ -34,6 +35,9 @@ def init_state(default_control_state: dict) -> dict:
         "wake_probability": None,
         "wake_completed": False,
         "control_state": deepcopy(default_control_state),
+        "transition_stage_index": None,
+        "transition_message": "",
+        "transition_until": 0.0,
     }
 
 
@@ -52,7 +56,7 @@ def clear_from_fulfillment(state: dict) -> None:
     state["last_tts_path"] = None
 
 
-def get_current_stage_index(state: dict) -> int:
+def get_progress_stage_index(state: dict) -> int:
     if not state["verified"]:
         return 0
     if not state["wake_completed"]:
@@ -64,6 +68,25 @@ def get_current_stage_index(state: dict) -> int:
     if not state["api_result"]:
         return 4
     return 5
+
+
+def is_transition_hold_active(state: dict) -> bool:
+    transition_until = state.get("transition_until") or 0.0
+    return time.time() < transition_until
+
+
+def get_current_stage_index(state: dict) -> int:
+    progress_index = get_progress_stage_index(state)
+    transition_stage_index = state.get("transition_stage_index")
+
+    if (
+        transition_stage_index is not None
+        and is_transition_hold_active(state)
+        and progress_index > transition_stage_index
+    ):
+        return transition_stage_index
+
+    return progress_index
 
 
 def build_pipeline_timeline_html(state: dict) -> str:
@@ -131,9 +154,9 @@ def build_status_overview_html(state: dict, ready_left: int) -> str:
     """
 
 
-def build_dorm_state_html(state: dict) -> str:
+def build_home_theater_state_html(state: dict) -> str:
     control_state = state["control_state"]
-    room = control_state.get("room", "bedroom").title()
+    room = control_state.get("room", "theater").title()
     light_state = control_state.get("light", "off").title()
     brightness = control_state.get("brightness", 0)
     blinds = control_state.get("blinds", "open").title()
@@ -147,43 +170,59 @@ def build_dorm_state_html(state: dict) -> str:
         timer_text = "No active timers"
 
     return f"""
-    <section class="atlas-dorm-grid">
-      <div class="atlas-dorm-card atlas-dorm-wide atlas-dorm-hero">
-        <div class="atlas-dorm-label">Room</div>
-        <div class="atlas-dorm-value">{room}</div>
-        <div class="atlas-dorm-subvalue">Scene: {scene} • Temp: {temperature}&deg;C</div>
+    <section class="atlas-home-theater-grid">
+      <div class="atlas-home-theater-card atlas-home-theater-wide atlas-home-theater-hero">
+        <div class="atlas-home-theater-label">Room</div>
+        <div class="atlas-home-theater-value">{room}</div>
+        <div class="atlas-home-theater-subvalue">Scene: {scene} • Temp: {temperature}&deg;C</div>
       </div>
-      <div class="atlas-dorm-card">
-        <div class="atlas-dorm-label">Light</div>
-        <div class="atlas-dorm-value">{light_state}</div>
+      <div class="atlas-home-theater-card">
+        <div class="atlas-home-theater-label">Light</div>
+        <div class="atlas-home-theater-value">{light_state}</div>
       </div>
-      <div class="atlas-dorm-card">
-        <div class="atlas-dorm-label">Blinds</div>
-        <div class="atlas-dorm-value">{blinds}</div>
+      <div class="atlas-home-theater-card">
+        <div class="atlas-home-theater-label">Blinds</div>
+        <div class="atlas-home-theater-value">{blinds}</div>
       </div>
-      <div class="atlas-dorm-card atlas-dorm-wide">
-        <div class="atlas-dorm-label">Brightness</div>
+      <div class="atlas-home-theater-card atlas-home-theater-wide">
+        <div class="atlas-home-theater-label">Brightness</div>
         <div class="atlas-progress-track"><div class="atlas-progress-bar" style="width: {brightness}%"></div></div>
         <div class="atlas-progress-label">{brightness}%</div>
       </div>
-      <div class="atlas-dorm-card">
-        <div class="atlas-dorm-label">Temperature</div>
-        <div class="atlas-dorm-value">{temperature}&deg;C</div>
+      <div class="atlas-home-theater-card">
+        <div class="atlas-home-theater-label">Temperature</div>
+        <div class="atlas-home-theater-value">{temperature}&deg;C</div>
       </div>
-      <div class="atlas-dorm-card">
-        <div class="atlas-dorm-label">Scene</div>
-        <div class="atlas-dorm-value">{scene}</div>
+      <div class="atlas-home-theater-card">
+        <div class="atlas-home-theater-label">Scene</div>
+        <div class="atlas-home-theater-value">{scene}</div>
       </div>
-      <div class="atlas-dorm-card atlas-dorm-wide">
-        <div class="atlas-dorm-label">Timers</div>
-        <div class="atlas-dorm-value">{timer_count}</div>
-        <div class="atlas-dorm-subvalue">{timer_text}</div>
+      <div class="atlas-home-theater-card atlas-home-theater-wide">
+        <div class="atlas-home-theater-label">Timers</div>
+        <div class="atlas-home-theater-value">{timer_count}</div>
+        <div class="atlas-home-theater-subvalue">{timer_text}</div>
       </div>
     </section>
     """
 
 
 def build_stage_hint_html(state: dict) -> str:
+    if is_transition_hold_active(state) and state.get("transition_message"):
+        stage_index = state.get("transition_stage_index")
+        if stage_index is None:
+            stage_index = get_current_stage_index(state)
+        next_label = PIPELINE_STEPS[stage_index + 1][1] if stage_index + 1 < len(PIPELINE_STEPS) else "Demo Complete"
+        return f"""
+        <section class="atlas-hint-card atlas-hint-success">
+          <div class="atlas-hint-kicker atlas-hint-kicker-success">Success</div>
+          <div class="atlas-hint-stepno atlas-hint-stepno-success">Step {stage_index + 1} completed</div>
+          <h3>{state["transition_message"]}</h3>
+          <p>The current step stays visible briefly so you can confirm what happened before Atlas advances.</p>
+          <div class="atlas-hint-prompt atlas-hint-prompt-success">Next up: {next_label}</div>
+          <div class="atlas-hint-next atlas-hint-next-success">Atlas will unlock the next stage automatically after this short pause.</div>
+        </section>
+        """
+
     stage_index = get_current_stage_index(state)
     stage_label = PIPELINE_STEPS[stage_index][1]
     next_label = PIPELINE_STEPS[stage_index + 1][1] if stage_index + 1 < len(PIPELINE_STEPS) else "Demo Complete"
@@ -201,7 +240,7 @@ def build_stage_hint_html(state: dict) -> str:
         (
             "Capture the Command",
             "Record a spoken command or type one of the demo examples to drive the rest of the pipeline.",
-            "Try a movie, weather, dorm, or out-of-scope example.",
+            "Try a movie, weather, home theater, or out-of-scope example.",
         ),
         (
             "Interpret the Request",
@@ -210,8 +249,8 @@ def build_stage_hint_html(state: dict) -> str:
         ),
         (
             "Execute the Action",
-            "Fulfillment calls the weather API, uses movie knowledge, or updates the dorm state.",
-            "Check the action result and dorm state before generating the response.",
+            "Fulfillment calls the weather API, uses movie knowledge, or updates the home theater state.",
+            "Check the action result and home theater state before generating the response.",
         ),
         (
             "Generate the Final Response",
@@ -238,13 +277,13 @@ def get_pipeline_ui_updates(state: dict, raw_status_text: str, ready_left: int):
         build_status_overview_html(state, ready_left),
         raw_status_text,
         build_pipeline_timeline_html(state),
-        build_dorm_state_html(state),
+        build_home_theater_state_html(state),
         build_stage_hint_html(state),
         gr.update(visible=current_stage_index == 0),
         gr.update(visible=current_stage_index == 1),
         gr.update(visible=current_stage_index == 2),
-        gr.update(visible=current_stage_index == 3),
-        gr.update(visible=current_stage_index == 4),
+        gr.update(visible=current_stage_index >= 3),
+        gr.update(visible=current_stage_index >= 4),
         gr.update(visible=current_stage_index >= 5),
         gr.update(visible=current_stage_index >= 4),
     )

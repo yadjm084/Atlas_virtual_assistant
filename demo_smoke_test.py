@@ -30,15 +30,15 @@ DEMO_FLOWS = [
     },
     {
         "name": "light_on",
-        "transcript": "turn on the bedroom light",
+        "transcript": "turn on the theater light",
         "expected_intent": "LightOn",
-        "required_slots": {"ROOM": "bedroom"},
+        "required_slots": {"ROOM": "theater"},
     },
     {
         "name": "brightness",
-        "transcript": "set the bedroom light to 40 percent",
+        "transcript": "set the theater light to 40 percent",
         "expected_intent": "SetBrightness",
-        "required_slots": {"ROOM": "bedroom", "BRIGHTNESS": "40 percent"},
+        "required_slots": {"ROOM": "theater", "BRIGHTNESS": "40 percent"},
     },
     {
         "name": "scene",
@@ -66,6 +66,13 @@ WAKE_AUDIO_SAMPLES = [
     (False, "Adjmal/Adjmal-near-1.wav"),
 ]
 
+
+def _find_existing_sample(base_dir: Path, candidates: list[str]) -> Path:
+    for relative in candidates:
+        path = base_dir / relative
+        if path.exists():
+            return path
+    raise AssertionError(f"None of the candidate sample files exist under {base_dir}: {candidates}")
 
 def assert_slot_subset(actual: dict, expected: dict):
     for key, value in expected.items():
@@ -121,8 +128,23 @@ def run_flow(flow: dict, run_tts: bool = True):
 
 
 def run_audio_gate_checks():
-    for expected_user, relative_path in VERIFICATION_AUDIO_SAMPLES:
-        sample_path = app.ENROLLMENT_DIR / relative_path
+    verification_candidates = {
+        "Adjmal": [
+            "Adjmal/Adjmal-extra-1.wav",
+            "Adjmal/Adjmal-extra-1.m4a",
+        ],
+        "Nair": [
+            "Nair/Nair-positive-1.wav",
+            "Nair/Nair-positive-1.m4a",
+        ],
+        "Sharma": [
+            "Sharma/Sharma-positive-2.wav",
+            "Sharma/Sharma-positive-2.m4a",
+        ],
+    }
+
+    for expected_user, candidates in verification_candidates.items():
+        sample_path = _find_existing_sample(app.ENROLLMENT_DIR, candidates)
         result = app.runtime.verify_audio_file(
             audio_path=str(sample_path),
             speaker_profiles=app.SPEAKER_PROFILES,
@@ -131,15 +153,39 @@ def run_audio_gate_checks():
         )
         if result["predicted_user"] != expected_user or not result["accepted"]:
             raise AssertionError(
-                f"Verification failed for {relative_path}: expected {expected_user}, got {result}"
+                f"Verification failed for {sample_path}: expected {expected_user}, got {result}"
             )
         print(
             f"[PASS] verify:{expected_user} -> {result['predicted_user']} "
-            f"(score={result['best_score']:.4f})"
+            f"(score={result['best_score']:.4f}, file={sample_path.name})"
         )
 
-    for expected_detection, relative_path in WAKE_AUDIO_SAMPLES:
-        sample_path = app.ENROLLMENT_DIR / relative_path
+    wake_candidates = [
+        (
+            True,
+            [
+                "Adjmal/Adjmal-positive-1.wav",
+                "Adjmal/Adjmal-positive-1.m4a",
+            ],
+        ),
+        (
+            False,
+            [
+                "Adjmal/Adjmal-other-1.wav",
+                "Adjmal/Adjmal-other-1.m4a",
+            ],
+        ),
+        (
+            False,
+            [
+                "Adjmal/Adjmal-near-1.wav",
+                "Adjmal/Adjmal-near-1.m4a",
+            ],
+        ),
+    ]
+
+    for expected_detection, candidates in wake_candidates:
+        sample_path = _find_existing_sample(app.ENROLLMENT_DIR, candidates)
         result = app.runtime.predict_wake_word(
             audio_path=str(sample_path),
             model=app.WAKE_MODEL,
@@ -147,10 +193,10 @@ def run_audio_gate_checks():
         )
         if result["wake_detected"] != expected_detection:
             raise AssertionError(
-                f"Wake-word check failed for {relative_path}: expected {expected_detection}, got {result}"
+                f"Wake-word check failed for {sample_path}: expected {expected_detection}, got {result}"
             )
         print(
-            f"[PASS] wake:{relative_path} -> detected={result['wake_detected']} "
+            f"[PASS] wake:{sample_path.name} -> detected={result['wake_detected']} "
             f"(p={result['probability_positive']:.4f})"
         )
 

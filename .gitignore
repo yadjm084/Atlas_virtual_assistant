@@ -1,7 +1,35 @@
 user_verification/
+
+# Python cache / local environments
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Runtime output
 generated_audio/
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+docs/.$*.bkp
+
+# Local caches
+.cache/
+.gradio/
+*.log
+
+# Existing project-specific ignores
 intent_data/model_artifacts/**/model_state.pt
 *.wav
 *.zip

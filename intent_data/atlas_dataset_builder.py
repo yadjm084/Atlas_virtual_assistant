@@ -301,7 +301,7 @@ TEMPLATES = {
     "SetTemperature": [
         "set the temperature to {TEMPERATURE}",
         "make the room {TEMPERATURE}",
-        "set dorm temperature to {TEMPERATURE}",
+        "set home theater temperature to {TEMPERATURE}",
         "change the temperature to {TEMPERATURE}",
         "adjust the room temperature to {TEMPERATURE}",
         "set it to {TEMPERATURE}",

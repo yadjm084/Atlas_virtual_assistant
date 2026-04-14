@@ -93,37 +93,37 @@ INTENT_SCHEMA = {
         "optional_slots": ["YEAR"],
     },
     "LightOn": {
-        "domain": "dorm",
+        "domain": "home_theater",
         "required_slots": [],
         "optional_slots": ["ROOM"],
     },
     "LightOff": {
-        "domain": "dorm",
+        "domain": "home_theater",
         "required_slots": [],
         "optional_slots": ["ROOM"],
     },
     "SetBrightness": {
-        "domain": "dorm",
+        "domain": "home_theater",
         "required_slots": ["BRIGHTNESS"],
         "optional_slots": ["ROOM"],
     },
     "OpenBlinds": {
-        "domain": "dorm",
+        "domain": "home_theater",
         "required_slots": [],
         "optional_slots": ["ROOM"],
     },
     "CloseBlinds": {
-        "domain": "dorm",
+        "domain": "home_theater",
         "required_slots": [],
         "optional_slots": ["ROOM"],
     },
     "SetTemperature": {
-        "domain": "dorm",
+        "domain": "home_theater",
         "required_slots": ["TEMPERATURE"],
         "optional_slots": [],
     },
     "SetScene": {
-        "domain": "dorm",
+        "domain": "home_theater",
         "required_slots": ["SCENE"],
         "optional_slots": [],
     },
@@ -229,7 +229,7 @@ INTENT_EXAMPLES = {
     "SetTemperature": [
         "set the temperature to 21/B-TEMPERATURE degrees/I-TEMPERATURE",
         "make the room 19/B-TEMPERATURE degrees/I-TEMPERATURE",
-        "set dorm temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE",
+        "set home theater temperature to 23/B-TEMPERATURE celsius/I-TEMPERATURE",
         "change the temperature to 20/B-TEMPERATURE degrees/I-TEMPERATURE",
     ],
     "SetScene": [

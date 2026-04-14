@@ -2,7 +2,48 @@
 
 from __future__ import annotations
 
+import json
+import os
 from pathlib import Path
+import pickle
+import shutil
+
+# Keep the demo on CPU and reduce TensorFlow startup noise.
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "-1")
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")
+
+
+def _ensure_ffmpeg_on_path():
+    """Expose a bundled ffmpeg binary on PATH if the system one is missing."""
+
+    if shutil.which("ffmpeg"):
+        return "system ffmpeg available"
+
+    try:
+        import imageio_ffmpeg
+    except Exception as e:
+        return f"bundled ffmpeg unavailable: {e}"
+
+    ffmpeg_exe = Path(imageio_ffmpeg.get_ffmpeg_exe())
+    if not ffmpeg_exe.exists():
+        return f"bundled ffmpeg binary not found: {ffmpeg_exe}"
+
+    wrapper_dir = Path.home() / ".cache" / "atlas_ffmpeg_bin"
+    wrapper_dir.mkdir(parents=True, exist_ok=True)
+    wrapper_path = wrapper_dir / "ffmpeg"
+
+    if not wrapper_path.exists():
+        try:
+            wrapper_path.symlink_to(ffmpeg_exe)
+        except Exception:
+            shutil.copy2(ffmpeg_exe, wrapper_path)
+            wrapper_path.chmod(0o755)
+
+    os.environ["PATH"] = str(wrapper_dir) + os.pathsep + os.environ.get("PATH", "")
+    return f"bundled ffmpeg exposed at {wrapper_path}"
+
+
+FFMPEG_STATUS = _ensure_ffmpeg_on_path()
 
 import librosa
 import numpy as np
@@ -58,6 +99,30 @@ def get_wake_weights_path(dataset_root: Path) -> Path:
     return candidates[0]
 
 
+def get_wake_classifier_path(weights_path: Path) -> Path:
+    return Path(weights_path).with_name("wake_word_classifier.pkl")
+
+
+def get_wake_classifier_metadata_path(weights_path: Path) -> Path:
+    return Path(weights_path).with_name("wake_word_classifier.json")
+
+
+def get_wake_threshold(weights_path: Path, default: float = 0.5) -> float:
+    metadata_path = get_wake_classifier_metadata_path(weights_path)
+    if not metadata_path.exists():
+        return default
+
+    try:
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+    try:
+        return float(metadata.get("threshold", default))
+    except Exception:
+        return default
+
+
 def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
     signal, sr = librosa.load(file_path, sr=target_sr)
     if len(signal) > target_length:
@@ -70,6 +135,10 @@ def load_and_preprocess_audio(file_path, target_sr=16000, target_length=40000):
 
 def extract_mfcc(signal, sr, n_mfcc=13):
     return librosa.feature.mfcc(y=signal, sr=sr, n_mfcc=n_mfcc)
+
+
+def mfcc_to_stats_vector(mfcc):
+    return np.concatenate([np.mean(mfcc, axis=1), np.std(mfcc, axis=1)])
 
 
 def mfcc_to_fixed_vector(mfcc):
@@ -199,6 +268,18 @@ def build_wake_model():
 
 
 def load_wake_model(weights_path: Path):
+    classifier_path = get_wake_classifier_path(weights_path)
+    if classifier_path.exists():
+        try:
+            with classifier_path.open("rb") as f:
+                estimator = pickle.load(f)
+            return {
+                "model_kind": "sklearn_mfcc_stats",
+                "estimator": estimator,
+            }, f"Wake word classifier loaded from {classifier_path.name}"
+        except Exception as e:
+            return None, f"Wake word classifier failed to load: {e}"
+
     try:
         if not weights_path.exists():
             return None, f"Wake word weights not found: {weights_path}"
@@ -212,8 +293,14 @@ def load_wake_model(weights_path: Path):
 def predict_wake_word(audio_path, model, target_sr=16000, target_length=32000, n_mfcc=13, threshold=0.5):
     signal, sr = load_and_preprocess_audio(file_path=audio_path, target_sr=target_sr, target_length=target_length)
     mfcc = extract_mfcc(signal, sr, n_mfcc=n_mfcc)
-    x_input = np.expand_dims(mfcc, axis=(0, -1))
-    prob = float(model.predict(x_input, verbose=0)[0][0])
+
+    if isinstance(model, dict) and model.get("model_kind") == "sklearn_mfcc_stats":
+        feature_vector = mfcc_to_stats_vector(mfcc).reshape(1, -1)
+        prob = float(model["estimator"].predict_proba(feature_vector)[0][1])
+    else:
+        x_input = np.expand_dims(mfcc, axis=(0, -1))
+        prob = float(model.predict(x_input, verbose=0)[0][0])
+
     pred = 1 if prob >= threshold else 0
     return {
         "probability_positive": prob,
@@ -231,6 +318,30 @@ def load_asr_model(model_name="tiny"):
         return None, f"ASR model failed: {e}"
 
 
-def transcribe_with_whisper(audio_path, model):
-    result = model.transcribe(audio_path)
+def transcribe_with_whisper(audio_path, model, target_sr: int = 16000):
+    """Transcribe audio while avoiding a hard dependency on system ffmpeg.
+
+    Whisper can transcribe numpy audio arrays directly. For UI-recorded WAV files,
+    decoding with librosa first avoids the ffmpeg subprocess path entirely.
+    """
+
+    if isinstance(audio_path, (str, Path)):
+        audio_path = str(audio_path)
+
+        try:
+            signal, _ = librosa.load(audio_path, sr=target_sr, mono=True)
+            result = model.transcribe(signal, fp16=False)
+            return result["text"].strip()
+        except Exception as decode_error:
+            try:
+                result = model.transcribe(audio_path, fp16=False)
+                return result["text"].strip()
+            except Exception as whisper_error:
+                raise RuntimeError(
+                    "ASR could not decode the audio file. "
+                    f"Local decode failed: {decode_error}. "
+                    f"Whisper fallback failed: {whisper_error}"
+                ) from whisper_error
+
+    result = model.transcribe(audio_path, fp16=False)
     return result["text"].strip()

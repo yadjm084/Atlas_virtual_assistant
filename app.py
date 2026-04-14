@@ -7,8 +7,10 @@ from atlas_fulfillment import DEFAULT_CONTROL_STATE, FulfillmentError, fulfill_i
 from atlas_tts import DEFAULT_TTS_VOICE, EDGE_TTS_STATUS, synthesize_tts_audio
 from atlas_ui import ATLAS_CSS, ATLAS_THEME, build_demo
 from atlas_voice import (
+    FFMPEG_STATUS,
     get_dataset_root,
     get_enrollment_dir,
+    get_wake_threshold,
     get_wake_weights_path,
     load_asr_model,
     load_enrollment_profiles_with_normalization,
@@ -26,6 +28,8 @@ from intent_data.intent_inference import find_intent_artifacts_dir, load_intent_
 
 BASE_DIR = Path(__file__).resolve().parent
 HF_DATASET_REPO = "yadjm084/atlas-voice-data"
+PREFERRED_LOCAL_DATASET_ROOT = BASE_DIR / "atlas-voice-data-wav"
+LEGACY_LOCAL_DATASET_ROOT = BASE_DIR / "atlas-voice-data"
 
 TARGET_SR = 16000
 TARGET_DURATION = 2.5
@@ -39,10 +43,12 @@ WAKE_TARGET_SR = 16000
 WAKE_TARGET_DURATION = 2.0
 WAKE_TARGET_LENGTH = int(WAKE_TARGET_SR * WAKE_TARGET_DURATION)
 WAKE_N_MFCC = 13
-WAKE_THRESHOLD = 0.5
+DEFAULT_WAKE_THRESHOLD = 0.5
+WAKE_THRESHOLD = DEFAULT_WAKE_THRESHOLD
 
 ASR_MODEL_NAME = "tiny"
-READY_WINDOW_SECONDS = 20
+READY_WINDOW_SECONDS = 50
+TRANSITION_HOLD_SECONDS = 3.0
 
 INTENT_ARTIFACTS_DIR = find_intent_artifacts_dir(BASE_DIR)
 TTS_OUTPUT_DIR = BASE_DIR / "generated_audio"
@@ -52,9 +58,20 @@ TTS_OUTPUT_DIR = BASE_DIR / "generated_audio"
 # MODEL / DATASET BOOTSTRAP
 # =========================================================
 
-DATASET_ROOT = get_dataset_root(BASE_DIR, HF_DATASET_REPO)
+HF_DATASET_ROOT = get_dataset_root(BASE_DIR, HF_DATASET_REPO)
+DATASET_ROOT = HF_DATASET_ROOT
+print("FFMPEG_STATUS =", FFMPEG_STATUS)
+
+if PREFERRED_LOCAL_DATASET_ROOT.exists():
+    print("Preferred local WAV dataset found:", PREFERRED_LOCAL_DATASET_ROOT)
+    DATASET_ROOT = PREFERRED_LOCAL_DATASET_ROOT
+elif LEGACY_LOCAL_DATASET_ROOT.exists():
+    print("Legacy local dataset found:", LEGACY_LOCAL_DATASET_ROOT)
+    DATASET_ROOT = LEGACY_LOCAL_DATASET_ROOT
+
 ENROLLMENT_DIR = get_enrollment_dir(DATASET_ROOT)
 WAKE_WEIGHTS_PATH = get_wake_weights_path(DATASET_ROOT)
+WAKE_THRESHOLD = get_wake_threshold(WAKE_WEIGHTS_PATH, default=DEFAULT_WAKE_THRESHOLD)
 
 SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles_with_normalization(
     ENROLLMENT_DIR,
@@ -62,6 +79,19 @@ SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles
     target_length=TARGET_LENGTH,
     n_mfcc=N_MFCC,
 )
+
+if not SPEAKER_PROFILES and DATASET_ROOT != HF_DATASET_ROOT:
+    print("Local dataset could not build speaker profiles. Falling back to Hugging Face dataset.")
+    DATASET_ROOT = HF_DATASET_ROOT
+    ENROLLMENT_DIR = get_enrollment_dir(DATASET_ROOT)
+    WAKE_WEIGHTS_PATH = get_wake_weights_path(DATASET_ROOT)
+    WAKE_THRESHOLD = get_wake_threshold(WAKE_WEIGHTS_PATH, default=DEFAULT_WAKE_THRESHOLD)
+    SPEAKER_PROFILES, FEATURE_SCALER, PROFILE_LOAD_STATUS = load_enrollment_profiles_with_normalization(
+        ENROLLMENT_DIR,
+        target_sr=TARGET_SR,
+        target_length=TARGET_LENGTH,
+        n_mfcc=N_MFCC,
+    )
 
 WAKE_MODEL, WAKE_MODEL_STATUS = load_wake_model(WAKE_WEIGHTS_PATH)
 ASR_MODEL, ASR_MODEL_STATUS = load_asr_model(ASR_MODEL_NAME)
@@ -78,6 +108,7 @@ runtime = AtlasRuntime(
     chosen_threshold=CHOSEN_THRESHOLD,
     wake_threshold=WAKE_THRESHOLD,
     ready_window_seconds=READY_WINDOW_SECONDS,
+    transition_hold_seconds=TRANSITION_HOLD_SECONDS,
     default_tts_voice=DEFAULT_TTS_VOICE,
     tts_output_dir=TTS_OUTPUT_DIR,
     speaker_profiles=SPEAKER_PROFILES,

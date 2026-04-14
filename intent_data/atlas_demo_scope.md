@@ -28,7 +28,7 @@ The goal is a stable end-to-end path:
 - `SimilarMovies`
 - `DiscoverByGenre`
 
-#### Smart dorm control intents
+#### Home theater control intents
 - `LightOn`
 - `LightOff`
 - `SetBrightness`
@@ -52,7 +52,7 @@ The goal is a stable end-to-end path:
 - `DATE`: relative or absolute day reference
 - `DURATION`: timer duration with unit
 - `TIMER_NAME`: optional named timer
-- `ROOM`: dorm room or area
+- `ROOM`: home theater zone or area
 - `BRIGHTNESS`: brightness percentage or level
 - `TEMPERATURE`: target temperature value
 - `SCENE`: scene preset name
@@ -72,22 +72,22 @@ The goal is a stable end-to-end path:
 | `MovieCast` | movie | `TITLE` | none | TMDB search + credits |
 | `SimilarMovies` | movie | `TITLE` | none | TMDB search + similar |
 | `DiscoverByGenre` | movie | `GENRE` | `YEAR` | TMDB discover |
-| `LightOn` | dorm | none | `ROOM` | dorm state change |
-| `LightOff` | dorm | none | `ROOM` | dorm state change |
-| `SetBrightness` | dorm | `BRIGHTNESS` | `ROOM` | dorm state change |
-| `OpenBlinds` | dorm | none | `ROOM` | dorm state change |
-| `CloseBlinds` | dorm | none | `ROOM` | dorm state change |
-| `SetTemperature` | dorm | `TEMPERATURE` | none | dorm state change |
-| `SetScene` | dorm | `SCENE` | none | dorm state change |
+| `LightOn` | home_theater | none | `ROOM` | home theater state change |
+| `LightOff` | home_theater | none | `ROOM` | home theater state change |
+| `SetBrightness` | home_theater | `BRIGHTNESS` | `ROOM` | home theater state change |
+| `OpenBlinds` | home_theater | none | `ROOM` | home theater state change |
+| `CloseBlinds` | home_theater | none | `ROOM` | home theater state change |
+| `SetTemperature` | home_theater | `TEMPERATURE` | none | home theater state change |
+| `SetScene` | home_theater | `SCENE` | none | home theater state change |
 
 ### Default behavior
 
 - `GetWeather` without `DATE`: default to `today`
 - `SetTimer` without `TIMER_NAME`: use generic timer label
-- `LightOn`, `LightOff`, `SetBrightness`, `OpenBlinds`, `CloseBlinds` without `ROOM`: default to `bedroom`
+- `LightOn`, `LightOff`, `SetBrightness`, `OpenBlinds`, `CloseBlinds` without `ROOM`: default to `theater`
 - `DiscoverByGenre` without `YEAR`: omit year filter
 
-### Dorm state for the demo
+### Home theater state for the demo
 
 The UI and fulfillment layer should support this minimum state:
 - `room`: `bedroom`
@@ -106,9 +106,9 @@ The UI and fulfillment layer should support this minimum state:
 - "what is the rating for Interstellar"
 - "find movies like The Matrix"
 - "discover science fiction movies from 2024"
-- "turn on the bedroom light"
-- "set the bedroom light to 40 percent"
-- "close the bedroom blinds"
+- "turn on the theater light"
+- "set the theater light to 40 percent"
+- "close the theater blinds"
 - "set the temperature to 21 degrees"
 - "switch to study mode"
 
@@ -116,7 +116,7 @@ The UI and fulfillment layer should support this minimum state:
 
 - multi-turn slot recovery dialogs
 - multilingual support
-- live smart-home hardware integration
+- live home-theater hardware integration
 - emotion-aware behavior
 - broad free-form LLM agent behavior
 

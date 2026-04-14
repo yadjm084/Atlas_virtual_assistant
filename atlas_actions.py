@@ -23,6 +23,7 @@ class AtlasRuntime:
     chosen_threshold: float
     wake_threshold: float
     ready_window_seconds: int
+    transition_hold_seconds: float
     default_tts_voice: str
     tts_output_dir: Path
     speaker_profiles: dict
@@ -51,10 +52,21 @@ class AtlasActions:
     def init_state(self):
         return init_state_factory(self.runtime.default_control_state)
 
+    def clear_transition_feedback(self, state):
+        state["transition_stage_index"] = None
+        state["transition_message"] = ""
+        state["transition_until"] = 0.0
+
+    def begin_stage_transition(self, state, stage_index: int, message: str):
+        state["transition_stage_index"] = stage_index
+        state["transition_message"] = message
+        state["transition_until"] = time.time() + self.runtime.transition_hold_seconds
+
     def set_ready_window(self, state):
         state["ready_until"] = time.time() + self.runtime.ready_window_seconds
 
     def clear_command_context(self, state):
+        self.clear_transition_feedback(state)
         state["awake"] = False
         state["wake_completed"] = False
         state["ready_until"] = None
@@ -105,6 +117,7 @@ class AtlasActions:
         return state, self.get_status_text(state), self.get_ready_countdown_text(state)
 
     def do_verify(self, audio, state):
+        self.clear_transition_feedback(state)
         if audio is None:
             return "Please record or upload an audio file first.", "{}", state, self.get_status_text(state)
         if not self.runtime.speaker_profiles or self.runtime.feature_scaler is None:
@@ -124,6 +137,7 @@ class AtlasActions:
                 state["verified"] = True
                 state["verified_user"] = result["predicted_user"]
                 self.clear_command_context(state)
+                self.begin_stage_transition(state, 0, "Verification successful.")
                 message = (
                     f"Verification successful. User identified as {result['predicted_user']} "
                     f"(score={result['best_score']:.4f}, threshold={self.runtime.chosen_threshold})."
@@ -147,6 +161,7 @@ class AtlasActions:
             return f"Verification error: {e}", "{}", state, self.get_status_text(state)
 
     def verify_with_code(self, code_input, state):
+        self.clear_transition_feedback(state)
         code = code_input.strip()
         if code in self.runtime.valid_codes:
             state["verified"] = True
@@ -154,10 +169,12 @@ class AtlasActions:
             state["verification_best_score"] = None
             state["verification_scores"] = {}
             self.clear_command_context(state)
+            self.begin_stage_transition(state, 0, "Verification bypass accepted.")
             return f"Verification bypass successful. User set to {code}.", "{}", state, self.get_status_text(state)
         return "Invalid verification code. Use Adjmal, Nair, or Sharma.", "{}", state, self.get_status_text(state)
 
     def reset_verification(self, state):
+        self.clear_transition_feedback(state)
         state["verified"] = False
         state["verified_user"] = "None"
         state["verification_scores"] = {}
@@ -166,6 +183,7 @@ class AtlasActions:
         return "", "", "{}", state, self.get_status_text(state)
 
     def do_wake(self, audio, state):
+        self.clear_transition_feedback(state)
         if not state["verified"]:
             return "Please complete user verification first.", state, self.get_status_text(state)
         if audio is None:
@@ -187,6 +205,7 @@ class AtlasActions:
                 state["awake"] = True
                 state["wake_completed"] = True
                 self.set_ready_window(state)
+                self.begin_stage_transition(state, 1, "Wake word detected. Atlas is awake.")
                 message = (
                     f"Wake word detected. Atlas is now awake "
                     f"(probability={result['probability_positive']:.4f}, threshold={self.runtime.wake_threshold}, "
@@ -203,6 +222,7 @@ class AtlasActions:
             return f"Wake word error: {e}", state, self.get_status_text(state)
 
     def skip_wake_with_code(self, wake_code_input, state):
+        self.clear_transition_feedback(state)
         if not state["verified"]:
             return "Please complete user verification first.", state, self.get_status_text(state)
         code = wake_code_input.strip()
@@ -213,6 +233,7 @@ class AtlasActions:
             state["transcript"] = ""
             clear_from_transcript(state)
             self.set_ready_window(state)
+            self.begin_stage_transition(state, 1, "Wake-word bypass accepted.")
             return (
                 f"Wake word bypass successful. Atlas is now awake for {self.runtime.ready_window_seconds} seconds.",
                 state,
@@ -221,10 +242,12 @@ class AtlasActions:
         return "Invalid wake word bypass code. Use exactly: Hey Atlas", state, self.get_status_text(state)
 
     def reset_wake_word(self, state):
+        self.clear_transition_feedback(state)
         self.clear_command_context(state)
         return "", "", state, self.get_status_text(state)
 
     def do_asr(self, audio, state):
+        self.clear_transition_feedback(state)
         self.ensure_ready_state(state)
         if not state["verified"]:
             return "Please complete user verification first.", state, self.get_status_text(state)
@@ -239,11 +262,13 @@ class AtlasActions:
             clear_from_transcript(state)
             state["transcript"] = transcript
             self.set_ready_window(state)
+            self.begin_stage_transition(state, 2, "Speech captured and transcribed.")
             return transcript, state, self.get_status_text(state)
         except Exception as e:
             return f"ASR error: {e}", state, self.get_status_text(state)
 
     def use_typed_transcript(self, typed_text, state):
+        self.clear_transition_feedback(state)
         self.ensure_ready_state(state)
         if not state["verified"]:
             return "Please complete user verification first.", state, self.get_status_text(state)
@@ -255,42 +280,54 @@ class AtlasActions:
         clear_from_transcript(state)
         state["transcript"] = typed_text
         self.set_ready_window(state)
+        self.begin_stage_transition(state, 2, "Typed transcript accepted.")
         return typed_text, state, self.get_status_text(state)
 
     def do_intent(self, transcript, state):
+        self.clear_transition_feedback(state)
         self.ensure_ready_state(state)
         if not state["verified"]:
             return "Verification required.", "{}", state, self.get_status_text(state)
         if not state["awake"]:
             return "Wake word required.", "{}", state, self.get_status_text(state)
-        if not transcript.strip():
+
+        transcript_value = (transcript or "").strip()
+        if not transcript_value:
+            transcript_value = (state.get("transcript") or "").strip()
+
+        if not transcript_value:
             return "No transcript available.", "{}", state, self.get_status_text(state)
         if self.runtime.intent_predictor is None:
             return self.runtime.intent_model_status, "{}", state, self.get_status_text(state)
 
         try:
-            prediction = self.runtime.intent_predictor.predict(transcript)
+            prediction = self.runtime.intent_predictor.predict(transcript_value)
         except Exception as e:
             return f"Intent detection failed: {e}", "{}", state, self.get_status_text(state)
 
         clear_from_fulfillment(state)
+        state["transcript"] = transcript_value
         state["intent"] = prediction.intent
         state["intent_confidence"] = prediction.intent_confidence
         state["slots"] = prediction.slots
         self.set_ready_window(state)
+        self.begin_stage_transition(state, 3, "Intent and slots detected.")
         return state["intent"], json.dumps(state["slots"], indent=2), state, self.get_status_text(state)
 
     def use_manual_intent(self, manual_intent, manual_slots, state):
+        self.clear_transition_feedback(state)
         clear_from_fulfillment(state)
         state["intent"] = manual_intent.strip()
         state["intent_confidence"] = None
         try:
             state["slots"] = json.loads(manual_slots) if manual_slots.strip() else {}
+            self.begin_stage_transition(state, 3, "Manual intent and slots accepted.")
             return state["intent"], json.dumps(state["slots"], indent=2), state, self.get_status_text(state)
         except json.JSONDecodeError:
             return state["intent"], "Invalid JSON format in manual slots.", state, self.get_status_text(state)
 
     def do_fulfillment(self, state):
+        self.clear_transition_feedback(state)
         self.ensure_ready_state(state)
         if not state["intent"]:
             return "Please detect or enter an intent first.", json.dumps(state["control_state"], indent=2), state, self.get_status_text(state)
@@ -311,18 +348,24 @@ class AtlasActions:
         state["answer_text"] = ""
         state["last_tts_path"] = None
         self.set_ready_window(state)
+        if api_result.get("status") == "success":
+            self.begin_stage_transition(state, 4, "Fulfillment completed successfully.")
         return json.dumps(api_result, indent=2), json.dumps(state["control_state"], indent=2), state, self.get_status_text(state)
 
     def use_manual_api_result(self, manual_api_result, state):
+        self.clear_transition_feedback(state)
         try:
             state["api_result"] = json.loads(manual_api_result) if manual_api_result.strip() else {}
             state["answer_text"] = ""
             state["last_tts_path"] = None
+            if state["api_result"]:
+                self.begin_stage_transition(state, 4, "Manual fulfillment result accepted.")
             return json.dumps(state["api_result"], indent=2), json.dumps(state["control_state"], indent=2), state, self.get_status_text(state)
         except json.JSONDecodeError:
             return "Invalid JSON format in manual API result.", json.dumps(state["control_state"], indent=2), state, self.get_status_text(state)
 
     def do_answer(self, state):
+        self.clear_transition_feedback(state)
         self.ensure_ready_state(state)
         answer = self.runtime.generate_answer(
             intent=state["intent"],
@@ -331,16 +374,20 @@ class AtlasActions:
             control_state=state["control_state"],
         )
         state["answer_text"] = answer
+        self.begin_stage_transition(state, 5, "Answer generated.")
         return answer, state, self.get_status_text(state)
 
     def use_manual_answer(self, manual_answer, state):
+        self.clear_transition_feedback(state)
         manual_answer = manual_answer.strip()
         if not manual_answer:
             return "Please enter a manual answer first.", state, self.get_status_text(state)
         state["answer_text"] = manual_answer
+        self.begin_stage_transition(state, 5, "Manual answer accepted.")
         return manual_answer, state, self.get_status_text(state)
 
     def do_tts(self, state):
+        self.clear_transition_feedback(state)
         answer_text = state["answer_text"].strip()
         if not answer_text:
             if state["api_result"]:
@@ -350,6 +397,7 @@ class AtlasActions:
         try:
             audio_path = self.runtime.synthesize_tts_audio(answer_text, self.runtime.tts_output_dir)
             state["last_tts_path"] = str(audio_path)
+            self.begin_stage_transition(state, 5, "Speech synthesis completed.")
             return f"TTS generated with {self.runtime.default_tts_voice}.", str(audio_path), state
         except Exception as e:
             return f"TTS failed: {e}", None, state
@@ -365,6 +413,7 @@ class AtlasActions:
             "Sleeping",
             "",
             "{}",
+            "",
             "",
             "",
             "",
@@ -415,11 +464,11 @@ class AtlasActions:
 
     def do_asr_ui(self, audio, state):
         transcript, state, _ = self.do_asr(audio, state)
-        return transcript, state, *self._pipeline_updates(state)
+        return transcript, transcript, state, *self._pipeline_updates(state)
 
     def use_typed_transcript_ui(self, typed_text, state):
         transcript, state, _ = self.use_typed_transcript(typed_text, state)
-        return transcript, state, *self._pipeline_updates(state)
+        return transcript, transcript, state, *self._pipeline_updates(state)
 
     def do_intent_ui(self, transcript, state):
         intent, slots, state, _ = self.do_intent(transcript, state)

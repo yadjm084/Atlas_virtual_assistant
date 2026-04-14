@@ -18,7 +18,7 @@ The sidebar shows:
 
 - `Demo Progress`: the current stage in the pipeline
 - `System State`: verified user, awake/sleep state, ready countdown, current intent
-- `Dorm State`: visible once the fulfillment stage is active
+- `Home Theater State`: visible once the fulfillment stage is active
 
 The main panel shows only the current step panel that the user should work with next.
 
@@ -128,7 +128,7 @@ Example buttons:
 
 - `Weather Example`
 - `Movie Example`
-- `Dorm Example`
+- `Home Theater Example`
 - `Out-of-Scope Example`
 
 Expected behavior:
@@ -188,19 +188,19 @@ What Atlas can fulfill:
 - specialized domain:
   - movie information
 - interactive control:
-  - smart dorm simulation
+  - home theater simulation
 
 Expected behavior:
 
 - the fulfillment output JSON is shown
-- if the command affects the smart dorm, the `Dorm State` sidebar card updates
+- if the command affects the home theater, the `Home Theater State` sidebar card updates
 - `Step 6. Assistant Response` becomes visible
 
 Examples of what should happen:
 
 - weather: a structured weather result is produced
 - movie query: a movie details or recommendation result is produced
-- dorm control: the room state changes visibly
+- home theater control: the room state changes visibly
 
 ## Step 6. Assistant Response
 
@@ -265,11 +265,11 @@ Expected result:
 - movie fulfillment returns data from TMDB or the fallback movie database
 - Atlas generates a natural-language answer
 
-### Flow C: Smart dorm control
+### Flow C: Home theater control
 
 1. Verify with code `Nair`
 2. Skip wake with code `Hey Atlas`
-3. Click `Dorm Example`
+3. Click `Home Theater Example`
 4. Click `Use Typed Sentence`
 5. Click `Detect Intent`
 6. Click `Run Action`
@@ -277,8 +277,8 @@ Expected result:
 
 Expected result:
 
-- a dorm-control intent is detected
-- the dorm visual state changes in the sidebar
+- a home-theater control intent is detected
+- the home theater visual state changes in the sidebar
 - the response confirms the state change
 
 ### Flow D: Out-of-scope
@@ -301,4 +301,4 @@ Expected result:
 - The typed bypass path is the safest path for a live class demo.
 - The real audio path is still available and can be shown for user verification, wake-word detection, and Whisper ASR.
 - If an API call fails during the live demo, use the manual bypass at the relevant step instead of abandoning the run.
-- The dorm control path is the most visually clear flow because it updates the sidebar state card.
+- The home theater control path is the most visually clear flow because it updates the sidebar state card.

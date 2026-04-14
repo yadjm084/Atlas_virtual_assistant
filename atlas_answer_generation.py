@@ -78,9 +78,9 @@ def generate_answer(intent: str, slots: dict, api_result: dict, control_state: d
     if intent == "OOS":
         return _pick(
             [
-                "That request is outside Atlas's current scope. I can help with weather, movies, timers, and smart dorm controls.",
-                "I cannot do that yet. Atlas currently supports weather, movie information, timers, and smart dorm controls.",
-                "That request is not available in this demo. Try weather, movie, timer, or dorm commands instead.",
+                "That request is outside Atlas's current scope. I can help with weather, movies, timers, and home theater controls.",
+                "I cannot do that yet. Atlas currently supports weather, movie information, timers, and home theater controls.",
+                "That request is not available in this demo. Try weather, movie, timer, or home theater commands instead.",
             ]
         )
 
@@ -240,11 +240,11 @@ def generate_answer(intent: str, slots: dict, api_result: dict, control_state: d
             "SetTemperature": [
                 f"The room temperature is now {temperature} degrees Celsius.",
                 f"I set the temperature to {temperature} degrees Celsius.",
-                f"The dorm temperature is now {temperature} degrees Celsius.",
+                f"The home theater temperature is now {temperature} degrees Celsius.",
             ],
             "SetScene": [
                 f"The room is now in {scene} mode.",
-                f"I switched the dorm to {scene} mode.",
+                f"I switched the home theater to {scene} mode.",
                 f"The current room scene is now {scene}.",
             ],
         }

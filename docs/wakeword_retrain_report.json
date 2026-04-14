@@ -1,0 +1,365 @@
+{
+  "cross_validated_auc": 0.8012152777777778,
+  "threshold": 0.434,
+  "accuracy": 0.7916666666666666,
+  "precision": 0.75,
+  "recall": 0.875,
+  "summary_by_label": {
+    "positive": {
+      "count": 24,
+      "min_probability": 0.258,
+      "max_probability": 0.72,
+      "avg_probability": 0.5494166666666667
+    },
+    "near": {
+      "count": 12,
+      "min_probability": 0.196,
+      "max_probability": 0.612,
+      "avg_probability": 0.42383333333333334
+    },
+    "other": {
+      "count": 12,
+      "min_probability": 0.25,
+      "max_probability": 0.716,
+      "avg_probability": 0.38066666666666665
+    }
+  },
+  "rows": [
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-1.wav",
+      "probability": 0.486,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-2.wav",
+      "probability": 0.644,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-3.wav",
+      "probability": 0.6,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-4.wav",
+      "probability": 0.584,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Ahmed-positive-3.wav",
+      "probability": 0.438,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Awil-positive-1.wav",
+      "probability": 0.602,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Bowei-positive-1.wav",
+      "probability": 0.562,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Bowei-positive-3.wav",
+      "probability": 0.608,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Cherukunnummal Poothakandi-positive-2.wav",
+      "probability": 0.684,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Dahir-positive-1.wav",
+      "probability": 0.646,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Gaffar-positive-2.wav",
+      "probability": 0.556,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Hamza-positive-2.wav",
+      "probability": 0.434,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-1.wav",
+      "probability": 0.258,
+      "detected": false
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-2.wav",
+      "probability": 0.72,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-3.wav",
+      "probability": 0.438,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-4.wav",
+      "probability": 0.558,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-1.wav",
+      "probability": 0.564,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-2.wav",
+      "probability": 0.538,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-3.wav",
+      "probability": 0.318,
+      "detected": false
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-4.wav",
+      "probability": 0.638,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Shayne-positive-2.wav",
+      "probability": 0.374,
+      "detected": false
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Tan-positive-2.wav",
+      "probability": 0.696,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Xiangrong-positive-3.wav",
+      "probability": 0.584,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Yuwen-positive-2.wav",
+      "probability": 0.656,
+      "detected": true
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-1.wav",
+      "probability": 0.386,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-2.wav",
+      "probability": 0.446,
+      "detected": true
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-3.wav",
+      "probability": 0.47,
+      "detected": true
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-4.wav",
+      "probability": 0.396,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-1.wav",
+      "probability": 0.288,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-2.wav",
+      "probability": 0.612,
+      "detected": true
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-3.wav",
+      "probability": 0.372,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-4.wav",
+      "probability": 0.562,
+      "detected": true
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-1.wav",
+      "probability": 0.394,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-2.wav",
+      "probability": 0.196,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-3.wav",
+      "probability": 0.534,
+      "detected": true
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-4.wav",
+      "probability": 0.43,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-1.wav",
+      "probability": 0.292,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-2.wav",
+      "probability": 0.25,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-3.wav",
+      "probability": 0.716,
+      "detected": true
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-4.wav",
+      "probability": 0.27,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-1.wav",
+      "probability": 0.382,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-2.wav",
+      "probability": 0.33,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-3.wav",
+      "probability": 0.426,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-4.wav",
+      "probability": 0.566,
+      "detected": true
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-1.wav",
+      "probability": 0.412,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-2.wav",
+      "probability": 0.338,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-3.wav",
+      "probability": 0.326,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-4.wav",
+      "probability": 0.26,
+      "detected": false
+    }
+  ]
+}

@@ -1,0 +1,393 @@
+{
+  "dataset_root": "/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas-voice-data-wav",
+  "weights_path": "/home/aristotle/Desktop/VA_Final_Project/Atlas_virtual_assistant/atlas-voice-data-wav/wake_word/wake_word.weights.h5",
+  "model_status": "Wake word classifier loaded from wake_word_classifier.pkl",
+  "threshold": 0.434,
+  "sample_feature_shape": {
+    "file": "Adjmal-positive-1.wav",
+    "mfcc_shape": [
+      13,
+      63
+    ]
+  },
+  "summary_by_label": {
+    "positive": {
+      "count": 24,
+      "min_probability": 1.0,
+      "max_probability": 1.0,
+      "avg_probability": 1.0
+    },
+    "near": {
+      "count": 12,
+      "min_probability": 0.0,
+      "max_probability": 0.0,
+      "avg_probability": 0.0
+    },
+    "other": {
+      "count": 12,
+      "min_probability": 0.0,
+      "max_probability": 0.0,
+      "avg_probability": 0.0
+    }
+  },
+  "metrics_at_current_threshold": {
+    "threshold": 0.434,
+    "tp": 24,
+    "tn": 24,
+    "fp": 0,
+    "fn": 0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "specificity": 1.0
+  },
+  "best_accuracy_threshold": {
+    "threshold": 1.0,
+    "tp": 24,
+    "tn": 24,
+    "fp": 0,
+    "fn": 0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "specificity": 1.0
+  },
+  "rows": [
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-1.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-3.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Adjmal-positive-4.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Ahmed-positive-3.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Awil-positive-1.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Bowei-positive-1.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Bowei-positive-3.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Cherukunnummal Poothakandi-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Dahir-positive-1.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Gaffar-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Hamza-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-1.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-3.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Nair-positive-4.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-1.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-3.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Sharma-positive-4.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Shayne-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Tan-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Xiangrong-positive-3.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "positive",
+      "target": 1,
+      "file": "Yuwen-positive-2.wav",
+      "probability": 1.0,
+      "detected": true
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-1.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-2.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-3.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Adjmal-near-4.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-1.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-2.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-3.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Nair-near-4.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-1.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-2.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-3.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "near",
+      "target": 0,
+      "file": "Sharma-near-4.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-1.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-2.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-3.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Adjmal-other-4.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-1.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-2.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-3.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Nair-other-4.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-1.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-2.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-3.wav",
+      "probability": 0.0,
+      "detected": false
+    },
+    {
+      "label": "other",
+      "target": 0,
+      "file": "Sharma-other-4.wav",
+      "probability": 0.0,
+      "detected": false
+    }
+  ]
+}

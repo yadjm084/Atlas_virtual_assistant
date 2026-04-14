@@ -18,7 +18,7 @@ OPEN_METEO_FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 
 DEFAULT_CONTROL_STATE = {
-    "room": "bedroom",
+    "room": "theater",
     "light": "off",
     "brightness": 50,
     "blinds": "open",
@@ -426,7 +426,7 @@ def fulfill_movie_intent(intent: str, slots: dict):
 
 
 def fulfill_control_intent(intent: str, slots: dict, control_state: dict):
-    room = slots.get("ROOM", control_state.get("room", "bedroom"))
+    room = slots.get("ROOM", control_state.get("room", "theater"))
     control_state["room"] = room
 
     if intent == "LightOn":
@@ -454,20 +454,20 @@ def fulfill_control_intent(intent: str, slots: dict, control_state: dict):
         if temperature is None:
             raise FulfillmentError("Temperature value is missing.")
         control_state["temperature_c"] = temperature
-        message = f"The room temperature is now set to {temperature} degrees Celsius."
+        message = f"The home theater temperature is now set to {temperature} degrees Celsius."
     elif intent == "SetScene":
         scene = (slots.get("SCENE") or "").lower()
         if scene not in SCENE_PRESETS:
             raise FulfillmentError(f"Unsupported scene '{scene}'.")
         control_state.update(SCENE_PRESETS[scene])
-        message = f"Atlas switched the room to {scene} mode."
+        message = f"Atlas switched the home theater to {scene} mode."
     else:
         raise FulfillmentError(f"Unsupported control intent: {intent}")
 
     return {
         "status": "success",
         "intent": intent,
-        "source": "simulated_dorm",
+        "source": "simulated_home_theater",
         "message": message,
         "control_state": deepcopy(control_state),
     }
@@ -488,7 +488,7 @@ def fulfill_intent(intent: str, slots: dict, control_state: dict | None = None):
             "status": "success",
             "intent": intent,
             "source": "canned",
-            "message": "That request is outside Atlas's current demo scope. I can help with weather, movies, timers, and smart dorm controls.",
+            "message": "That request is outside Atlas's current demo scope. I can help with weather, movies, timers, and home theater controls.",
         }, control_state
 
     if intent == "SetTimer":
